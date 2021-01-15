@@ -27,13 +27,21 @@ class SettingsController extends Controller {
       'logo_svg',
       'favicon',
       'page_title',
-      'meta_title'
+      'meta_title',
+      'post_page_title',
+      'post_meta_title',
+      'tag_page_title',
+      'tag_meta_title',
     );
 
     $validator = Validator::make($request->all(), [
         'logo_title' => 'required|max:30',
         'page_title' => 'required|max:70',
         'meta_title' => 'required|max:70',
+        'post_page_title' => 'required|max:70',
+        'post_meta_title' => 'required|max:70',
+        'tag_page_title' => 'required|max:70',
+        'tag_meta_title' => 'required|max:70',
         'logo_svg' => 'required',
         'favicon' => 'required',
     ],

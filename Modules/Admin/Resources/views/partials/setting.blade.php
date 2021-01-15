@@ -38,14 +38,43 @@
 
               <h1>SEO Settings</h1>
 
-              <div class="floating-label margin-bottom-md margin-top-md">
-                <label class="form-label" for="page_title">Index Page Title</label>
-                <input class="form-control width-100%" type="text" name="page_title" id="page_title" value="{{ !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' }}" placeholder="Index Page Title" required>
+              <div class="form-control-section">
+                <h4>Home Page</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="page_title">Index Page Title</label>
+                  <input class="form-control width-100%" type="text" name="page_title" id="page_title" value="{{ !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' }}" placeholder="Index Page Title" required>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label" for="meta_title">Tag Page Title</label>
+                  <input class="form-control width-100%" type="text" name="meta_title" id="meta_title" value="{{ !empty($settings_data['meta_title']) ? $settings_data['meta_title'] : '' }}" placeholder="Tag Page Title" required>
+                </div>
               </div>
 
-              <div class="floating-label margin-bottom-md margin-top-xs">
-                <label class="form-label" for="meta_title">Tag Page Title</label>
-                <input class="form-control width-100%" type="text" name="meta_title" id="meta_title" value="{{ !empty($settings_data['meta_title']) ? $settings_data['meta_title'] : '' }}" placeholder="Tag Page Title" required>
+              <div class="form-control-section">
+                <h4>Post Page</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="post_page_title">Page Title</label>
+                  <input class="form-control width-100%" type="text" name="post_page_title" id="post_page_title" value="{{ !empty($settings_data['post_page_title']) ? $settings_data['post_page_title'] : '' }}" placeholder="Post Page Title" required>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label" for="post_meta_title">Meta Title</label>
+                  <input class="form-control width-100%" type="text" name="post_meta_title" id="post_meta_title" value="{{ !empty($settings_data['post_meta_title']) ? $settings_data['post_meta_title'] : '' }}" placeholder="Post Meta Title" required>
+                </div>
+              </div>
+
+              <div class="form-control-section">
+                <h4>Tag Page</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="tag_page_title">Page Title</label>
+                  <input class="form-control width-100%" type="text" name="tag_page_title" id="tag_page_title" value="{{ !empty($settings_data['tag_page_title']) ? $settings_data['tag_page_title'] : '' }}" placeholder="Tag Page Title" required>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label" for="tag_meta_title">Meta Title</label>
+                  <input class="form-control width-100%" type="text" name="tag_meta_title" id="tag_meta_title" value="{{ !empty($settings_data['tag_meta_title']) ? $settings_data['tag_meta_title'] : '' }}" placeholder="Tag Meta Title" required>
+                </div>
               </div>
 
               <button id="btnSave" class="btn btn--primary">Save</button>
