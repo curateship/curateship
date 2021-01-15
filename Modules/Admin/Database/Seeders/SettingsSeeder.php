@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 use \DB;
 
-use Modules\Admin\Entities\Settings;
-
 class SettingsSeeder extends Seeder
 {
     private $table = 'settings';
@@ -54,36 +52,10 @@ class SettingsSeeder extends Seeder
                 'created_at'    => $dateNow,
                 'updated_at'    => $dateNow
             ],
-            [
-                'key'           => 'post_page_title',
-                'value'         => '[posttitle] | [sitetitle]',
-                'created_at'    => $dateNow,
-                'updated_at'    => $dateNow
-            ],
-            [
-                'key'           => 'post_meta_title',
-                'value'         => '[posttitle] | [sitetitle]',
-                'created_at'    => $dateNow,
-                'updated_at'    => $dateNow
-            ],
-            [
-                'key'           => 'tag_page_title',
-                'value'         => '[tagtitle] | [sitetitle]',
-                'created_at'    => $dateNow,
-                'updated_at'    => $dateNow
-            ],
-            [
-                'key'           => 'tag_meta_title',
-                'value'         => '[tagtitle] | [sitetitle]',
-                'created_at'    => $dateNow,
-                'updated_at'    => $dateNow
-            ],
         ];
 
 		foreach ($records as $record) {
-            // DB::table($this->table)->insert($record);
-            $update = ['key' => $record['key']];
-            Settings::updateOrCreate($update, $record);
+			DB::table($this->table)->insert($record);
         }
     }
 }

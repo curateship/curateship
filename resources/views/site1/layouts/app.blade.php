@@ -10,8 +10,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <meta name="title" content="@yield('meta-title-tag')">
-
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
     <script>
