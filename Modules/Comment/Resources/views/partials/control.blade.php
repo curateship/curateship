@@ -6,8 +6,8 @@
         <select name="filterItems" id="filterItems">
           <optgroup label="Post Status">
             <option value="" data-count="" selected>All Comments</option>
-            <option value="draft" data-count="">Draft</option>
-            <option value="pending" data-count="">Pending</option>
+            <option value="draft" data-count="">Suspended</option>
+            <option value="pending" data-count="">Flagged</option>
             <option value="deleted" data-count="">Trash</option>
           </optgroup>
         </select>

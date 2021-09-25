@@ -121,3 +121,34 @@
 
 </div><!-- /.modal -->
 <!-- Full Screen Modal End -->
+
+<!-- Full Screen Search -->
+</form>
+
+<div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
+  <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
+    <form class="full-screen-search" action="{{ url('admin/posts') }}" method="GET">
+      <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
+      <input class="reset full-screen-search__input" type="search" name="postsearch" id="search-input-x" placeholder="Search..." required>
+      <button class="reset full-screen-search__btn">
+        <svg class="icon" viewBox="0 0 24 24">
+          <title>Search</title>
+          <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10">
+            <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
+            <circle cx="10" cy="10" r="8"></circle>
+          </g>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <button class="reset modal__close-btn modal__close-btn--outer  js-modal__close js-tab-focus">
+    <svg class="icon icon--sm" viewBox="0 0 24 24">
+      <title>Close modal window</title>
+      <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
+        <line x1="3" y1="3" x2="21" y2="21" />
+        <line x1="21" y1="3" x2="3" y2="21" />
+      </g>
+    </svg>
+  </button>
+</div><!-- /.modal -->

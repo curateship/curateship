@@ -18,3 +18,8 @@
     </div><!-- /.container -->
   </section>
 @endsection
+
+@push('module-scripts')
+<!-- MODULE'S CUSTOM SCRIPT -->
+  @include('comment::partials.script-js')
+@endpush
