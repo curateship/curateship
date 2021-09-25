@@ -54,6 +54,13 @@
           <span class="sidenav__text">Tags</span><span class="sidenav__counter">{{ getTagsCount() }} <i class="sr-only">notifications</i></span>
         </a>
       </li>
+
+      <li class="sidenav__item">
+        <a href="{{ url('admin/comment') }}" class="sidenav__link" {{ (url('/admin/comment') == url()->full()) ? 'aria-current=page' : '' }}>
+          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path d="M15,4h-1v6c0,0.552-0.448,1-1,1H6.828L5,13h5l3,3v-3h2c0.552,0,1-0.448,1-1V5 C16,4.448,15.552,4,15,4z"></path> <path fill="#000000" d="M1,0h10c0.552,0,1,0.448,1,1v7c0,0.552-0.448,1-1,1H6l-3,3V9H1C0.448,9,0,8.552,0,8V1C0,0.448,0.448,0,1,0z"></path></g></svg>
+          <span class="sidenav__text">Comments</span><span class="sidenav__counter">{{ getTagsCount() }} <i class="sr-only">notifications</i></span>
+        </a>
+      </li>
     </ul>
 
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
