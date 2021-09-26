@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('editor')->group(function() {
+Route::prefix('admin/editor')->group(function() {
     Route::get('/', 'EditorController@index');
 });
