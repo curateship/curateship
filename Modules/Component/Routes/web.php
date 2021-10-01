@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('component')->group(function() {
+Route::prefix('admin/component')->group(function() {
     Route::get('/', 'ComponentController@index');
 });

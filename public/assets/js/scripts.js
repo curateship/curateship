@@ -3460,6 +3460,65 @@ function initAlertEvent(element) {
       }
     }
   }());
+// File#: _1_expandable-side-navigation
+// Usage: codyhouse.co/license
+(function() {
+    var Exsidenav = function(element) {
+      this.element = element;
+      this.controls = this.element.getElementsByClassName('js-exsidenav__control');
+      this.index = 0;
+      initExsidenav(this);
+    };
+  
+    function initExsidenav(element) {
+      // set aria attributes
+      initAria(element);
+      // detect click on control buttons
+      element.element.addEventListener('click', function(event){
+        var control = event.target.closest('.js-exsidenav__control');
+        if(control) toggleNav(control);
+      });
+    };
+  
+    function initAria(element) {
+      // set aria attributes -> aria-controls and aria-expanded
+      var randomNum = getRandomInt(0, 1000);
+      for(var i = 0; i < element.controls.length; i++) {
+        var newId = 'exsidenav-'+randomNum+'-'+element.index,
+          id = element.controls[i].nextElementSibling.getAttribute('id');
+        if(!id) {
+          id = newId;
+          element.controls[i].nextElementSibling.setAttribute('id', newId);
+        }
+        element.index = element.index + 1;
+        element.controls[i].setAttribute('aria-controls', id);
+        if(!element.controls[i].getAttribute('aria-expanded')) element.controls[i].setAttribute('aria-expanded', 'false');
+      }
+    };
+  
+    function toggleNav(control) {
+      // open/close sub list
+      var bool = (control.getAttribute('aria-expanded') === 'true'),
+        ariaValue = bool ? 'false' : 'true';
+      control.setAttribute('aria-expanded', ariaValue);
+    };
+  
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min); 
+    };
+  
+    window.Exsidenav = Exsidenav;
+    
+    //initialize the Exsidenav objects
+    var exsidenav = document.getElementsByClassName('js-exsidenav');
+    if( exsidenav.length > 0 ) {
+      for( var i = 0; i < exsidenav.length; i++) {
+        (function(i){new Exsidenav(exsidenav[i]);})(i);
+      }
+    }
+  }());
 // File#: _1_file-upload
 // Usage: codyhouse.co/license
 (function() {
@@ -4589,6 +4648,72 @@ function initAlertEvent(element) {
     }
 })();
 
+// File#: _1_number-input
+// Usage: codyhouse.co/license
+(function() {
+    var InputNumber = function(element) {
+      this.element = element;
+      this.input = this.element.getElementsByClassName('js-number-input__value')[0];
+      this.min = parseFloat(this.input.getAttribute('min'));
+      this.max = parseFloat(this.input.getAttribute('max'));
+      this.step = parseFloat(this.input.getAttribute('step'));
+      if(isNaN(this.step)) this.step = 1;
+      this.precision = getStepPrecision(this.step);
+      initInputNumberEvents(this);
+    };
+  
+    function initInputNumberEvents(input) {
+      // listen to the click event on the custom increment buttons
+      input.element.addEventListener('click', function(event){ 
+        var increment = event.target.closest('.js-number-input__btn');
+        if(increment) {
+          event.preventDefault();
+          updateInputNumber(input, increment);
+        }
+      });
+  
+      // when input changes, make sure the new value is acceptable
+      input.input.addEventListener('focusout', function(event){
+        var value = parseFloat(input.input.value);
+        if( value < input.min ) value = input.min;
+        if( value > input.max ) value = input.max;
+        // check value is multiple of step
+        value = checkIsMultipleStep(input, value);
+        if( value != parseFloat(input.input.value)) input.input.value = value;
+  
+      });
+    };
+  
+    function getStepPrecision(step) {
+      // if step is a floating number, return its precision
+      return (step.toString().length - Math.floor(step).toString().length - 1);
+    };
+  
+    function updateInputNumber(input, btn) {
+      var value = ( Util.hasClass(btn, 'number-input__btn--plus') ) ? parseFloat(input.input.value) + input.step : parseFloat(input.input.value) - input.step;
+      if( input.precision > 0 ) value = value.toFixed(input.precision);
+      if( value < input.min ) value = input.min;
+      if( value > input.max ) value = input.max;
+      input.input.value = value;
+      input.input.dispatchEvent(new CustomEvent('change', {bubbles: true})); // trigger change event
+    };
+  
+    function checkIsMultipleStep(input, value) {
+      // check if the number inserted is a multiple of the step value
+      var remain = (value*10*input.precision)%(input.step*10*input.precision);
+      if( remain != 0) value = value - remain;
+      if( input.precision > 0 ) value = value.toFixed(input.precision);
+      return value;
+    };
+  
+    //initialize the InputNumber objects
+    var inputNumbers = document.getElementsByClassName('js-number-input');
+    if( inputNumbers.length > 0 ) {
+      for( var i = 0; i < inputNumbers.length; i++) {
+        (function(i){new InputNumber(inputNumbers[i]);})(i);
+      }
+    }
+  }());
 // File#: _1_password
 // Usage: codyhouse.co/license
 (function() {
