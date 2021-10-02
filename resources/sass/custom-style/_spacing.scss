@@ -32,6 +32,10 @@
   }
 }
 
+:root, * {
+  --space-ssm: calc(0.900 * var(--space-unit)); 
+}
+
 // --------------------------------
 
 // (END) Global editor code

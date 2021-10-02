@@ -11,30 +11,20 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 .tabs-v3 {
-  border: var(--tabs-v3-border-width) solid var(--color-contrast-lower);
-  padding: var(--component-padding);
-  border-radius: var(--tabs-v3-radius);
   background-color: var(--color-bg);
 }
 
 .tabs-v3__controls {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: var(--space-xs);
-
-  li {
-    display: inline-block; // flex fallback
-    margin: 0 var(--space-xs) var(--space-xs) 0;
-  }
 }
 
 .tabs-v3__control {
   display: inline-flex;
   background-color: alpha(var(--color-contrast-lower), 0.1);
-  padding: var(--space-md) var(--space-md);
+  padding: var(--space-ssm) var(--space-md);
   white-space: nowrap;
   color: inherit;
-  border-radius: var(--tabs-v3-control-radius);
 
   &:hover {
     background-color: alpha(var(--color-contrast-medium), 0.050);
@@ -43,6 +33,7 @@ Usage: codyhouse.co/license
 
 .tabs-v3__panel {
   margin-bottom: var(--space-md);
+  padding: var(--space-sm);
 }
 
 .js {

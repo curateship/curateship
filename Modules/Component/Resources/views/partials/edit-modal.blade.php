@@ -54,17 +54,34 @@
 
    <tbody class="tbl__body">
 
-     <tr class="tbl__row">
+   <tr class="tbl__row">
        <td class="tbl__cell" role="cell">
-         <p>Name</p>
+         <p>Avatar</p>
        </td>
 
        <td class="tbl__cell" role="cell">
          <div class="flex justify-end">
 
            <div class="switch ">
-             <input class="switch__input" type="checkbox" id="switch-push-notifications">
-             <label class="switch__label" for="switch-push-notifications" aria-hidden="true">Name</label>
+             <input class="switch__input" type="checkbox" id="switch-push-notifications" checked>
+             <label class="switch__label" for="switch-push-notifications" aria-hidden="true">Avatar</label>
+             <div class="switch__marker" aria-hidden="true"></div>
+           </div>
+         </div>
+       </td>
+     </tr>
+
+     <tr class="tbl__row">
+       <td class="tbl__cell" role="cell">
+         <p>Username</p>
+       </td>
+
+       <td class="tbl__cell" role="cell">
+         <div class="flex justify-end">
+
+           <div class="switch ">
+             <input class="switch__input" type="checkbox" id="switch-push-notifications" checked>
+             <label class="switch__label" for="switch-push-notifications" aria-hidden="true">Username</label>
              <div class="switch__marker" aria-hidden="true"></div>
            </div>
          </div>
@@ -133,7 +150,6 @@
       <div class="flex justify-end gap-xs">
         <button class="btn btn--subtle js-modal__close">Cancel</button>
         <button class="btn btn--primary">Save</button>
-        <button class="btn btn--primary">Generate Short Code</button>
       </div>
     </footer>
   </div>
