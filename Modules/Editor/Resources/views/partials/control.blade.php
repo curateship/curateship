@@ -1,7 +1,7 @@
 <div class="controlbar--sticky flex justify-between">
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
-      <h1 class="text-md color-contrast-high margin-x-xs" for="filterItems">Edit Templatename</h1>
+      <h1 class="text-md color-contrast-high margin-x-xs" for="filterItems">Edit Template</h1>
     </div>
   </div>
 
@@ -11,15 +11,8 @@
     <div class="flex flex-wrap">
 
       <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-article">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g fill="#9b9b9b"><path fill="#9b9b9b" d="M13.02 0.81v4.15h4.15z"></path><path fill="#9b9b9b" d="M17.67 8.99v-3.41h-4.96c-0.19 0-0.31-0.12-0.31-0.31v-4.96h-9.92c-0.19 0-0.31 0.12-0.31 0.31v8.37h15.5z"></path><path fill="#9b9b9b" d="M2.17 17.36v1.86c0 0.19 0.12 0.31 0.31 0.31h14.88c0.19 0 0.31-0.12 0.31-0.31v-1.86h-15.5z"></path><path fill="#9b9b9b" d="M18.91 9.61h-17.98c-0.19 0-0.31 0.12-0.31 0.31v6.51c0 0.19 0.12 0.31 0.31 0.31h17.98c0.19 0 0.31-0.12 0.31-0.31v-6.51c0-0.19-0.12-0.31-0.31-0.31z m-12.15 4.96h-0.62v-1.24h-1.15v1.24h-0.62v-2.88h0.62v1.11h1.15v-1.11h0.62v2.88z m2.69-2.36h-0.77v2.36h-0.62v-2.36h-0.77v-0.49h2.17v0.49z m3.63 2.36h-0.56v-1.36-0.22c0-0.09 0-0.31 0.04-0.68h-0.04l-0.74 2.26h-0.56l-0.68-2.26h-0.03c0.03 0.46 0.03 0.78 0.03 0.93v1.33h-0.56v-2.88h0.84l0.68 2.2 0.71-2.2h0.84v2.88z m2.58 0h-1.77v-2.88h0.62v2.38h1.18v0.5z"></path></g></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g fill="#9b9b9b"><path d="M9.37 9.18q-0.09-0.36-0.12-0.52-0.03 0.15-0.11 0.48t-0.33 1.32h0.89l-0.18-0.69q-0.06-0.23-0.15-0.59z" fill="#9b9b9b"></path><path d="M4.71 8.84h-0.22v0.96h0.21q0.59 0 0.59-0.53 0-0.43-0.58-0.43z" fill="#9b9b9b"></path><path d="M18.48 3.36h-16.8a1.26 1.26 0 0 0-1.26 1.26v10.92a1.26 1.26 0 0 0 1.26 1.26h16.8a1.26 1.26 0 0 0 1.26-1.26v-10.92a1.26 1.26 0 0 0-1.26-1.26z m-12.81 8.82l-0.89-1.53h-0.29v1.53h-1.14v-4.2h1.38q1.71 0 1.71 1.24a1.24 1.24 0 0 1-0.71 1.13l1.22 1.83z m4.47 0l-0.2-0.79h-1.37l-0.21 0.79h-1.25l1.37-4.21h1.52l1.38 4.21z m6 0h-1.34l-0.41-1.83q-0.03-0.12-0.09-0.46c-0.04-0.23-0.07-0.42-0.09-0.57-0.02 0.13-0.04 0.28-0.07 0.47s-0.07 0.35-0.1 0.51-0.17 0.78-0.42 1.88h-1.34l-1.04-4.2h1.09l0.46 2.11q0.15 0.7 0.21 1.11 0.04-0.29 0.13-0.8t0.18-0.83l0.37-1.59h1.05l0.36 1.59q0.09 0.38 0.19 0.88t0.12 0.75q0.04-0.32 0.21-1.11l0.46-2.11h1.09z" fill="#9b9b9b"></path></g></svg>
         <span class="menu-bar__label">HTML</span>
-      </li>
-
-      <li class="menu-bar__item padding-top-xxxs">
-        <a href="{{ url('admin/posts/settings') }}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g fill="#9b9b9b"><path fill="#9b9b9b" d="M2.1 18.06v1.26a0.42 0.42 0 0 0 0.42 0.42h15.12a0.42 0.42 0 0 0 0.42-0.42v-1.26h-15.96z"></path><path fill="#9b9b9b" d="M18.06 8.82v-2.94h-5.04a0.42 0.42 0 0 1-0.42-0.42v-5.04h-10.08a0.42 0.42 0 0 0-0.42 0.42v7.98h15.96z"></path><path fill="#9b9b9b" d="M13.44 1.09v3.95h3.95z"></path><path fill="#9b9b9b" d="M13.33 12.54h-0.23v0.76h0.16c0.13 0 0.24-0.04 0.32-0.11 0.08-0.08 0.12-0.18 0.12-0.31 0-0.22-0.12-0.33-0.37-0.34z"></path><path fill="#9b9b9b" d="M6.87 12.54h-0.23v0.76h0.16c0.13 0 0.24-0.04 0.32-0.11 0.08-0.08 0.12-0.18 0.12-0.31 0-0.22-0.12-0.33-0.37-0.34z"></path><path fill="#9b9b9b" d="M19.32 9.66h-18.48a0.42 0.42 0 0 0-0.42 0.42v6.72a0.42 0.42 0 0 0 0.42 0.42h18.48a0.42 0.42 0 0 0 0.42-0.42v-6.72a0.42 0.42 0 0 0-0.42-0.42z m-11.51 4.06c-0.22 0.2-0.53 0.3-0.92 0.31h-0.25v1.09h-0.89v-3.3h1.14c0.42 0 0.73 0.09 0.94 0.27 0.21 0.18 0.31 0.44 0.31 0.78 0 0.37-0.11 0.65-0.33 0.85z m3.68 1.4h-0.89v-1.34h-1.04v1.34h-0.89v-3.3h0.89v1.22h1.04v-1.22h0.89v3.3z m2.78-1.4c-0.22 0.2-0.53 0.3-0.92 0.31h-0.25v1.09h-0.89v-3.3h1.14c0.42 0 0.73 0.09 0.94 0.27 0.21 0.18 0.31 0.44 0.31 0.78 0 0.37-0.11 0.65-0.33 0.85z"></path></g></svg>
-        </a>
-        <span class="menu-bar__label">PHP</span>
       </li>
 
       <li class="menu-bar__item" aria-controls="edit-modal">
@@ -27,14 +20,9 @@
         <span class="menu-bar__label">Settings</span>
       </li>
 
-      <li class="menu-bar__item" aria-controls="modal-search">
+      <li class="menu-bar__item" aria-controls="preview-modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g stroke-width="2" fill="#9b9b9b"><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M10.08 1.89a8.19 8.19 0 1 0 0 16.38 8.19 8.19 0 1 0 0-16.38z"></path><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M10.08 0.63v3.15"></path><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M19.53 10.08h-3.15"></path><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M10.08 19.53v-3.15"></path><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M0.63 10.08h3.15"></path><path fill="none" stroke="#9b9b9b" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M10.08 8.19a1.89 1.89 0 1 0 0 3.78 1.89 1.89 0 1 0 0-3.78z"></path></g></svg>
         <span class="menu-bar__label">Preview</span>
-      </li>
-
-      <li class="menu-bar__item" aria-controls="modal-search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">><g fill="#9b9b9b"><path fill="#9b9b9b" d="M16.25 8.88v-0.13c0-3.5-2.75-6.25-6.25-6.25-3.13 0-5.75 2.25-6.13 5.38-2.25 0.75-3.87 2.75-3.87 5.25 0 3.13 2.5 5.63 5.63 5.62h9.37c2.75 0 5-2.25 5-5 0-2.38-1.63-4.25-3.75-4.88z m-5 3.62v3.75h-2.5v-3.75h-3.75l5-5 5 5h-3.75z"></path></g></svg>
-        <span class="menu-bar__label">Save</span>
       </li>
 
       <li class="menu-bar__item" aria-controls="modal-search">
@@ -44,7 +32,7 @@
 
       <li class="menu-bar__item js-menu-bar margin-left-lg" aria-controls="create-modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g><path fill="#223E49" d="M3.44 18.56l-0.5-1.34-1.34-0.5-0.46 2.3z"></path><path fill="#EAD8C5" d="M6.09 18.03l-1.05-3.03-2.91-0.93-0.53 2.65 1.84 1.84z"></path><path fill="#335262" d="M14.53 1.68l-2.23 2.22 1.56 2.4 2.4 1.56 2.22-2.23a0.84 0.84 0 0 0 0-1.18l-2.77-2.77a0.84 0.84 0 0 0-1.18 0z"></path><path fill="#E86C60" d="M2.13 14.07l10.17-10.17 2.4 2.4-10.17 10.17z"></path><path fill="#DD5E58" d="M4.11 16.05l10.17-10.17 1.98 1.98-10.17 10.17z"></path><path fill="#E6E6E6" d="M12.01 4.2l0.59-0.59 3.95 3.95-0.59 0.59z"></path></g></svg>
-        <span class="menu-bar__label">Create Template</span>
+        <span class="menu-bar__label">Create</span>
       </li>
 
     </div>

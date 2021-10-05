@@ -10,11 +10,7 @@
           @include('editor::partials.control')
         </div><!-- End Control -->
           <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
-          <div class="padding-sm">
-            <div id="site-table-with-pagination-container">
               @include('editor::partials.table')
-            </div><!-- /#site-table-with-pagination-container -->
-          </div><!-- Padding -->
         </main><!-- .column -->
       </div><!-- /.grid -->
     </div><!-- /.container -->

@@ -25,27 +25,31 @@
 
         <label class="form-label margin-bottom-xxs" for="input-name">Edit URL Slug</label>
         <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
-      
-      <div>
-        <label class="form-label margin-bottom-xxs" for="textarea">Edit Template Note</label>
-        <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
-        <p class="text-xs color-contrast-medium margin-top-xxs">Use helper text to provide additional information.</p>
-      </div>
-    </div>
+
+        <label class="form-label margin-bottom-xxs" for="input-name">Edit Page Title</label>
+        <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
+
+        <label class="form-label margin-bottom-xxs" for="input-name">Edit Meta Discription</label>
+        <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
   </fieldset>
 
   <fieldset class="margin-bottom-md">
-    <legend class="form-legend">Radio Buttons</legend>
+  <label class="form-label margin-bottom-xxs" for="input-name">Choose App</label>
 
-    <ul class="flex flex-column gap-xxxs">
+    <ul class="flex flex-wrap gap-md">
       <li>
-        <input class="radio" type="radio" name="radio-buttons" id="radio-1" checked>
+        <input class="radio" type="radio" name="radio-button" id="radio-1" checked>
         <label for="radio-1">App 1</label>
       </li>
 
       <li>
-        <input class="radio" type="radio" name="radio-buttons" id="radio-2">
+        <input class="radio" type="radio" name="radio-button" id="radio-2">
         <label for="radio-2">App 2</label>
+      </li>
+
+      <li>
+        <input class="radio" type="radio" name="radio-button" id="radio-3">
+        <label for="radio-3">App 3</label>
       </li>
     </ul>
   </fieldset>
