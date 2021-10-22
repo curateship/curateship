@@ -267,10 +267,11 @@
       var $this = $(this);
       var url = $this.attr('href');
       var updateURL = $this.data('update-url');
-
+      
       $('#modal-edit-user-form').attr('action', updateURL);
       var $element = $('#ajax-edit-user-form');
       $element.load(url, function(response, status, xhr) {
+        console.log(response);
         currentUserAvatar = $(response).filter('.input-user-avatar').val();
         currentDataAvatar = $(response).filter('.input-user-avatar').attr('data-avatar');
         currentUserHasCoverPhoto = $(response).filter('.input-has-cover-photo').val();

@@ -34,6 +34,8 @@ Route::get('/site2/passreset',function(){
   return view('components.auth.pass-reset');
 });
 
+// Route::post('front/comment/reply', );
+
 // Editor JS
 
 Route::group(['middleware' => $middleware], function(){
@@ -46,6 +48,21 @@ Route::group(['middleware' => $middleware], function(){
 Route::get('post/{slug}', [
   'as'   => 'single-post-view',
   'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePostView'
+]);
+
+Route::get('post/comment/reply/{id}', [
+  'as'   => 'post-comment-reply',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@reply'
+]);
+
+Route::post('post/comment/reply-save/{id}', [
+  'as'   => 'post-comment-reply',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@saveReply'
+]);
+
+Route::post('post/comment/save', [
+  'as'   => 'post-comment-save',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@saveComment'
 ]);
 
 Route::get('page/{slug}', [

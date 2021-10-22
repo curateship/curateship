@@ -20,7 +20,6 @@
     $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
       var $checkBoxesChecked = $('.js-int-table__select-row:checked');
       var $totalSelected = $('.table-total-selected');
-      // console.log($("#selected-id-template").html());
       var $inputHiddenTemplate = $("#selected-id-template").html().trim();
 
       $('.bulk-selected-ids').html('');
@@ -32,6 +31,7 @@
       });
 
       $totalSelected.text($checkBoxesChecked.length);
+      console.log($('.bulk-selected-ids').html());
     });
 
     // when pagination links are clicked, only load the table

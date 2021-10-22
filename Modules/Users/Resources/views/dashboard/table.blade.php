@@ -27,7 +27,7 @@
   </template><!-- /#selected-id-template -->
   <form action="{{route('dashboard.delete.multiple')}}"
     method="POST" id="form-bulk-delete"> @csrf
-    <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+    <div class="bulk-selected-ids"></div>
   </form>
 
   <div id="table-1" class="int-table text-sm js-int-table">

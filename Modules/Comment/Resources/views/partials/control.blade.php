@@ -5,10 +5,9 @@
       <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
         <select name="filterItems" id="filterItems">
           <optgroup label="Post Status">
-            <option value="" data-count="" selected>All Comments</option>
-            <option value="draft" data-count="">Suspended</option>
-            <option value="pending" data-count="">Flagged</option>
-            <option value="deleted" data-count="">Trash</option>
+            <option value="" data-count="{{ $comments_all_count }}" selected>All Comments</option>
+            <option value="draft" data-count="{{ $comments_suspended_count }}">Suspended</option>
+            <option value="deleted" data-count="{{ $comments_trash_count }}">Trash</option>
           </optgroup>
         </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
@@ -47,10 +46,10 @@
               <circle cx="1.5" cy="7.5" r="1.5" />
               <circle cx="14.5" cy="7.5" r="1.5" /></svg>
           </li>
-          <li class="menu-bar__item" role="menuitem">
+          <li class="menu-bar__item" role="menuitem" data-control-form="#form-bulk-delete">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>bin</title><g fill="#000000"><path d="M2.49 6.64v10.79a2.49 2.49 0 0 0 2.49 2.49h9.96a2.49 2.49 0 0 0 2.49-2.49v-10.79z m4.98 9.13h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z" fill="#000000"></path><path d="M19.09 3.32h-4.98v-2.49a0.83 0.83 0 0 0-0.83-0.83h-6.64a0.83 0.83 0 0 0-0.83 0.83v2.49h-4.98a0.83 0.83 0 0 0 0 1.66h18.26a0.83 0.83 0 0 0 0-1.66z m-11.62-1.66h4.98v1.66h-4.98z"></path></g></svg>
             <span class="menu-bar__label">Delete</span>
-            <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
+            <span class="counter counter--critical counter--docked"><span class="table-total-selected">1</span> <i class="sr-only">Notifications</i></span>
           </li>
 
         </menu>

@@ -1,22 +1,33 @@
 @auth
 <script>
   (function(){
+    $(document).on('change', '#filterItems', function(e) {
+      e.preventDefault();
+      var $this = $(this);
+      var url = "{{ url('/admin/comment') }}";
+      var url_snippet = $this.find('option:selected').closest('optgroup').attr('data-type');
+      if (url_snippet == undefined) {
+        url_snippet = 'Status';
+      }
+      if ($this.val()) {
+        url = url + '?' + url_snippet + '=' + $this.val();
+      }
+      $('meta[name="current-url"]').attr('content', url);
 
-    // Interactive table checkbox toggle
-    $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
-      var $checkBoxesChecked = $('.js-int-table__select-row:checked');
-      var $totalSelected = $('.table-total-selected');
-      var $inputHiddenTemplate = $("#selected-id-template").html().trim();
+      localStorage.setItem("cs_admin_users_init_tab", $(this).val());
 
-      $('.bulk-selected-ids').html('');
-
-      $checkBoxesChecked.each(function(){
-        var $this = $(this);
-        var $selectedID = $inputHiddenTemplate.replace(/@{{value}}/gi, $this.val());
-        $('.bulk-selected-ids').append($selectedID);
+      // loads page content inside this element
+      $('#site-table-with-pagination-container').load(url, function() {
+        console.log(url)
+        // Apply pagination dynamically
+        var $tablePaginationBottom = $('#table-pagination-bottom');
+        var $tablePaginationTop = $('#table-pagination-top');
+        $tablePaginationTop.html(
+          ($tablePaginationBottom.length > 0) ?
+          $tablePaginationBottom.html() :
+          $tablePaginationTop.html('')
+        );
       });
-
-      $totalSelected.text($checkBoxesChecked.length);
     });
 
     // watch for change on the results limit dropdown
@@ -59,6 +70,34 @@
 
       console.log(sort, order);
     });
+
+    var currentUserAvatar = '',
+      currentDataAvatar = '',
+      currentUserCoverPhoto = '',
+      currentUserId = '';
+    // trigger to show edit user modal form
+    $(document).on('click', '.modal-trigger-edit-post', function(e) {
+      e.preventDefault();
+      // $('.modal-trigger-edit-user').on('click', function() {
+
+      var $this = $(this);
+      var url = $this.attr('href');
+      var updateURL = $this.data('update-url');
+      
+      $('#modal-edit-post-form').attr('action', updateURL);
+      var $element = $('#ajax-edit-post-form');
+      $element.load(url, function(response, status, xhr) {
+        
+      });
+    });
+
+    // Clean trash
+    $(document).on('click', '#emptyTrash', function(){
+      if(confirm('Are you sure you want to empty the trash?')){
+        $(this).closest('form').submit();
+      }
+    });
+    
   })();
 </script>
 @endauth

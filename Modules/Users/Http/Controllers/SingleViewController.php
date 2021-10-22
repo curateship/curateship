@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Page\Entities\Page;
 use Modules\Post\Entities\{Post, PostsMeta};
+use Modules\Comment\Entities\Comment;
+use Modules\Comment\Entities\Reply;
+use Illuminate\Support\Facades\Auth;
 
 class SingleViewController extends Controller
 {
-  public function singlePostView($slug) {
+   public function singlePostView($slug) {
     // Get Post by slug
     $post = Post::firstWhere([
       'slug'      => $slug,
@@ -99,4 +102,69 @@ class SingleViewController extends Controller
 
     abort(404);
   }
+
+  public function reply($id)
+    {
+      $comment = Comment::where('id', $id)->first();
+        return view('components.posts.edit-reply-form', compact('comment'))->withoutShortcodes();
+    }
+
+    public function saveReply(Request $request, $id)
+    {
+        $response = 'Reply according to the comment' . $id . ' has been added.';
+        $replyComments = $request->input('comment');
+        
+        // $post = DB::table('posts')->where('id', '=', $id)->first();
+        $replies = Reply::find($id);
+
+        if (!$replies) {
+            $exist = Reply::where('content', $replyComments)->first();
+            if($exist) {
+              return back()->with('responseMessage', 'Reply already exist.');
+            } else {
+              $content = new Reply;
+              $content->user_id = Auth::user()->id;
+              $content->comment_id = $id;
+              $content->content = $replyComments;
+              $content->save();
+              $response = 'Save successfully!';
+            }
+        } else {
+          $content = new Reply;
+          $content->user_id = Auth::user()->id;
+          $content->comment_id = $id;
+          $content->content = $replyComments;
+          $content->save();
+          $response = 'Save successfully!';
+        }
+
+        // return response()->json($response);
+        return back()->with('responseMessage', $response);
+    }
+
+    public function saveComment(Request $request)
+    {
+      $id = $request->input('postid');
+      $comment = $request->input('commentNewContent');
+      $user_id = Auth::user()->id;
+      $response = 'Comment saved successfully';
+      $exist = Comment::where('post_id', $id)
+                      ->where('user_id', $user_id)->first();
+      if($exist) {
+        $exist->comment = $comment;
+        $exist->save();
+        $response = 'Update successfully';
+      } else {
+        $content = new Comment;
+        $content->user_id = $user_id;
+        $content->post_id = $id;
+        $content->comment = $comment;
+        $content->status = 'published';
+        $content->save();
+        $response = 'Save successfully!';
+      }
+
+        // return response()->json($response);
+        return back()->with('responseMessage', $response);
+    }
 }
