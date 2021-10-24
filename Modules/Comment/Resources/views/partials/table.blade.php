@@ -121,8 +121,6 @@
                   | In Post: <a href="{{ route('single-post-view', ['slug'   => $comment->post->slug]) }}" target="_blank">{{$comment->post->title}}</a>
                 </p>
                 @endforeach
-              @else
-                
               @endif
               
             </td>
