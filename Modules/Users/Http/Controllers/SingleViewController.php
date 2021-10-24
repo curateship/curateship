@@ -104,7 +104,7 @@ class SingleViewController extends Controller
   }
 
   public function reply($id)
-    {
+    { 
       $comment = Comment::where('id', $id)->first();
         return view('components.posts.edit-reply-form', compact('comment'))->withoutShortcodes();
     }
