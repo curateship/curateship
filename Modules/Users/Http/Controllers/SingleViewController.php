@@ -149,11 +149,11 @@ class SingleViewController extends Controller
       $user_id = Auth::user()->id;
       $response = 'Comment saved successfully';
       $exist = Comment::where('post_id', $id)
-                      ->where('user_id', $user_id)->first();
+                      ->where('user_id', $user_id)
+                      ->where('comment', $comment)
+                      ->first();
       if($exist) {
-        $exist->comment = $comment;
-        $exist->save();
-        $response = 'Update successfully';
+        $response = 'Already exist';
       } else {
         $content = new Comment;
         $content->user_id = $user_id;

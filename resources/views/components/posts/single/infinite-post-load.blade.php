@@ -105,7 +105,7 @@
                 <div class="flex items-start margin-bottom-lg">
                   <a href="#0" class="comments__author-img">
                     @if($comment->avatar)
-                      <img src="{{$comment->avatar}}" alt="Author picture">
+                      <img src="{{asset('storage/app/public/users-images/avatars/'.$comment->avatar)}}" alt="Author picture">
                     @else
                       <img src="https://codyhouse.co/app/assets/img/comments-placeholder.svg" alt="Author picture">
                     @endif
@@ -184,7 +184,7 @@
                       <div class="flex items-start">
                         <a href="#0" class="comments__author-img">
                         @if($reply->reply_avatar)
-                          <img src="{{$reply->reply_avatar}}" alt="Author picture">
+                          <img src="{{asset('storage/app/public/users-images/avatars/'.$reply->reply_avatar)}}" alt="Author picture">
                         @else
                           <img src="https://codyhouse.co/app/assets/img/comments-placeholder.svg" alt="Author picture">
                         @endif
