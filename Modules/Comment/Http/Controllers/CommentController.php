@@ -10,6 +10,7 @@ use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Entities\Reply;
 
 class CommentController extends Controller
 {
@@ -23,18 +24,19 @@ class CommentController extends Controller
 
         $status = $request->input('Status');
         $limit  = $request->input('limit') ? $request->input('limit') : 25;
-
+        // dd("dfd");
         //Display all comments
-        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
-            ->leftJoin('posts', 'comments.post_id', '=', 'posts.id')
-            ->select([
-                'comments.id as id',
-                'comment',
-                'comments.status as status',
-                'users.username as username',
-                'comments.created_at as created_at'
-            ]);
-
+        // $comments = Comment::select([
+        //         'comments.id as id',
+        //         'comment',
+        //         'comments.status as status',
+        //         'users.username as username',
+        //         // 'posts.title as post_title',
+        //         'comments.created_at as created_at'
+        //     ]);
+        $comments = Comment::with(['user', 'post', 'reply' => function ($query) {
+            $query->with('user');
+        }]);
         // if status is set
         if ($status) {
             $comments = $comments->where('comments.status', '=', $status);
@@ -42,7 +44,6 @@ class CommentController extends Controller
         
         $comments = $comments->orderBy('created_at', 'desc');
         $comments = $comments->paginate($limit);
-
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         // counters
