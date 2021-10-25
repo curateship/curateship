@@ -126,6 +126,7 @@ class SingleViewController extends Controller
               $content->user_id = Auth::user()->id;
               $content->comment_id = $id;
               $content->content = $replyComments;
+              $content->content = 'published';
               $content->save();
               $response = 'Save successfully!';
             }
@@ -134,6 +135,7 @@ class SingleViewController extends Controller
           $content->user_id = Auth::user()->id;
           $content->comment_id = $id;
           $content->content = $replyComments;
+          $content->status = 'published';
           $content->save();
           $response = 'Save successfully!';
         }
