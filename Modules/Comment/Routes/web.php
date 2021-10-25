@@ -17,6 +17,10 @@ Route::prefix('admin')->group(function() {
     Route::get('comment/draft/{id}', 'CommentController@draft');
     Route::get('comment/delete/{id}', 'CommentController@delete');
     Route::post('comment/update/{id}', 'CommentController@update');
+    Route::get('reply-comment/edit/{id}', 'CommentController@replyEdit');
+    Route::get('reply-comment/draft/{id}', 'CommentController@replyDraft');
+    Route::get('reply-comment/delete/{id}', 'CommentController@replyDelete');
+    Route::post('reply-comment/update/{id}', 'CommentController@replyUpdate');
         
     Route::put('/comment/update', [
     'as' => 'admin.comment.update',

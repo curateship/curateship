@@ -9,7 +9,7 @@
 
     <div class="margin-top-md">
       <label class="margin-bottom-sm">Description</label>
-      <textarea class="form-control width-100% margin-top-sm" type="text" name="description" id="description" cols="10" rows="15" @error('description') aria-invalid="true" @enderror>{!!$comments->comment!!}</textarea>
+      <textarea class="form-control width-100% margin-top-sm" type="text" name="description" id="description" cols="10" rows="15" @error('description') aria-invalid="true" @enderror>{!!$comments!!}</textarea>
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
