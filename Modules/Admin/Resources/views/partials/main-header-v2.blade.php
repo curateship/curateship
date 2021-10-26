@@ -73,6 +73,8 @@
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
+              <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/editor/component') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/editor/component' ? 'aria-current' : '' }}><span>Editor</span></a></li>
       </nav>
 
       <!-- User Icon and Drop-down Desktop -->
