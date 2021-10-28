@@ -117,27 +117,13 @@ class SingleViewController extends Controller
         // $post = DB::table('posts')->where('id', '=', $id)->first();
         $replies = Reply::find($id);
 
-        if (!$replies) {
-            $exist = Reply::where('content', $replyComments)->first();
-            if($exist) {
-              return back()->with('responseMessage', 'Reply already exist.');
-            } else {
-              $content = new Reply;
-              $content->user_id = Auth::user()->id;
-              $content->comment_id = $id;
-              $content->content = $replyComments;
-              $content->status = 'published';
-              $content->save();
-              $response = 'Save successfully!';
-            }
-        } else {
-          $content = new Reply;
-          $content->user_id = Auth::user()->id;
-          $content->comment_id = $id;
-          $content->content = $replyComments;
-          $content->save();
-          $response = 'Save successfully!';
-        }
+        $content = new Reply;
+        $content->user_id = Auth::user()->id;
+        $content->comment_id = $id;
+        $content->content = $replyComments;
+        $content->status = 'published';
+        $content->save();
+        $response = 'Save successfully!';
 
         // return response()->json($response);
         return back()->with('responseMessage', $response);
