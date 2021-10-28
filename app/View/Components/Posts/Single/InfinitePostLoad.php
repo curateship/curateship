@@ -61,7 +61,6 @@ class InfinitePostLoad extends Component
                                 ->where(
                                     [
                                         'comments.post_id' => $id,
-                                        'comments.status' => 'published'
                                     ]
                                 )->get();
             foreach($comments as $comment) {
@@ -76,12 +75,13 @@ class InfinitePostLoad extends Component
                                     'users.username as reply_user',
                                     'users_settings.avatar as reply_avatar',
                                     'comment_reply.content as reply_content',
-                                    'comment_reply.created_at as reply_created_at'
+                                    'comment_reply.created_at as reply_created_at',
+                                    'comment_reply.status as $reply_status'
                                 ])
                                 ->where(
                                     [
                                         'comment_reply.comment_id' => $comment->comment_id,
-                                        
+                                        'comment_reply.status' => 'published'                                        
                                     ]
                                 )->get();
                 $repliesCount = Reply::leftJoin('users', 'comment_reply.user_id', '=', 'users.id')
@@ -96,7 +96,7 @@ class InfinitePostLoad extends Component
                                 ->where(
                                     [
                                         'comment_reply.comment_id' => $comment->comment_id,
-                                        
+                                        'comment_reply.status' => 'published'
                                     ]
                                 )->count();
                 $comment['repliesCount'] = $repliesCount;
