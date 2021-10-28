@@ -5,6 +5,7 @@ use Modules\Page\Entities\Page;
 use Modules\Users\Entities\User;
 use Modules\Tag\Entities\Tag;
 use Modules\Comment\Entities\Comment;
+use Modules\Comment\Entities\Reply;
 
 if (! function_exists('getNewSlug')) {
   function getNewSlug($slug, $posts) {
@@ -53,6 +54,6 @@ if (! function_exists('getTagsCount')) {
 
 if (! function_exists('getCommentsCount')) {
   function getCommentsCount() {
-    return Comment::count();
+    return Comment::count() + Reply::count();
   }
 }

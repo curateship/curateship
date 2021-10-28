@@ -9740,5 +9740,5 @@ function initAlertEvent(element) {
     if(this.value.length){
       $("#postbtn").attr('disabled', false);
     }
-});
+  });
 }());
