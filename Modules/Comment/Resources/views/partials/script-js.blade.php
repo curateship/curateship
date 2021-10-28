@@ -83,11 +83,10 @@
       var $this = $(this);
       var url = $this.attr('href');
       var updateURL = $this.data('update-url');
-      
       $('#modal-edit-post-form').attr('action', updateURL);
       var $element = $('#ajax-edit-post-form');
+      console.log($element, url, updateURL);
       $element.load(url, function(response, status, xhr) {
-        
       });
     });
 

@@ -108,7 +108,6 @@ class InfinitePostLoad extends Component
                 $comment['replies'] = $replies;
             }
             $post['comments'] = $comments;
-
             $this->post = $post;
             $this->tag_pills = $post->getTagNames();
 

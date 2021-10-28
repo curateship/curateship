@@ -22,36 +22,38 @@ class CommentController extends Controller
     {
         $bladeTemplate = $request->ajax() ? 'comment::partials.table' : 'comment::index';
 
-        $status = $request->input('Status');
+        $status = $request->input('Status') ? $request->input('Status') : 'published';
         $limit  = $request->input('limit') ? $request->input('limit') : 25;
-        // dd("dfd");
-        //Display all comments
-        // $comments = Comment::select([
-        //         'comments.id as id',
-        //         'comment',
-        //         'comments.status as status',
-        //         'users.username as username',
-        //         // 'posts.title as post_title',
-        //         'comments.created_at as created_at'
-        //     ]);
-        $comments = Comment::with(['user', 'post', 'reply' => function ($query) {
-            $query->with('user');
-        }]);
-
-        // if status is set
-        if ($status) {
-            $comments = $comments->where('status', '=', $status);
-        } 
         
-        $comments = $comments->orderBy('created_at', 'desc');
-        $comments = $comments->paginate($limit);
+        // $comments = DB::select(DB::raw("SELECT c.id as id, u.username as comment_user, c.comment as comment, c.status as comment_status, p.title as title, p.slug as slug, c.created_at as comment_created_at, r.comment_id, r.reply as reply , r.reply_user as reply_user, r.reply_status as reply_status, r.reply_created_at as reply_created_at 
+        //                         FROM comments c 
+        //                         LEFT JOIN posts p ON c.post_id = p.id
+        //                         LEFT JOIN users u ON c.user_id = u.id
+        //                         LEFT JOIN (SELECT cr.comment_id as comment_id, cr.content as reply, u.username as reply_user, cr.status as reply_status, cr.created_at as reply_created_at FROM comment_reply cr LEFT JOIN users u ON cr.user_id = u.id) r ON c.id = r.comment_id
+        //                         WHERE c.status = '$status' OR r.reply_status = '$status'
+        //                         ORDER BY comment_created_at DESC
+        //                         "));
+        // $comments = Comment::hydrate($comments);
+        $comments = Comment::with('user', 'post')->orderBy('created_at', 'desc')->get();
+        $replies = Reply::with('user')->where('status', '=', $status)->orderBy('created_at', 'desc')->get();
+        foreach($comments as $comment) {
+            $comment->replies = [];
+            $temp = [];
+            foreach($replies as $reply) {
+                if($comment->id == $reply->comment_id) {
+                    array_push($temp, $reply);
+                    $comment->replies = $temp;
+                } 
+            }
+        }
         $availableLimit = ['25', '50', '100', '150', '200'];
+
         // counters
-        $comments_all_count = Comment::orderBy('created_at', 'desc')->count() + Reply::orderBy('created_at', 'desc')->count();
+        $comments_all_count = Comment::where('status', '=', 'published')->count() + Reply::where('status', '=', 'published')->count();
         $comments_suspended_count = Comment::where('status', '=', 'draft')->count() + Reply::where('status', '=', 'draft')->count();
         $comments_trash_count = Comment::where('status', '=', 'deleted')->count() + Reply::where('status', '=', 'deleted')->count();
 
-        return view(
+        return view( 
             $bladeTemplate,
             compact('comments', 'limit', 'availableLimit', 'comments_all_count', 'comments_suspended_count', 'comments_trash_count', 'request', 'status')
         );
@@ -59,7 +61,7 @@ class CommentController extends Controller
 
     public function edit($id)
     {
-        $comments = DB::table('comments')->where('id', '=', $id)->first()->comment;
+        $comments = Comment::where('id', '=', $id)->first();
         if (!$comments) {
             return redirect('admin/comment')->with('responseMessage', 'Comment not found.');
         }
@@ -135,11 +137,11 @@ class CommentController extends Controller
 
     public function replyEdit($id)
     {
-        $comments = DB::table('comment_reply')->where('id', '=', $id)->first()->content;
+        $comments = Reply::where('id', '=', $id)->first();
         if (!$comments) {
-            return redirect('admin/comment')->with('responseMessage', 'Comment not found.');
+            return redirect('admin/comment')->with('responseMessage', 'Reply not found.');
         }
-        return view('components.posts.edit-post-form', compact('comments'))->withoutShortcodes();
+        return view('components.posts.edit-comment-reply', compact('comments'))->withoutShortcodes();
     }
 
     public function replyUpdate(Request $request, $id)

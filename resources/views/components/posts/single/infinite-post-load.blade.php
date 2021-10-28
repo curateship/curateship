@@ -114,8 +114,13 @@
                   <div class="comments__content margin-top-xxxs">
                     <div class="text-component text-sm text-space-y-xs line-height-sm read-more js-read-more" data-characters="150" data-btn-class="comments__readmore-btn js-tab-focus">
                       <p><a href="#0" class="comments__author-name" rel="author">{{$comment->comment_user}}</a></p>
-
-                      <p>{{$comment->comment}}</p>
+                      @if($comment->status == 'published')
+                        <p>{{$comment->comment}}</p>
+                      @elseif($comment->status == 'draft')
+                        <p style="color:red">This comment has been suspended.</p>
+                      @else
+                        <p style="font-weight: bold">This comment has been deleted.</p>
+                      @endif
                     </div>
             
                     <div class="margin-top-xs text-sm">
@@ -193,7 +198,13 @@
                         <div class="comments__content margin-top-xxxs">
                           <div class="text-component text-sm text-space-y-xs line-height-sm read-more js-read-more" data-characters="150" data-btn-class="comments__readmore-btn js-tab-focus">
                             <p><a href="#0" class="comments__author-name" rel="author">{{$reply->reply_user}}</a></p>
-                            <p>{{$reply->reply_content}}</p>
+                            @if($reply->status == 'published')
+                              <p>{{$reply->reply_content}}</p>
+                            @elseif($reply->status == 'draft')
+                              <p style="color:red">This reply has been suspended</p>
+                            @else
+                              <p style="font-weight: bold">{{$reply->reply_content}}</p>
+                            @endif
                           </div>
                   
                           <div class="margin-top-xs text-sm">
