@@ -62,7 +62,7 @@ class InfinitePostLoad extends Component
                                     [
                                         'comments.post_id' => $id,
                                     ]
-                                )->get();
+                                )->orderBy('comments.created_at', 'desc')->get();
             foreach($comments as $comment) {
                 $from = new Carbon($comment->comment_created_at);
                 $diff_in_days = Carbon::now()->diffForHumans($from, true). ' ago';
@@ -83,7 +83,7 @@ class InfinitePostLoad extends Component
                                         'comment_reply.comment_id' => $comment->comment_id,
                                         'comment_reply.status' => 'published'                                        
                                     ]
-                                )->get();
+                                )->orderBy('comment_reply.created_at', 'desc')->get();
                 $repliesCount = Reply::leftJoin('users', 'comment_reply.user_id', '=', 'users.id')
                                 ->leftJoin('users_settings', 'comment_reply.user_id', '=', 'users_settings.user_id')
                                 ->select([
