@@ -120,12 +120,16 @@ class CommentController extends Controller
     {
         $responseMessage = 'Comment has been deleted.';
         $comments = Comment::find($id);
+        $replies = Reply::where('comment_id', $id)->get();
         if ($comments) {
             $comments->status = 'deleted';
             $comments->save();
-
             $responseMessage = 'Comment ' . $comments->id . ' has been deleted.';
             $responseMessage .= '</br>';
+            foreach($replies as $reply){
+                $reply->status = 'deleted';
+                $reply->save();
+            }
             
         } else {
             $responseMessage .= 'Comment with ID: ' . $id . 'is not found.';
