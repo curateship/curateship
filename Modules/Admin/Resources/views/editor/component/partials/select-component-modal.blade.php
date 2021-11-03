@@ -26,51 +26,21 @@
   </thead>
   
   <tbody class="table__body">
-    <tr class="table__row">
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Name:</span> Index Post Listings
-      </td>
+    @foreach($components as $index => $component)
+      <tr class="table__row" onclick="selectComponent({{ $index }})">
+        <td class="table__cell" role="cell">
+          <span class="table__label" aria-hidden="true">Name:</span> {{ $component['name'] }}
+        </td>
 
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Category:</span> Post
-      </td>
+        <td class="table__cell" role="cell">
+          <span class="table__label" aria-hidden="true">Category:</span> {{ $component['category'] }}
+        </td>
 
-      <td class="table__cell text-right" role="cell">
-        <span class="table__label" aria-hidden="true">Short Code:</span> Copy
-      </td>
-    </tr>
-
-    <tr class="table__row">
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Name:</span> Index Post Listings
-      </td>
-
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Category:</span> Post
-      </td>
-
-      <td class="table__cell text-right" role="cell">
-        <span class="table__label" aria-hidden="true">Short Code:</span> Copy
-      </td>
-    </tr>
-
-    <tr class="table__row">
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Name:</span> Index Post Listings
-      </td>
-
-      <td class="table__cell" role="cell">
-        <span class="table__label" aria-hidden="true">Category:</span> Post
-      </td>
-
-      <td class="table__cell text-right" role="cell">
-        <span class="table__label" aria-hidden="true">Short Code:</span> Copy
-      </td>
-    </tr>
-
-    
-
-
+        <td class="table__cell text-right" role="cell">
+          <span class="table__label" aria-hidden="true">Short Code:</span> <button class="btn btn--primary" onclick="copyShortCode( {{ $index }} )">Copy</button>
+        </td>
+      </tr>
+    @endforeach
   </tbody>
 </table>
  <!-- End -->

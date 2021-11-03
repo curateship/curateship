@@ -14,74 +14,8 @@
 
 
     <div class="padding-y-sm padding-x-md">
-      <div class="text-component">
-        <p id="modal-description-1">
-
-<ul class="grid-auto-md list">
-
-    <li>
-      <div class="author author--meta">
-        <a href="#0" class="author__img-wrapper">
-            <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
-        </a>
-        <div class="author__content text-component text-space-y-xxs">
-            <h4 class="text-base"><a href="#0" rel="author">username</a></h4>
-            <p class="text-sm color-contrast-medium"><time>Last Active</time> &mdash; 5 min ago</p>
-        </div>
-      </div>
-    </li>
-
-    <li>
-      <div class="author author--meta">
-        <a href="#0" class="author__img-wrapper">
-            <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
-        </a>
-        <div class="author__content text-component text-space-y-xxs">
-            <h4 class="text-base"><a href="#0" rel="author">username</a></h4>
-            <p class="text-sm color-contrast-medium"><time>Last Active</time> &mdash; 5 min ago</p>
-        </div>
-      </div>
-    </li>
-
-    <li>
-      <div class="author author--meta">
-        <a href="#0" class="author__img-wrapper">
-            <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
-        </a>
-        <div class="author__content text-component text-space-y-xxs">
-            <h4 class="text-base"><a href="#0" rel="author">username</a></h4>
-            <p class="text-sm color-contrast-medium"><time>Last Active</time> &mdash; 5 min ago</p>
-        </div>
-      </div>
-    </li>
-
-    <li>
-      <div class="author author--meta">
-        <a href="#0" class="author__img-wrapper">
-            <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
-        </a>
-        <div class="author__content text-component text-space-y-xxs">
-            <h4 class="text-base"><a href="#0" rel="author">username</a></h4>
-            <p class="text-sm color-contrast-medium"><time>Last Active</time> &mdash; 5 min ago</p>
-        </div>
-      </div>
-    </li>
-
-    <li>
-      <div class="author author--meta">
-        <a href="#0" class="author__img-wrapper">
-            <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
-        </a>
-        <div class="author__content text-component text-space-y-xxs">
-            <h4 class="text-base"><a href="#0" rel="author">username</a></h4>
-            <p class="text-sm color-contrast-medium"><time>Last Active</time> &mdash; 5 min ago</p>
-        </div>
-      </div>
-    </li>
-
-</ul>
-
-
+      <div class="text-component" id="previewPanel">
+        
       </div>
     </div>
   </div>
