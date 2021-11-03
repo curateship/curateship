@@ -19,3 +19,11 @@
     </div><!-- /.container -->
   </section>
 @endsection
+
+@push('module-styles')
+  <link rel="stylesheet" href="{{ asset('css/markdownEditor.css') }}">
+@endpush
+
+@push('module-scripts')
+  <script src="{{ asset('js/markdownEditor.js') }}"></script>
+@endpush

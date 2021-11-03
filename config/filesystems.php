@@ -55,6 +55,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'component' => [
+            'driver' => 'local',
+            'root' => resource_path('views/components'),
+            'url' => resource_path('views'),
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

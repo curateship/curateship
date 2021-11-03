@@ -21,7 +21,11 @@
 
     <div class="grid gap-sm">
         <label class="form-label margin-bottom-xxs" for="input-name">Component name</label>
-        <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
+        <input class="form-control width-100%" type="text" name="input-name" id="createComponentName" required>
+    </div>
+    <div class="grid gap-sm">
+        <label class="form-label margin-bottom-xxs" for="input-name">Category</label>
+        <input class="form-control width-100%" type="text" name="input-name" id="createComponentCategory" required>
     </div>
   </fieldset>
 
@@ -32,7 +36,7 @@
     <footer class="padding-md">
       <div class="flex justify-end gap-xs">
         <button class="btn btn--subtle js-modal__close">Cancel</button>
-        <button class="btn btn--primary">Create</button>
+        <button class="btn btn--primary" id="createComponentBtn">Create</button>
       </div>
     </footer>
   </div>

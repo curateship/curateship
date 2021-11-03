@@ -13,9 +13,7 @@
 
 // Editor
 
-Route::get('/admin/editor/component',function(){
-  return view('admin::editor.component.index');
-});
+Route::get('/admin/editor/component', '\Modules\Admin\Http\Controllers\ComponentController@index');
 
 Route::get('/admin/contact',function(){
   return view('admin::contact.index');

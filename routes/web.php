@@ -30,7 +30,7 @@ Route::get('/site2/register',function(){
   return view('components.auth.register');
 });
 
-Route::get('/site2/passreset',function(){
+Route::get('/site2/passreset',function() {
   return view('components.auth.pass-reset');
 });
 
@@ -61,4 +61,13 @@ Route::group([
     'as'   => 'theme.pages.post',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleViewbyTheme'
   ]);
+});
+
+Route::group([
+	'prefix' => 'component',
+], function() {
+	Route::post('/add', '\Modules\Admin\Http\Controllers\ComponentController@add');
+  Route::post('/saveContent', '\Modules\Admin\Http\Controllers\ComponentController@saveContent');
+  Route::post('/updateName', '\Modules\Admin\Http\Controllers\ComponentController@updateName');
+  Route::post('/deleteComponent', '\Modules\Admin\Http\Controllers\ComponentController@deleteComponent');
 });
