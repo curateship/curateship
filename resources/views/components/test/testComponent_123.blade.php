@@ -1,1 +1,0 @@
-<h1>test Component</h1><ul><li><p>hello1</p></li><li><p>hello2</p></li><li><p>hello3</p></li><li><p>test</p></li></ul><p>&lt;x-test.testComponent /&gt;</p>

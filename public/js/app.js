@@ -49675,9 +49675,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\projects\curateship\curateship-editor-ui\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! E:\projects\curateship\curateship-editor-ui\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! E:\projects\curateship\curateship-editor-ui\resources\sass\markdownEditor.scss */"./resources/sass/markdownEditor.scss");
+__webpack_require__(/*! E:\projects\curateship\fork\curateship\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! E:\projects\curateship\fork\curateship\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! E:\projects\curateship\fork\curateship\resources\sass\markdownEditor.scss */"./resources/sass/markdownEditor.scss");
 
 
 /***/ })

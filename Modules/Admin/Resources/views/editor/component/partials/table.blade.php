@@ -12,7 +12,7 @@
 
         <!-- Markdown Editor -->
         <div class="flex flex-col space-y-2">
-          <div id="editor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm markdownEditor__editor"><div>
+          <div id="htmlEditor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm markdownEditor__editor"><div>
         </div>
 
       </div>
@@ -24,7 +24,7 @@
         
         <!-- Markdown Editor -->
         <div class="flex flex-col space-y-2">
-          <div id="codeEditor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm markdownEditor__editor"><div>
+          <div id="phpEditor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm markdownEditor__editor"><div>
         </div>
       </div>
     </section>

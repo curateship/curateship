@@ -1,31 +1,17 @@
-import Editor from '@toast-ui/editor'
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import 'ace-builds';
+import 'ace-builds/webpack-resolver';
 
-const editor = new Editor({
-  el: document.querySelector('#editor'),
-  height: '400px',
-  initialEditType: 'markdown',
-  placeholder: 'Write something cool!',
-});
-
-const codeEditor = new Editor({
-  el: document.querySelector('#codeEditor'),
-  height: '400px',
-  initialEditType: 'wysiwyg',
-  placeholder: 'Write something cool!',
-});
-
+// indicates current selected component
 window.currentIndex = -1;
 
 window.selectComponent = (index) => {
   window.currentIndex = index;
 
   const content = componentInfo[index]['content'];
-  editor.setHTML(content);
+  htmlEditor.setValue(content);
 
   const content_php = componentInfo[index]['content_php'];
-  codeEditor.insertText(content_php);
+  phpEditor.setValue(content_php);
 
   $('.modal__close-btn').trigger('click');
 }
@@ -35,8 +21,8 @@ window.saveComponentContent = () => {
     return;
 
   const id = componentInfo[ currentIndex ].id;
-  const content = editor.getHTML();
-  const content_php = codeEditor.getMarkdown();
+  const content = htmlEditor.getValue();
+  const content_php = phpEditor.getValue();
 
   $.post('/component/saveContent', {id, content, content_php}, (res) => {
     const data = JSON.parse(res);
@@ -54,7 +40,7 @@ window.saveComponentContent = () => {
 }
 
 window.previewComponent = () => {
-  const content = editor.getHTML();
+  const content = htmlEditor.getValue();
 
   $('#previewPanel').html(content);
 }
@@ -146,3 +132,51 @@ $('#createComponentBtn').click(() => {
     toastr.warning( 'Something went wrong.' );
   });
 });
+
+const init = () => {
+	const htmlEditorElement = document.getElementById('htmlEditor');
+	// If we have an editor element
+	if(htmlEditorElement){
+		// pass options to ace.edit
+		window.htmlEditor = ace.edit(document.getElementById('htmlEditor'), {
+			mode: "ace/mode/php",
+			theme: "ace/theme/twilight",
+			maxLines: 50,
+			minLines: 10,
+			fontSize: 18
+		})
+	
+		// use setOptions method to set several options at once
+		htmlEditor.setOptions({
+			autoScrollEditorIntoView: true,
+			copyWithEmptySelection: true,
+		});
+
+		htmlEditor.setValue('');
+	}
+
+	const phpEditorElement = document.getElementById('phpEditor');
+	// If we have an editor element
+	if(phpEditorElement){
+		// pass options to ace.edit
+		window.phpEditor = ace.edit(document.getElementById('phpEditor'), {
+			mode: "ace/mode/php",
+			theme: "ace/theme/twilight",
+			maxLines: 50,
+			minLines: 10,
+			fontSize: 18
+		})
+	
+		// use setOptions method to set several options at once
+		phpEditor.setOptions({
+			autoScrollEditorIntoView: true,
+			copyWithEmptySelection: true,
+		});
+
+		phpEditor.session.setMode({path:"ace/mode/php", inline:true})
+
+		phpEditor.setValue('');
+	}
+}
+
+init();
