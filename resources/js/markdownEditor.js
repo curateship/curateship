@@ -17,8 +17,10 @@ window.selectComponent = (index) => {
 }
 
 window.saveComponentContent = () => {
-  if( currentIndex == -1 )
+  if( currentIndex == -1 ) {
+	toastr.warning('Please select the component.');
     return;
+  }
 
   const id = componentInfo[ currentIndex ].id;
   const content = htmlEditor.getValue();
@@ -46,8 +48,10 @@ window.previewComponent = () => {
 }
 
 window.setComponentName = () => {
-  if( currentIndex == -1 )
-    return;
+	if( currentIndex == -1 ) {
+		toastr.warning('Please select the component.');
+		return;
+	}
 
   const name = componentInfo[currentIndex]['name'];
   
@@ -55,8 +59,10 @@ window.setComponentName = () => {
 }
 
 window.updateComponentName = () => {
-  if( currentIndex == -1 )
-    return;
+	if( currentIndex == -1 ) {
+		toastr.warning('Please select the component.');
+		return;
+	}
 
   const id = componentInfo[currentIndex]['id'];
   const name = componentInfo[currentIndex]['name'];
@@ -81,8 +87,10 @@ window.updateComponentName = () => {
 }
 
 window.deleteComponent = () => {
-  if( currentIndex == -1 )
-    return;
+	if( currentIndex == -1 ) {
+		toastr.warning('Please select the component.');
+		return;
+	}
 
   if( confirm('Do you really want to delete this component?') ) {
     const id = componentInfo[currentIndex]['id'];

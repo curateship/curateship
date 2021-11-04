@@ -26542,7 +26542,11 @@ window.selectComponent = function (index) {
 };
 
 window.saveComponentContent = function () {
-  if (currentIndex == -1) return;
+  if (currentIndex == -1) {
+    toastr.warning('Please select the component.');
+    return;
+  }
+
   var id = componentInfo[currentIndex].id;
   var content = htmlEditor.getValue();
   var content_php = phpEditor.getValue();
@@ -26571,13 +26575,21 @@ window.previewComponent = function () {
 };
 
 window.setComponentName = function () {
-  if (currentIndex == -1) return;
+  if (currentIndex == -1) {
+    toastr.warning('Please select the component.');
+    return;
+  }
+
   var name = componentInfo[currentIndex]['name'];
   $('#editComponentNameInput').val(name);
 };
 
 window.updateComponentName = function () {
-  if (currentIndex == -1) return;
+  if (currentIndex == -1) {
+    toastr.warning('Please select the component.');
+    return;
+  }
+
   var id = componentInfo[currentIndex]['id'];
   var name = componentInfo[currentIndex]['name'];
   var updatedName = $('#editComponentNameInput').val();
@@ -26601,7 +26613,10 @@ window.updateComponentName = function () {
 };
 
 window.deleteComponent = function () {
-  if (currentIndex == -1) return;
+  if (currentIndex == -1) {
+    toastr.warning('Please select the component.');
+    return;
+  }
 
   if (confirm('Do you really want to delete this component?')) {
     var id = componentInfo[currentIndex]['id'];
