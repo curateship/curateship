@@ -29,7 +29,7 @@
     @foreach($components as $index => $component)
       <tr class="table__row" onclick="selectComponent({{ $index }})">
         <td class="table__cell" role="cell">
-          <span class="table__label" aria-hidden="true">Name:</span> {{ $component['name'] }}
+          <span class="table__label" aria-hidden="true">Name:</span> <a style="color: blue;" href="#javascript;">{{ $component['name'] }}</a>
         </td>
 
         <td class="table__cell" role="cell">
