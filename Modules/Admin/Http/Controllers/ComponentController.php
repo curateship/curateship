@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Component;
+use Artisan;
 
 class ComponentController extends Controller {
     public function index() {
@@ -26,7 +27,7 @@ class ComponentController extends Controller {
             $exists = Storage::disk('component')->exists($component['category'].'/'.$component['name'].'.blade.php');
             if( $exists ) {
                 $content = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.blade.php');
-                $content_php = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.php');
+                $content_php = Storage::disk('component_php')->get($component['category'].'/'.$component['name'].'.php');
             } else {
                 $content = '';
                 $content_php = '';
@@ -48,8 +49,7 @@ class ComponentController extends Controller {
         $data = [];
 
         if( !$exists ) {
-            Storage::disk('component')->put($category.'/'.$name.'.blade.php', '');
-            Storage::disk('component')->put($category.'/'.$name.'.php', '');
+            Artisan::call('make:component '.$category.'/'.$name);
             
             $model = new Component;
             $model->name = $name;
@@ -80,7 +80,7 @@ class ComponentController extends Controller {
         $exists = Storage::disk('component')->exists($category.'/'.$name.'.blade.php');
         if( $exists ) {
             Storage::disk('component')->put($category.'/'.$name.'.blade.php', $content);
-            Storage::disk('component')->put($category.'/'.$name.'.php', $content_php);
+            Storage::disk('component_php')->put($category.'/'.$name.'.php', $content_php);
 
             $data['success'] = true;
             $data['message'] = 'Successfully saved the component!';
@@ -110,16 +110,18 @@ class ComponentController extends Controller {
         }
 
         $content = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.blade.php');
-        $content_php = Storage::disk('component')->get($component['category'].'/'.$component['name'].'.php');
+        $content_php = Storage::disk('component_php')->get($component['category'].'/'.$component['name'].'.php');
 
         Storage::disk('component')->delete($component['category'].'/'.$component['name'].'.blade.php');
-        Storage::disk('component')->delete($component['category'].'/'.$component['name'].'.php');
+        Storage::disk('component_php')->delete($component['category'].'/'.$component['name'].'.php');
 
         $component->name = $newName;
         $component->save();
 
+        Artisan::call('make:component '.$component['category'].'/'.$component['name']);
+
         Storage::disk('component')->put($component['category'].'/'.$component['name'].'.blade.php', $content);
-        Storage::disk('component')->put($component['category'].'/'.$component['name'].'.php', $content_php);
+        Storage::disk('component_php')->put($component['category'].'/'.$component['name'].'.php', $content_php);
 
         $data['success'] = true;
         $data['message'] = 'Successfully updated the component name!';
@@ -131,7 +133,7 @@ class ComponentController extends Controller {
         $component = Component::find($id);
 
         Storage::disk('component')->delete($component['category'].'/'.$component['name'].'.blade.php');
-        Storage::disk('component')->delete($component['category'].'/'.$component['name'].'.php');
+        Storage::disk('component_php')->delete($component['category'].'/'.$component['name'].'.php');
 
         $component->delete();
 

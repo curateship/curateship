@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'component_php' => [
+            'driver' => 'local',
+            'root' => app_path('View/Components'),
+            'url' => app_path('View'),
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
