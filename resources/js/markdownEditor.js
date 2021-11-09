@@ -115,7 +115,7 @@ window.copyShortCode = (index) => {
   const category = componentInfo[index]['category'];
   const name = componentInfo[index]['name'];
 
-  const text = `<x-`+ category +`.`+ name +` />`;
+  const text = `<x-custom.`+ category +`.`+ name +` />`;
 
   navigator.clipboard.writeText(text);
 

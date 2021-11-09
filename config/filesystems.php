@@ -57,14 +57,14 @@ return [
 
         'component' => [
             'driver' => 'local',
-            'root' => resource_path('views/components'),
+            'root' => resource_path('views/components/custom'),
             'url' => resource_path('views'),
             'visibility' => 'public',
         ],
 
         'component_php' => [
             'driver' => 'local',
-            'root' => app_path('View/Components'),
+            'root' => app_path('View/Components/Custom'),
             'url' => app_path('View'),
             'visibility' => 'public',
         ],
