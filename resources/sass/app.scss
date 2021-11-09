@@ -6,3 +6,15 @@
 
 // Bootstrap
 //  @import '~bootstrap/scss/bootstrap';
+
+.markdownEditor {
+    &__editor {
+        width: 100%;
+    }
+
+    &__save {
+        position: absolute;
+        right: 8px;
+        margin: 8px;
+    }
+}

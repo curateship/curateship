@@ -49,7 +49,7 @@ class ComponentController extends Controller {
         $data = [];
 
         if( !$exists ) {
-            Artisan::call('make:component '.$category.'/'.$name);
+            Artisan::call('make:component custom/'.$category.'/'.$name);
             
             $model = new Component;
             $model->name = $name;
@@ -118,7 +118,7 @@ class ComponentController extends Controller {
         $component->name = $newName;
         $component->save();
 
-        Artisan::call('make:component '.$component['category'].'/'.$component['name']);
+        Artisan::call('make:component custom/'.$component['category'].'/'.$component['name']);
 
         Storage::disk('component')->put($component['category'].'/'.$component['name'].'.blade.php', $content);
         Storage::disk('component_php')->put($component['category'].'/'.$component['name'].'.php', $content_php);

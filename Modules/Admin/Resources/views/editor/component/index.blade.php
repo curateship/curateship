@@ -21,7 +21,7 @@
 @endsection
 
 @push('module-styles')
-  <link rel="stylesheet" href="{{ asset('css/markdownEditor.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 @endpush
 
 @push('module-scripts')

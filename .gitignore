@@ -16,6 +16,10 @@ public/vendor/laravel-filemanager
 /public/assets/img/favicon.svg
 resources/views/vendor/laravel-filemanager
 
+# custom component
+resources/views/components/custom/
+app/View/Components/Custom/
+
 
 Homestead.json
 Homestead.yaml

@@ -26641,7 +26641,7 @@ window.deleteComponent = function () {
 window.copyShortCode = function (index) {
   var category = componentInfo[index]['category'];
   var name = componentInfo[index]['name'];
-  var text = "<x-" + category + "." + name + " />";
+  var text = "<x-custom." + category + "." + name + " />";
   navigator.clipboard.writeText(text);
   toastr.success('Copied');
 };
