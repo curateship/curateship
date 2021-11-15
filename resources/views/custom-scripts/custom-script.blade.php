@@ -32,6 +32,7 @@
       });
 
       $totalSelected.text($checkBoxesChecked.length);
+      console.log($('.bulk-selected-ids').html());
     });
 
     // when pagination links are clicked, only load the table

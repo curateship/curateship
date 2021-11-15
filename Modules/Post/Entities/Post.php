@@ -17,6 +17,11 @@ class Post extends Model
     	return $this->belongsTo(\Modules\Users\Entities\User::class);
     }
 
+    public function comment()
+    {
+    	return $this->hasMany(\Modules\Comment\Entities\Comment::class);
+    }
+
     public function getThumbnail($type = 'original')
     {
     	if($type == 'original' && $this->thumbnail) {
