@@ -121,6 +121,7 @@ class MediaUploadController extends Controller
             // Resize video
             $m_video_width = 480;
             $m_video_height = ceil($height * (480/$width));
+            if($m_video_height % 2 == 1) $m_video_height++; // If odd, add one
 
             $ffmpeg = FFMpeg::create();
             $m_video = $ffmpeg->open($video_path . '/original/' . $media_name);
