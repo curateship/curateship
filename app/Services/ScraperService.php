@@ -99,7 +99,7 @@ class ScraperService {
         $next_page_num = $direction == 'forward' ? $next_page_num + 1 : $next_page_num - 1;
         if ($next_page_num == -1)
           break;
-        
+
         // generate next page url
         $list_page_url = $this->getNextListPageUrl($list_page_url, $next_page_num);
         if (!$list_page_url)
@@ -161,7 +161,7 @@ class ScraperService {
       // Log::debug('Next page num: ' . $next_page_num);
       if ($next_page_num == -1)
         break;
-      
+
       // generate next page url
       $list_page_url = $this->getNextListPageUrl($list_page_url, $next_page_num);
       // Log::debug('Next page url: ' . $list_page_url);
@@ -260,7 +260,7 @@ class ScraperService {
         // Log::debug('Next page num: ' . $next_page_num);
         if ($next_page_num == -1)
           break;
-        
+
         // generate next page url
         $list_page_url = $this->getNextListPageUrl($list_page_url, $next_page_num);
         // Log::debug('Next page url: ' . $list_page_url);
@@ -268,8 +268,8 @@ class ScraperService {
           break;
 
         // Log::notice("Continue to the next page...");
-      }      
-    } else {      
+      }
+    } else {
       // Check whether to stop rescrape.
       if ($this->check_rescraper_status())
         return;
@@ -293,7 +293,7 @@ class ScraperService {
       'timeout' => 60,
     ];
     if (count($this->proxies) > 0) {
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password
       $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
     }
 
@@ -332,7 +332,7 @@ class ScraperService {
       'timeout' => 60,
     ];
     if (count($this->proxies) > 0) {
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password
       $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
     }
 
@@ -444,7 +444,7 @@ class ScraperService {
     if ($scrape_status === true) {
       // Now it's time to add post based on scraped data.
       // !!!!!!!!!!!!!!!!! Pre-condition !!!!!!!!!!!!!!!!!!!!
-      // Choose only one file from image or video. 
+      // Choose only one file from image or video.
       // That is, will only download one file.
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -492,7 +492,7 @@ class ScraperService {
         // Ensure that original, and thumbnail folder exists
         File::ensureDirectoryExists($post_media_path . '/original');
         File::ensureDirectoryExists($post_media_path . '/thumbnail');
-        
+
         $video_path = storage_path() . "/app/public/videos";
 
         // Ensure that original, and thumbnail folder exists
@@ -573,9 +573,17 @@ class ScraperService {
           $width = $video_dimensions->getWidth();
           $height = $video_dimensions->getHeight();
 
-          // Resize video
-          $m_video_width = 480;
-          $m_video_height = ceil($height * (480/$width));
+          if($height < $width){
+            // For Landscape view;
+            $m_video_width = 480;
+            $m_video_height = ceil($height * (480/$width));
+            if($m_video_height % 2 == 1) $m_video_height++;
+          }   else{
+            // For Portrait view;
+            $m_video_height = 480;
+            $m_video_width = ceil($width * (480/$height));
+            if($m_video_width % 2 == 1) $m_video_width++;
+          }
 
           $ffmpeg = FFMpeg::create();
           $m_video = $ffmpeg->open($video_path . '/original/' . $filename);
@@ -595,12 +603,12 @@ class ScraperService {
           } else {
               $format = new X264();
           }
-          
+
           $format
               ->setKiloBitrate(704)
               ->setAudioChannels(2)
               ->setAudioKiloBitrate(256);
-      
+
           $m_video->save($format, $video_path . '/mobile/' . $filename);
 
           $height = ceil($height * (1024/$width));
@@ -652,7 +660,7 @@ class ScraperService {
           $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
           $slug = getNewSlug($slug, $duplicated_slugs);
         }
-        
+
         $post_data = [
           'user_id' => $this->scraper->user_id,
           'title' => $title,
@@ -789,7 +797,7 @@ class ScraperService {
           $params['pages'] = $pagenum;
         if (isset($params['pg']) && !empty($params['pg']))
           $params['pg'] = $pagenum;
-        
+
         $url_components['query'] = http_build_query($params);
 
         $url = $this->unparse_url($url_components);
@@ -909,7 +917,7 @@ class ScraperService {
     $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
     $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
     $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
-    return "$scheme$user$pass$host$port$path$query$fragment";    
+    return "$scheme$user$pass$host$port$path$query$fragment";
   }
 
   /**
@@ -1031,7 +1039,7 @@ class ScraperService {
   public function check_rescraper_status() {
     // Check current scraper status.
     $status = Settings::where('key', 'scraper_retry')->get()->first();;
-    
+
     if ($status && $status['value'] == 'stopped') {
       return true;
     }
