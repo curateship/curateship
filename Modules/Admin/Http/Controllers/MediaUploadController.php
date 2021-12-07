@@ -119,9 +119,17 @@ class MediaUploadController extends Controller
             $height = $video_dimensions->getHeight();
 
             // Resize video
-            $m_video_width = 480;
-            $m_video_height = ceil($height * (480/$width));
-            if($m_video_height % 2 == 1) $m_video_height++; // If odd, add one
+            if($height < $width){
+                // For Landscape view;
+                $m_video_width = 480;
+                $m_video_height = ceil($height * (480/$width));
+                if($m_video_height % 2 == 1) $m_video_height++;
+            }   else{
+                // For Portrait view;
+                $m_video_height = 480;
+                $m_video_width = ceil($width * (480/$height));
+                if($m_video_width % 2 == 1) $m_video_width++;
+            }
 
             $ffmpeg = FFMpeg::create();
             $m_video = $ffmpeg->open($video_path . '/original/' . $media_name);
