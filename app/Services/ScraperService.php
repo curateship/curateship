@@ -526,6 +526,19 @@ class ScraperService {
           // Log::debug('>>> Generating Thumbnail Image...');
           try {
             $thumbnail = $filename;
+
+            // Getting file extension;
+            $file_extension = pathinfo($thumbnail, PATHINFO_EXTENSION);
+            // Change extension if we have some sh*t;
+              switch($file_extension){
+                  // jpe fix;
+                  case 'jpe':
+                      $file_extension = 'jpeg';
+                      break;
+                  // For more fix add case here;
+              }
+
+
             if ($mime_type == 'image/gif') {
               // Save thumbnail (medium) image to file system
               $thumbnail_medium = new Imagick($destination);
@@ -535,7 +548,7 @@ class ScraperService {
               } while ( $thumbnail_medium->nextImage());
 
               $thumbnail_medium = $thumbnail_medium->deconstructImages();
-              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
               $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
 
             } else {
@@ -543,7 +556,7 @@ class ScraperService {
               $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                 $constraint->aspectRatio();
               });
-              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
               $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
             }
             // Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
