@@ -640,7 +640,7 @@ class ScraperService {
           // Getting video duration;
           $duration = $video_stream->get('duration');
           // If video longer than 1 second;
-          if($duration >= 1){
+          if($duration > 1){
               $time_to_image = 1;
           }  else{
               // If video shorter than 1 seconds, than we set tts like current duration - 0.1;
