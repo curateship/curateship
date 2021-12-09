@@ -635,7 +635,17 @@ class ScraperService {
 
           // get video length and process it
           // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
-          $time_to_image = 1; // Capture first frame
+
+          // Capture first frame
+          // Getting video duration;
+          $duration = $video_stream->get('duration');
+          // If video longer than 1 second;
+          if($duration > 1){
+              $time_to_image = 1;
+          }  else{
+              // If video shorter than 1 seconds, than we set tts like current duration - 0.1;
+              $time_to_image = $duration - 0.1;
+          }
 
           $thumbnail_status = Thumbnail::getThumbnail($video_path . '/original/' . $filename, $post_media_path . '/original/', $thumbnail, $time_to_image);
           // Log::debug('>>> Generated Poster: ' . $thumbnail);
