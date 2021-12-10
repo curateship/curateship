@@ -6,6 +6,7 @@ Descr: A list of content sections (panels), accessible one at a time using contr
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
   --s-tabs-border-bottom-width: 1px;

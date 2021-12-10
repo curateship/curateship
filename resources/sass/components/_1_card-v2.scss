@@ -6,6 +6,7 @@ Descr: Container of information used as teasers for further content, often displ
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .card-v2 {
   position: relative;

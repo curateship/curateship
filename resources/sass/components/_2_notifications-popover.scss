@@ -6,6 +6,7 @@ Descr: A popover containing a list of notification items
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .notif-popover {
     --popover-width: 280px;;

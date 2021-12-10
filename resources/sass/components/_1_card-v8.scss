@@ -6,6 +6,7 @@ Descr: Container of information used as teaser for further content exploration
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .card-v8 {
     display: block;

@@ -6,6 +6,7 @@ Descr: Search input field with custom button
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
   --search-input-btn-width: 2.8em;

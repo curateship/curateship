@@ -6,6 +6,7 @@ Descr: Input element used to select a date
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --date-picker-trigger-width: 2.5em; // calendar button width
@@ -93,7 +94,6 @@ Usage: codyhouse.co/license
     transition: opacity .2s;
   }
   
-  .date-picker__header {}
   
   // month navigation
   .date-picker__month { // wrapper
@@ -152,9 +152,6 @@ Usage: codyhouse.co/license
       transform: translateY(2px);
     }
   }
-  
-  // list of week days
-  .date-picker__week {}
   
   // day of the week
   .date-picker__day {

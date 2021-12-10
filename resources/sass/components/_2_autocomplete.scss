@@ -6,6 +6,7 @@ Descr: Autocomplete plugin for input elements
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --autocomplete-dropdown-vertical-gap: 4px; // gap between input and results list

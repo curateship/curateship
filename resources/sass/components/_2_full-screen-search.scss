@@ -6,6 +6,7 @@ Descr: A full-screen window w/ a search input element
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --fs-search-btn-size: 1.5em;

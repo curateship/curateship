@@ -6,6 +6,7 @@ Descr: A grid layout based on CSS Grid where the columns are automatically creat
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .grid-auto-xs, .grid-auto-sm, .grid-auto-md, .grid-auto-lg, .grid-auto-xl {
   display: grid;

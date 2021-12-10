@@ -8,6 +8,7 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 // Featured
+@use '../base' as *;
 
 .featured-post {
     border-radius: var(--radius-md);

@@ -6,6 +6,7 @@ Descr: A gallery of images that can be dragged to reveal new items
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --drag-gallery-img-width: 280px; // single image width

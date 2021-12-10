@@ -6,10 +6,11 @@ Descr: Table with the option of sorting data and selecting rows to perform speci
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .int-table {
     overflow: hidden;
-    border-bottom: 2px solid var(--color-contrast-low);
+    border-bottom: 1px solid var(--color-contrast-low);
   }
   
   .int-table__inner {
@@ -40,21 +41,30 @@ Usage: codyhouse.co/license
   
   .int-table__header {
     .int-table__cell {
-      background-color: var(--color-bg);
       box-shadow: 0 1px 0 var(--color-contrast-lower);
     }
   }
   
   .int-table__body {
     .int-table__row {
-      border-bottom: 1px solid var(--color-contrast-lower);
+      border-bottom: 0px solid var(--color-contrast-lower);
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-bg-light);
+        box-shadow: var(--shadow-xxs);
+        border: 1px solid var(--color-contrast-lowest);
+        border-radius: var(--radius-sm);
+      }
     }
+
   
     .int-table__row--checked {
       background-color: alpha(var(--color-primary), 0.1);
       border-color: alpha(var(--color-primary), 0.25);
     }
   }
+
   
   .int-table__cell { // standard cell
     padding: var(--space-xs);
@@ -62,10 +72,14 @@ Usage: codyhouse.co/license
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+
+
   
   .int-table__cell--th { // header cell
     font-weight: 600;
   }
+
   
   .int-table__cell--sort { // header cell with sorting option
     user-select: none;

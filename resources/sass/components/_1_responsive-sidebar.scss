@@ -8,6 +8,8 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 // mobile version only (--default) 👇
+@use '../base' as *;
+
 .sidebar:not(.sidebar--static) {
     position: fixed;
     top: 0;

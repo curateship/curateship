@@ -8,6 +8,7 @@ Descr: Visually enhanced radio/checkbox buttons
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
   --choice-btn-border-width: 2px;

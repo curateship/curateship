@@ -6,6 +6,7 @@ Descr: Display the current progress of a task
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --progress-bar-width: 200px;

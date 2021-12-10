@@ -6,6 +6,7 @@ Descr: Threaded comments template
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --comments-author-img-size: 2.6em; // author image size

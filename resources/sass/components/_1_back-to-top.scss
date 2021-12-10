@@ -6,6 +6,7 @@ Descr: Component that triggers scroll-y to the top of the page
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     /* style */

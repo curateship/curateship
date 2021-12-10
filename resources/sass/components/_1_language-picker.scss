@@ -6,6 +6,9 @@ Descr: A custom selector allowing users to choose their preferred language on a 
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
+
+
 :root {
     --picker-vertical-gap: 4px;
   }

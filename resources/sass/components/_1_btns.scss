@@ -6,6 +6,7 @@ Descr: Group of connected buttons
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --btns-button-radius: 0.25em;

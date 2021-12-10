@@ -6,6 +6,7 @@ Descr: A label displaying numeric values, often used to indicate unread notifica
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .counter {
     font-size: 10px;

@@ -6,6 +6,7 @@ Descr: Custom, "tag-looking" radio/checkbox buttons
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --choice-tag-icon-size: 16px;

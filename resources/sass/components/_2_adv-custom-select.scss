@@ -6,6 +6,7 @@ Descr: Custom select with advanced structure options
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .adv-select {}
 .adv-select__control {}

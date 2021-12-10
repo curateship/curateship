@@ -6,6 +6,7 @@ Descr: Custom Select Control
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
   --select-icon-size: 1em;
@@ -40,9 +41,6 @@ Usage: codyhouse.co/license
   width: 100%;
 }
 
-.select__button[aria-expanded="true"] {
-  // custom select control if dropdown = visible
-} 
 
 .select__dropdown { // created in JS - custom select dropdown
   position: absolute;

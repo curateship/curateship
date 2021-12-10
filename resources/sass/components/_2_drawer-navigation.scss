@@ -6,6 +6,7 @@ Descr: Header template with drawer navigation
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --dr-nav-header-height: 54px;
