@@ -127,6 +127,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'tag_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'theme',
+                'value'         => 'white'
+            ],
         ];
 
 		foreach ($records as $record) {
