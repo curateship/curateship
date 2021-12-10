@@ -1536,7 +1536,7 @@
 // Utility function
 function Util () {};
 
-/* 
+/*
 	class manipulation functions
 */
 Util.hasClass = function(el, className) {
@@ -1553,7 +1553,7 @@ Util.addClass = function(el, className) {
 
 Util.removeClass = function(el, className) {
 	var classList = className.split(' ');
-	if (el.classList) el.classList.remove(classList[0]);	
+	if (el.classList) el.classList.remove(classList[0]);
 	else if(Util.hasClass(el, classList[0])) {
 		var reg = new RegExp('(\\s|^)' + classList[0] + '(\\s|$)');
 		el.className=el.className.replace(reg, ' ');
@@ -1572,7 +1572,7 @@ Util.setAttributes = function(el, attrs) {
   }
 };
 
-/* 
+/*
   DOM manipulation
 */
 Util.getChildrenByClassName = function(el, className) {
@@ -1602,15 +1602,15 @@ Util.is = function(elem, selector) {
   return false;
 };
 
-/* 
+/*
 	Animate height of an element
 */
 Util.setHeight = function(start, to, element, duration, cb) {
 	var change = to - start,
 	    currentTime = null;
 
-  var animateHeight = function(timestamp){  
-    if (!currentTime) currentTime = timestamp;         
+  var animateHeight = function(timestamp){
+    if (!currentTime) currentTime = timestamp;
     var progress = timestamp - currentTime;
     var val = parseInt((progress/duration)*change + start);
     element.style.height = val+"px";
@@ -1620,13 +1620,13 @@ Util.setHeight = function(start, to, element, duration, cb) {
     	cb();
     }
   };
-  
+
   //set the height of the element before starting animation -> fix bug on Safari
   element.style.height = start+"px";
   window.requestAnimationFrame(animateHeight);
 };
 
-/* 
+/*
 	Smooth Scroll
 */
 
@@ -1636,9 +1636,9 @@ Util.scrollTo = function(final, duration, cb, scrollEl) {
     currentTime = null;
 
   if(!scrollEl) start = window.scrollY || document.documentElement.scrollTop;
-      
+
   var animateScroll = function(timestamp){
-  	if (!currentTime) currentTime = timestamp;        
+  	if (!currentTime) currentTime = timestamp;
     var progress = timestamp - currentTime;
     if(progress > duration) progress = duration;
     var val = Math.easeInOutQuad(progress, start, final-start, duration);
@@ -1653,7 +1653,7 @@ Util.scrollTo = function(final, duration, cb, scrollEl) {
   window.requestAnimationFrame(animateScroll);
 };
 
-/* 
+/*
   Focus utility classes
 */
 
@@ -1667,7 +1667,7 @@ Util.moveFocus = function (element) {
   }
 };
 
-/* 
+/*
   Misc
 */
 
@@ -1728,9 +1728,9 @@ Util.osHasReducedMotion = function() {
   var matchMediaObj = window.matchMedia('(prefers-reduced-motion: reduce)');
   if(matchMediaObj) return matchMediaObj.matches;
   return false; // return false if not supported
-}; 
+};
 
-/* 
+/*
 	Polyfills
 */
 //Closest() method
@@ -1745,7 +1745,7 @@ if (!Element.prototype.closest) {
 		do {
 			if (el.matches(s)) return el;
 			el = el.parentElement || el.parentNode;
-		} while (el !== null && el.nodeType === 1); 
+		} while (el !== null && el.nodeType === 1);
 		return null;
 	};
 }
@@ -1765,7 +1765,7 @@ if ( typeof window.CustomEvent !== "function" ) {
   window.CustomEvent = CustomEvent;
 }
 
-/* 
+/*
 	Animation curves
 */
 Math.easeInOutQuad = function (t, b, c, d) {
@@ -1780,7 +1780,7 @@ Math.easeInQuart = function (t, b, c, d) {
 	return c*t*t*t*t + b;
 };
 
-Math.easeOutQuart = function (t, b, c, d) { 
+Math.easeOutQuart = function (t, b, c, d) {
   t /= d;
 	t--;
 	return -c * (t*t*t*t - 1) + b;
@@ -1804,7 +1804,7 @@ Math.easeOutElastic = function (t, b, c, d) {
 
 /* JS Utility Classes */
 (function() {
-  // make focus ring visible only for keyboard navigation (i.e., tab key) 
+  // make focus ring visible only for keyboard navigation (i.e., tab key)
   var focusTab = document.getElementsByClassName('js-tab-focus');
   function detectClick() {
     if(focusTab.length > 0) {
@@ -1838,13 +1838,13 @@ Math.easeOutElastic = function (t, b, c, d) {
       this.version = this.element.getAttribute('data-version') ? '-'+this.element.getAttribute('data-version') : '';
       this.showClass = 'accordion'+this.version+'__item--is-open';
       this.animateHeight = (this.element.getAttribute('data-animation') == 'on');
-      this.multiItems = !(this.element.getAttribute('data-multi-items') == 'off'); 
+      this.multiItems = !(this.element.getAttribute('data-multi-items') == 'off');
       // deep linking options
       this.deepLinkOn = this.element.getAttribute('data-deep-link') == 'on';
       // init accordion
       this.initAccordion();
     };
-  
+
     Accordion.prototype.initAccordion = function() {
       //set initial aria attributes
       for( var i = 0; i < this.items.length; i++) {
@@ -1855,55 +1855,55 @@ Math.easeOutElastic = function (t, b, c, d) {
         Util.addClass(button, 'js-accordion__trigger');
         Util.setAttributes(content, {'aria-labelledby': 'accordion-header-'+i, 'id': 'accordion-content-'+i});
       }
-  
+
       //listen for Accordion events
       this.initAccordionEvents();
-  
+
       // check deep linking option
       this.initDeepLink();
     };
-  
+
     Accordion.prototype.initAccordionEvents = function() {
       var self = this;
-  
+
       this.element.addEventListener('click', function(event) {
         var trigger = event.target.closest('.js-accordion__trigger');
         //check index to make sure the click didn't happen inside a children accordion
         if( trigger && Util.getIndexInArray(self.items, trigger.parentElement) >= 0) self.triggerAccordion(trigger);
       });
     };
-  
+
     Accordion.prototype.triggerAccordion = function(trigger) {
       var bool = (trigger.getAttribute('aria-expanded') === 'true');
-  
+
       this.animateAccordion(trigger, bool, false);
-  
+
       if(!bool && this.deepLinkOn) {
         history.replaceState(null, '', '#'+trigger.getAttribute('aria-controls'));
       }
     };
-  
+
     Accordion.prototype.animateAccordion = function(trigger, bool, deepLink) {
       var self = this;
       var item = trigger.closest('.js-accordion__item'),
         content = item.getElementsByClassName('js-accordion__panel')[0],
         ariaValue = bool ? 'false' : 'true';
-  
+
       if(!bool) Util.addClass(item, this.showClass);
       trigger.setAttribute('aria-expanded', ariaValue);
       self.resetContentVisibility(item, content, bool);
-  
+
       if( !this.multiItems && !bool || deepLink) this.closeSiblings(item);
     };
-  
+
     Accordion.prototype.resetContentVisibility = function(item, content, bool) {
       Util.toggleClass(item, this.showClass, !bool);
       content.removeAttribute("style");
-      if(bool && !this.multiItems) { // accordion item has been closed -> check if there's one open to move inside viewport 
+      if(bool && !this.multiItems) { // accordion item has been closed -> check if there's one open to move inside viewport
         this.moveContent();
       }
     };
-  
+
     Accordion.prototype.closeSiblings = function(item) {
       //if only one accordion can be open -> search if there's another one open
       var index = Util.getIndexInArray(this.items, item);
@@ -1914,7 +1914,7 @@ Math.easeOutElastic = function (t, b, c, d) {
         }
       }
     };
-  
+
     Accordion.prototype.moveContent = function() { // make sure title of the accordion just opened is inside the viewport
       var openAccordion = this.element.getElementsByClassName(this.showClass);
       if(openAccordion.length == 0) return;
@@ -1924,7 +1924,7 @@ Math.easeOutElastic = function (t, b, c, d) {
         window.scrollTo(0, boundingRect.top + windowScrollTop);
       }
     };
-  
+
     Accordion.prototype.initDeepLink = function() {
       if(!this.deepLinkOn) return;
       var hash = window.location.hash.substr(1);
@@ -1935,9 +1935,9 @@ Math.easeOutElastic = function (t, b, c, d) {
         setTimeout(function(){trigger.scrollIntoView(true);});
       }
     };
-  
+
     window.Accordion = Accordion;
-    
+
     //initialize the Accordion objects
     var accordions = document.getElementsByClassName('js-accordion');
     if( accordions.length > 0 ) {
@@ -1954,7 +1954,7 @@ Math.easeOutElastic = function (t, b, c, d) {
         if(event.target.closest('.js-alert-card__close-btn')) Util.addClass(card, 'is-hidden');
       });
     };
-  
+
     var alertCards = document.getElementsByClassName('js-alert-card');
     if(alertCards.length > 0) {
       for(var i = 0; i < alertCards.length; i++) {
@@ -1990,9 +1990,9 @@ function initAlertEvent(element) {
 	  for(var i = 0; i < menuBtns.length; i++) {(function(i){
 		initMenuBtn(menuBtns[i]);
 	  })(i);}
-  
+
 	  function initMenuBtn(btn) {
-		btn.addEventListener('click', function(event){	
+		btn.addEventListener('click', function(event){
 		  event.preventDefault();
 		  var status = !Util.hasClass(btn, 'anim-menu-btn--state-b');
 		  Util.toggleClass(btn, 'anim-menu-btn--state-b', status);
@@ -2013,7 +2013,7 @@ function initAlertEvent(element) {
       var scrollDuration = parseInt(backTop.getAttribute('data-duration')) || 300, //scroll to top duration
         scrollOffset = parseInt(backTop.getAttribute('data-offset')) || 0, //show back-to-top if scrolling > scrollOffset
         scrolling = false;
-      
+
       //detect click on back-to-top link
       backTop.addEventListener('click', function(event) {
         event.preventDefault();
@@ -2021,11 +2021,11 @@ function initAlertEvent(element) {
           scrollElement.scrollTo(0, 0);
         } else {
           dataElement ? Util.scrollTo(0, scrollDuration, false, scrollElement) : Util.scrollTo(0, scrollDuration);
-        } 
+        }
         //move the focus to the #top-element - don't break keyboard navigation
         Util.moveFocus(document.getElementById(backTop.getAttribute('href').replace('#', '')));
       });
-      
+
       //listen to the window scroll and update back-to-top visibility
       checkBackToTop();
       if (scrollOffset > 0) {
@@ -2036,7 +2036,7 @@ function initAlertEvent(element) {
           }
         });
       }
-  
+
       function checkBackToTop() {
         var windowTop = scrollElement.scrollTop || document.documentElement.scrollTop;
         if(!dataElement) windowTop = window.scrollY || document.documentElement.scrollTop;
@@ -2076,7 +2076,7 @@ function initAlertEvent(element) {
       var index = Util.getIndexInArray(choiceBtn.btns, selectedBtn);
       if(choiceBtn.isRadio && choiceBtn.inputs[index].checked) { // radio input already checked
         choiceBtn.inputs[index].focus(); // move focus to input element
-        return; 
+        return;
       }
 
       choiceBtn.inputs[index].checked = !choiceBtn.inputs[index].checked;
@@ -2135,7 +2135,7 @@ function initAlertEvent(element) {
       initChoiceTags(this);
       initChoiceTagEvent(this);
     }
-  
+
     function getChoiceInput(element) {
       var inputs = [];
       for(var i = 0; i < element.labels.length; i++) {
@@ -2143,14 +2143,14 @@ function initAlertEvent(element) {
       }
       return inputs;
     };
-  
+
     function initChoiceTags(element) {
       // if tag is selected by default - add checkedClass to the label element
       for(var i = 0; i < element.inputs.length; i++) {
         Util.toggleClass(element.labels[i], element.checkedClass, element.inputs[i].checked);
       }
     };
-  
+
     function initChoiceTagEvent(element) {
       element.element.addEventListener('change', function(event) {
         var inputIndex = Util.getIndexInArray(element.inputs, event.target);
@@ -2159,14 +2159,14 @@ function initAlertEvent(element) {
         if(element.isRadio && event.target.checked) resetRadioTags(element, inputIndex);
       });
     };
-  
+
     function resetRadioTags(element, index) {
       // when a radio input is checked - reset all the others
       for(var i = 0; i < element.labels.length; i++) {
         if(i != index) Util.removeClass(element.labels[i], element.checkedClass);
       }
     };
-  
+
     //initialize the ChoiceTags objects
     var choiceTags = document.getElementsByClassName('js-choice-tags');
     if( choiceTags.length > 0 ) {
@@ -2188,17 +2188,17 @@ function initAlertEvent(element) {
       this.mainColCellClass = 'cl-table__th-inner';
       initTable(this);
     };
-  
+
     function initTable(table) {
       // create additional table content + set table roles
       addTableContent(table);
       setTableRoles(table);
-  
+
       // custom event emitted when window is resized
       table.element.addEventListener('update-col-table', function(event){
         checkTableLayour(table);
       });
-  
+
       // mobile version - listent to click/key enter on the row -> expand it
       table.element.addEventListener('click', function(event){
         revealColDetails(table, event);
@@ -2209,12 +2209,12 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     function checkTableLayour(table) {
       var layout = getComputedStyle(table.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
       Util.toggleClass(table.element, table.collapsedLayoutClass, layout != 'expanded');
     };
-  
+
     function addTableContent(table) {
       // for the collapsed version, add a ul with list of details for each table column heading
       var content = [];
@@ -2232,7 +2232,7 @@ function initAlertEvent(element) {
         Util.addClass(table.headerRows[j], 'js-'+table.mainColCellClass);
       }
     };
-  
+
     function setTableRoles(table) {
       var trElements = table.header.getElementsByTagName('tr');
       for(var i=0; i < trElements.length; i++) {
@@ -2243,13 +2243,13 @@ function initAlertEvent(element) {
         thElements[i].setAttribute('role', 'cell');
       }
     };
-  
+
     function revealColDetails(table, event) {
       var col = event.target.closest('.js-'+table.mainColCellClass);
       if(!col || event.target.closest('.cl-table__list')) return;
       Util.toggleClass(col, 'cl-table__cell--show-list', !Util.hasClass(col, 'cl-table__cell--show-list'));
     };
-  
+
     //initialize the ColTable objects
     var colTables = document.getElementsByClassName('js-cl-table');
     if( colTables.length > 0 ) {
@@ -2262,7 +2262,7 @@ function initAlertEvent(element) {
           j = j + 1;
         }
       }
-      
+
       if(j > 0) {
         var resizingId = false,
           customEvent = new CustomEvent('update-col-table');
@@ -2270,13 +2270,13 @@ function initAlertEvent(element) {
           clearTimeout(resizingId);
           resizingId = setTimeout(doneResizing, 300);
         });
-  
+
         function doneResizing() {
           for( var i = 0; i < colTablesArray.length; i++) {
             (function(i){colTablesArray[i].element.dispatchEvent(customEvent)})(i);
           };
         };
-  
+
         (window.requestAnimationFrame) // init table layout
           ? window.requestAnimationFrame(doneResizing)
           : doneResizing();
@@ -2287,7 +2287,7 @@ function initAlertEvent(element) {
 // Usage: codyhouse.co/license
 (function() {
     // NOTE: you need the js code only when using the --custom-dropdown variation of the Custom Select component. Default version does nor require JS.
-    
+
     var CustomSelect = function(element) {
       this.element = element;
       this.select = this.element.getElementsByTagName('select')[0];
@@ -2300,34 +2300,34 @@ function initAlertEvent(element) {
       this.customOptions = false;
       this.arrowIcon = this.element.getElementsByTagName('svg');
       this.label = document.querySelector('[for="'+this.selectId+'"]');
-  
+
       this.optionIndex = 0; // used while building the custom dropdown
-  
+
       initCustomSelect(this); // init markup
       initCustomSelectEvents(this); // init event listeners
     };
-    
+
     function initCustomSelect(select) {
       // create the HTML for the custom dropdown element
       select.element.insertAdjacentHTML('beforeend', initButtonSelect(select) + initListSelect(select));
-      
+
       // save custom elements
       select.dropdown = select.element.getElementsByClassName('js-select__dropdown')[0];
       select.trigger = select.element.getElementsByClassName('js-select__button')[0];
       select.customOptions = select.dropdown.getElementsByClassName('js-select__item');
-      
+
       // hide default select
       Util.addClass(select.select, 'is-hidden');
       if(select.arrowIcon.length > 0 ) select.arrowIcon[0].style.display = 'none';
-  
+
       // place dropdown
       placeDropdown(select);
     };
-  
+
     function initCustomSelectEvents(select) {
       // option selection in dropdown
       initSelection(select);
-  
+
       // click events
       select.trigger.addEventListener('click', function(){
         toggleCustomSelect(select, false);
@@ -2351,7 +2351,7 @@ function initAlertEvent(element) {
         resetCustomSelect(select);
       });
     };
-  
+
     function toggleCustomSelect(select, bool) {
       var ariaExpanded;
       if(bool) {
@@ -2370,7 +2370,7 @@ function initAlertEvent(element) {
         placeDropdown(select); // place dropdown based on available space
       }
     };
-  
+
     function placeDropdown(select) {
       // remove placement classes to reset position
       Util.removeClass(select.dropdown, 'select__dropdown--right select__dropdown--up');
@@ -2384,7 +2384,7 @@ function initAlertEvent(element) {
       // set max-height based on available space
       select.dropdown.setAttribute('style', 'max-height: '+maxHeight+'px; width: '+triggerBoundingRect.width+'px;');
     };
-  
+
     function keyboardCustomSelect(select, direction, event) { // navigate custom dropdown with keyboard
       event.preventDefault();
       var index = Util.getIndexInArray(select.customOptions, document.activeElement);
@@ -2393,7 +2393,7 @@ function initAlertEvent(element) {
       if(index >= select.customOptions.length) index = 0;
       Util.moveFocus(select.customOptions[index]);
     };
-  
+
     function initSelection(select) { // option selection
       select.dropdown.addEventListener('click', function(event){
         var option = event.target.closest('.js-select__item');
@@ -2401,12 +2401,12 @@ function initAlertEvent(element) {
         selectOption(select, option);
       });
     };
-    
+
     function selectOption(select, option) {
       if(option.hasAttribute('aria-selected') && option.getAttribute('aria-selected') == 'true') {
         // selecting the same option
         select.trigger.setAttribute('aria-expanded', 'false'); // hide dropdown
-      } else { 
+      } else {
         var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
         if(selectedOption) selectedOption.setAttribute('aria-selected', 'false');
         option.setAttribute('aria-selected', 'true');
@@ -2415,22 +2415,22 @@ function initAlertEvent(element) {
         select.trigger.setAttribute('aria-expanded', 'false');
         // new option has been selected -> update native <select> element _ arai-label of trigger <button>
         updateNativeSelect(select, option.getAttribute('data-index'));
-        updateTriggerAria(select); 
+        updateTriggerAria(select);
       }
       // move focus back to trigger
       select.trigger.focus();
     };
-  
+
     function updateNativeSelect(select, index) {
       select.select.selectedIndex = index;
       select.select.dispatchEvent(new CustomEvent('change', {bubbles: true})); // trigger change event
     };
-  
+
     function updateTriggerAria(select) {
       if (select.options.length > 0)
         select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent);
     };
-  
+
     function getSelectedOptionText(select) {// used to initialize the label of the custom select button
       var label = '';
       if (select.options.length > 0) {
@@ -2443,7 +2443,7 @@ function initAlertEvent(element) {
 
       return label;
     };
-    
+
     function initButtonSelect(select) { // create the button element -> custom select trigger
       // check if we need to add custom classes to the button trigger
       var customClasses = select.element.getAttribute('data-trigger-class') ? ' '+select.element.getAttribute('data-trigger-class') : '';
@@ -2451,18 +2451,18 @@ function initAlertEvent(element) {
       var label = "";
       if (select.options.length > 0)
         label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
-    
+
       var button = '<button type="button" class="js-select__button select__button'+customClasses+'" aria-label="'+label+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-select__label select__label">'+select.selectedOption+'</span>';
       if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {
         var clone = select.arrowIcon[0].cloneNode(true);
         Util.removeClass(clone, 'select__icon');
         button = button +clone.outerHTML;
       }
-      
+
       return button+'</button>';
-  
+
     };
-  
+
     function initListSelect(select) { // create custom select dropdown
       var list = '<div class="js-select__dropdown select__dropdown" aria-describedby="'+select.selectId+'-description" id="'+select.selectId+'-dropdown">';
       list = list + getSelectLabelSR(select);
@@ -2477,7 +2477,7 @@ function initAlertEvent(element) {
       }
       return list;
     };
-  
+
     function getSelectLabelSR(select) {
       if(select.label) {
         return '<p class="sr-only" id="'+select.selectId+'-description">'+select.label.textContent+'</p>'
@@ -2485,7 +2485,7 @@ function initAlertEvent(element) {
         return '';
       }
     };
-    
+
     function resetCustomSelect(select) {
       // <select> element has been updated (using an external control) - update custom select
       var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
@@ -2494,9 +2494,9 @@ function initAlertEvent(element) {
       option.setAttribute('aria-selected', 'true');
       select.trigger.getElementsByClassName('js-select__label')[0].textContent = option.textContent;
       select.trigger.setAttribute('aria-expanded', 'false');
-      updateTriggerAria(select); 
+      updateTriggerAria(select);
     };
-  
+
     function getOptionsList(select, options) {
       var list = '';
       for(var i = 0; i < options.length; i++) {
@@ -2510,22 +2510,22 @@ function initAlertEvent(element) {
       };
       return list;
     };
-  
+
     function getSelectedOption(select) {
       var option = select.dropdown.querySelector('[aria-selected="true"]');
       if(option) return option;
       else return select.dropdown.getElementsByClassName('js-select__item')[0];
     };
-  
+
     function moveFocusToSelectTrigger(select) {
       if(!document.activeElement.closest('.js-select')) return
       select.trigger.focus();
     };
-    
+
     function checkCustomSelectClick(select, target) { // close select when clicking outside it
       if( !select.element.contains(target) ) toggleCustomSelect(select, 'false');
     };
-    
+
     //initialize the CustomSelect objects
     var customSelect = document.getElementsByClassName('js-select');
     if( customSelect.length > 0 ) {
@@ -2533,7 +2533,7 @@ function initAlertEvent(element) {
       for( var i = 0; i < customSelect.length; i++) {
         (function(i){selectArray.push(new CustomSelect(customSelect[i]));})(i);
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
@@ -2542,7 +2542,7 @@ function initAlertEvent(element) {
             moveFocusToSelectTrigger(element); // if focus is within dropdown, move it to dropdown trigger
             toggleCustomSelect(element, 'false'); // close dropdown
           });
-        } 
+        }
       });
       // close custom select when clicking outside it
       window.addEventListener('click', function(event){
@@ -2588,19 +2588,19 @@ function initAlertEvent(element) {
       // place picker according to available space
       placeCalendar(this);
     };
-  
+
     DatePicker.prototype.showCalendar = function() {
       showCalendar(this);
     };
-  
+
     DatePicker.prototype.showNextMonth = function() {
       showNext(this, true);
     };
-  
+
     DatePicker.prototype.showPrevMonth = function() {
       showPrev(this, true);
     };
-  
+
     function initCalendarAria(datePicker) {
       // reset calendar button label
       resetLabelCalendarTrigger(datePicker);
@@ -2615,7 +2615,7 @@ function initAlertEvent(element) {
       datePicker.element.appendChild(srLiveReagion);
       datePicker.srLiveReagion = datePicker.element.getElementsByClassName('js-date-input__sr-live')[0];
     };
-  
+
     function initCalendarEvents(datePicker) {
       datePicker.input.addEventListener('focus', function(event){
         toggleCalendar(datePicker, true); // toggle calendar when focus is on input
@@ -2628,7 +2628,7 @@ function initAlertEvent(element) {
           datePicker.trigger.setAttribute('aria-expanded', 'true');
         });
       }
-  
+
       // select a date inside the date picker
       datePicker.body.addEventListener('click', function(event){
         event.preventDefault();
@@ -2644,7 +2644,7 @@ function initAlertEvent(element) {
           resetLabelCalendarValue(datePicker);
         }
       });
-  
+
       // navigate using month nav
       datePicker.navigation.addEventListener('click', function(event){
         event.preventDefault();
@@ -2653,14 +2653,14 @@ function initAlertEvent(element) {
           Util.hasClass(btn, 'js-date-picker__month-nav-btn--prev') ? showPrev(datePicker, true) : showNext(datePicker, true);
         }
       });
-  
+
       // hide calendar
       window.addEventListener('keydown', function(event){ // close calendar on esc
         if(event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape') {
           if(document.activeElement.closest('.js-date-picker')) {
-            datePicker.input.focus(); //if focus is inside the calendar -> move the focus to the input element 
+            datePicker.input.focus(); //if focus is inside the calendar -> move the focus to the input element
           } else { // do not move focus -> only close calendar
-            hideCalendar(datePicker); 
+            hideCalendar(datePicker);
           }
         }
       });
@@ -2669,7 +2669,7 @@ function initAlertEvent(element) {
           hideCalendar(datePicker);
         }
       });
-  
+
       // navigate through days of calendar
       datePicker.body.addEventListener('keydown', function(event){
         var day = datePicker.currentDay;
@@ -2701,7 +2701,7 @@ function initAlertEvent(element) {
           showPrev(datePicker); // show prev month
         }
       });
-  
+
       // trap focus inside calendar
       datePicker.datePicker.addEventListener('keydown', function(event){
         if( event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' ) {
@@ -2709,7 +2709,7 @@ function initAlertEvent(element) {
           trapFocus(event, datePicker);
         }
       });
-  
+
       datePicker.input.addEventListener('keydown', function(event){
         if(event.keyCode && event.keyCode == 13 || event.key && event.key.toLowerCase() == 'enter') {
           // update calendar on input enter
@@ -2722,40 +2722,40 @@ function initAlertEvent(element) {
         };
       });
     };
-  
+
     function getCurrentDay(date) {
-      return (date) 
+      return (date)
         ? getDayFromDate(date)
         : new Date().getDate();
     };
-  
+
     function getCurrentMonth(date) {
-      return (date) 
+      return (date)
         ? getMonthFromDate(date)
         : new Date().getMonth();
     };
-  
+
     function getCurrentYear(date) {
-      return (date) 
+      return (date)
         ? getYearFromDate(date)
         : new Date().getFullYear();
     };
-  
+
     function getDayFromDate(date) {
       var day = parseInt(date.split('-')[2]);
       return isNaN(day) ? getCurrentDay(false) : day;
     };
-  
+
     function getMonthFromDate(date) {
       var month = parseInt(date.split('-')[1]) - 1;
       return isNaN(month) ? getCurrentMonth(false) : month;
     };
-  
+
     function getYearFromDate(date) {
       var year = parseInt(date.split('-')[0]);
       return isNaN(year) ? getCurrentYear(false) : year;
     };
-  
+
     function showNext(datePicker, bool) {
       // show next month
       datePicker.currentYear = (datePicker.currentMonth === 11) ? datePicker.currentYear + 1 : datePicker.currentYear;
@@ -2764,7 +2764,7 @@ function initAlertEvent(element) {
       showCalendar(datePicker, bool);
       datePicker.srLiveReagion.textContent = datePicker.options.months[datePicker.currentMonth] + ' ' + datePicker.currentYear;
     };
-  
+
     function showPrev(datePicker, bool) {
       // show prev month
       datePicker.currentYear = (datePicker.currentMonth === 0) ? datePicker.currentYear - 1 : datePicker.currentYear;
@@ -2773,40 +2773,40 @@ function initAlertEvent(element) {
       showCalendar(datePicker, bool);
       datePicker.srLiveReagion.textContent = datePicker.options.months[datePicker.currentMonth] + ' ' + datePicker.currentYear;
     };
-  
+
     function checkDayInMonth(datePicker) {
       return (datePicker.currentDay > daysInMonth(datePicker.currentYear, datePicker.currentMonth)) ? 1 : datePicker.currentDay;
     };
-  
+
     function daysInMonth(year, month) {
       return 32 - new Date(year, month, 32).getDate();
     };
-  
+
     function resetCalendar(datePicker) {
       var currentDate = false,
         selectedDate = datePicker.input.value;
-  
+
       datePicker.dateSelected = false;
       if( selectedDate != '') {
         var date = getDateFromInput(datePicker);
         datePicker.dateSelected = true;
         currentDate = date;
-      } 
+      }
       datePicker.currentDay = getCurrentDay(currentDate);
-      datePicker.currentMonth = getCurrentMonth(currentDate); 
-      datePicker.currentYear = getCurrentYear(currentDate); 
-      
+      datePicker.currentMonth = getCurrentMonth(currentDate);
+      datePicker.currentYear = getCurrentYear(currentDate);
+
       datePicker.selectedDay = datePicker.dateSelected ? datePicker.currentDay : false;
       datePicker.selectedMonth = datePicker.dateSelected ? datePicker.currentMonth : false;
       datePicker.selectedYear = datePicker.dateSelected ? datePicker.currentYear : false;
     };
-  
+
     function showCalendar(datePicker, bool) {
       // show calendar element
       var firstDay = getDayOfWeek(datePicker.currentYear, datePicker.currentMonth, '01');
       datePicker.body.innerHTML = '';
       datePicker.heading.innerHTML = datePicker.options.months[datePicker.currentMonth] + ' ' + datePicker.currentYear;
-  
+
       // creating all cells
       var date = 1,
         calendar = '';
@@ -2821,7 +2821,7 @@ function initAlertEvent(element) {
               tabindexValue = '-1';
             if (date === datePicker.currentDay) {
               tabindexValue = '0';
-            } 
+            }
             if(!datePicker.dateSelected && getCurrentMonth() == datePicker.currentMonth && getCurrentYear() == datePicker.currentYear && date == getCurrentDay()){
               classListDate = classListDate+' date-picker__date--today'
             }
@@ -2834,33 +2834,33 @@ function initAlertEvent(element) {
         }
       }
       datePicker.body.innerHTML = calendar; // appending days into calendar body
-      
+
       // show calendar
       if(!datePicker.pickerVisible) Util.addClass(datePicker.datePicker, 'date-picker--is-visible');
       datePicker.pickerVisible = true;
-  
+
       //  if bool is false, move focus to calendar day
       if(!bool) datePicker.body.querySelector('button[tabindex="0"]').focus();
-  
+
       // store first/last focusable elements
       getFocusableElements(datePicker);
-  
+
       //place calendar
       placeCalendar(datePicker);
     };
-  
+
     function hideCalendar(datePicker) {
       Util.removeClass(datePicker.datePicker, 'date-picker--is-visible');
       datePicker.pickerVisible = false;
-  
+
       // reset first/last focusable
       datePicker.firstFocusable = false;
       datePicker.lastFocusable = false;
-  
+
       // reset trigger aria-expanded attribute
       if(datePicker.trigger) datePicker.trigger.setAttribute('aria-expanded', 'false');
     };
-  
+
     function toggleCalendar(datePicker, bool) {
       if(!datePicker.pickerVisible) {
         resetCalendar(datePicker);
@@ -2869,22 +2869,22 @@ function initAlertEvent(element) {
         hideCalendar(datePicker);
       }
     };
-  
+
     function getDayOfWeek(year, month, day) {
       var weekDay = (new Date(year, month, day)).getDay() - 1;
       if(weekDay < 0) weekDay = 6;
       return weekDay;
     };
-  
+
     function getDateIndexes(datePicker) {
       var dateFormat = datePicker.options.dateFormat.toLowerCase().replace(/-/g, '');
       return [dateFormat.indexOf('d'), dateFormat.indexOf('m'), dateFormat.indexOf('y')];
     };
-  
+
     function setInputValue(datePicker) {
       datePicker.input.value = getDateForInput(datePicker);
     };
-  
+
     function getDateForInput(datePicker) {
       var dateArray = [];
       dateArray[datePicker.dateIndexes[0]] = getReadableDate(datePicker.selectedDay);
@@ -2892,16 +2892,16 @@ function initAlertEvent(element) {
       dateArray[datePicker.dateIndexes[2]] = datePicker.selectedYear;
       return dateArray[0]+datePicker.options.dateSeparator+dateArray[1]+datePicker.options.dateSeparator+dateArray[2];
     };
-  
+
     function getDateFromInput(datePicker) {
       var dateArray = datePicker.input.value.split(datePicker.options.dateSeparator);
       return dateArray[datePicker.dateIndexes[2]]+'-'+dateArray[datePicker.dateIndexes[1]]+'-'+dateArray[datePicker.dateIndexes[0]];
     };
-  
+
     function getReadableDate(date) {
       return (date < 10) ? '0'+date : date;
     };
-  
+
     function resetDayValue(day, datePicker) {
       var totDays = daysInMonth(datePicker.currentYear, datePicker.currentMonth);
       if( day > totDays) {
@@ -2926,29 +2926,29 @@ function initAlertEvent(element) {
         getFocusableElements(datePicker); // update first focusable/last focusable element
       }
     };
-  
+
     function resetLabelCalendarTrigger(datePicker) {
       if(!datePicker.trigger) return;
       // reset accessible label of the calendar trigger
-      (datePicker.selectedYear && datePicker.selectedMonth && datePicker.selectedDay) 
+      (datePicker.selectedYear && datePicker.selectedMonth && datePicker.selectedDay)
         ? datePicker.trigger.setAttribute('aria-label', datePicker.triggerLabel+', selected date is '+ new Date(datePicker.selectedYear, datePicker.selectedMonth, datePicker.selectedDay).toDateString())
         : datePicker.trigger.setAttribute('aria-label', datePicker.triggerLabel);
     };
-  
+
     function resetLabelCalendarValue(datePicker) {
       // this is used for the --custom-control variation -> there's a label that should be updated with the selected date
       if(datePicker.dateValueEl.length < 1) return;
-      (datePicker.selectedYear && datePicker.selectedMonth && datePicker.selectedDay) 
+      (datePicker.selectedYear && datePicker.selectedMonth && datePicker.selectedDay)
         ? datePicker.dateValueEl[0].textContent = getDateForInput(datePicker)
         : datePicker.dateValueEl[0].textContent = datePicker.dateValueLabelInit;
     };
-  
+
     function getFocusableElements(datePicker) {
       var allFocusable = datePicker.datePicker.querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary');
       getFirstFocusable(allFocusable, datePicker);
       getLastFocusable(allFocusable, datePicker);
     }
-  
+
     function getFirstFocusable(elements, datePicker) {
       for(var i = 0; i < elements.length; i++) {
         if( (elements[i].offsetWidth || elements[i].offsetHeight || elements[i].getClientRects().length) &&  elements[i].getAttribute('tabindex') != '-1') {
@@ -2957,7 +2957,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function getLastFocusable(elements, datePicker) {
       //get last visible focusable element inside the modal
       for(var i = elements.length - 1; i >= 0; i--) {
@@ -2967,7 +2967,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function trapFocus(event, datePicker) {
       if( datePicker.firstFocusable == document.activeElement && event.shiftKey) {
         //on Shift+Tab -> focus last focusable element when focus moves out of calendar
@@ -2980,30 +2980,30 @@ function initAlertEvent(element) {
         datePicker.firstFocusable.focus();
       }
     };
-  
+
     function placeCalendar(datePicker) {
       // reset position
       datePicker.datePicker.style.left = '0px';
       datePicker.datePicker.style.right = 'auto';
-      
+
       //check if you need to modify the calendar postion
       var pickerBoundingRect = datePicker.datePicker.getBoundingClientRect();
-  
+
       if(pickerBoundingRect.right > window.innerWidth) {
         datePicker.datePicker.style.left = 'auto';
         datePicker.datePicker.style.right = '0px';
       }
     };
-  
+
     DatePicker.defaults = {
       element : '',
       months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       dateFormat: 'd-m-y',
       dateSeparator: '/'
     };
-  
+
     window.DatePicker = DatePicker;
-  
+
     var datePicker = document.getElementsByClassName('js-date-input'),
       flexSupported = Util.cssSupports('align-items', 'stretch');
     if( datePicker.length > 0 ) {
@@ -3026,8 +3026,8 @@ function initAlertEvent(element) {
       })(i);}
     }
   }());
-  
-  
+
+
 // File#: _1_diagonal-movement
 // Usage: codyhouse.co/license
 /*
@@ -3050,7 +3050,7 @@ function initAlertEvent(element) {
       timeoutId = null,
       options = Util.extend({
         menu: '',
-        rows: false, //if false, get direct children - otherwise pass nodes list 
+        rows: false, //if false, get direct children - otherwise pass nodes list
         submenuSelector: "*",
         submenuDirection: "right",
         tolerance: 75,  // bigger = more forgivey when entering submenu
@@ -3116,7 +3116,7 @@ function initAlertEvent(element) {
      */
     var clickRow = function() {
       activate(this);
-    };  
+    };
 
     /**
      * Activate a menu row.
@@ -3275,13 +3275,13 @@ function initAlertEvent(element) {
     /**
      * Hook up initial menu events
      */
-    menu.addEventListener('mouseleave', mouseleaveMenu);  
+    menu.addEventListener('mouseleave', mouseleaveMenu);
     var rows = (options.rows) ? options.rows : menu.children;
     if(rows.length > 0) {
       for(var i = 0; i < rows.length; i++) {(function(i){
-        rows[i].addEventListener('mouseenter', mouseenterRow);  
+        rows[i].addEventListener('mouseenter', mouseenterRow);
         rows[i].addEventListener('mouseleave', mouseleaveRow);
-        rows[i].addEventListener('click', clickRow);  
+        rows[i].addEventListener('click', clickRow);
       })(i);}
     }
 
@@ -3306,7 +3306,7 @@ function initAlertEvent(element) {
       this.showClass = "drawer--is-visible";
       this.initDrawer();
     };
-  
+
     Drawer.prototype.initDrawer = function() {
       var self = this;
       //open drawer when clicking on trigger buttons
@@ -3324,11 +3324,11 @@ function initAlertEvent(element) {
           });
         }
       }
-  
+
       // if drawer is already open -> we should initialize the drawer events
       if(Util.hasClass(this.element, this.showClass)) this.initDrawerEvents();
     };
-  
+
     Drawer.prototype.showDrawer = function() {
       var self = this;
       this.content.scrollTop = 0;
@@ -3342,7 +3342,7 @@ function initAlertEvent(element) {
       });
       this.emitDrawerEvents('drawerIsOpen', this.selectedTrigger);
     };
-  
+
     Drawer.prototype.closeDrawer = function(target) {
       Util.removeClass(this.element, this.showClass);
       this.firstFocusable = null;
@@ -3352,19 +3352,19 @@ function initAlertEvent(element) {
       this.cancelDrawerEvents();
       this.emitDrawerEvents('drawerIsClose', target);
     };
-  
+
     Drawer.prototype.initDrawerEvents = function() {
       //add event listeners
       this.element.addEventListener('keydown', this);
       this.element.addEventListener('click', this);
     };
-  
+
     Drawer.prototype.cancelDrawerEvents = function() {
       //remove event listeners
       this.element.removeEventListener('keydown', this);
       this.element.removeEventListener('click', this);
     };
-  
+
     Drawer.prototype.handleEvent = function (event) {
       switch(event.type) {
         case 'click': {
@@ -3375,7 +3375,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     Drawer.prototype.initKeyDown = function(event) {
       if( event.keyCode && event.keyCode == 27 || event.key && event.key == 'Escape' ) {
         //close drawer window on esc
@@ -3385,14 +3385,14 @@ function initAlertEvent(element) {
         this.trapFocus(event);
       }
     };
-  
+
     Drawer.prototype.initClick = function(event) {
-      //close drawer when clicking on close button or drawer bg layer 
+      //close drawer when clicking on close button or drawer bg layer
       if( !event.target.closest('.js-drawer__close') && !Util.hasClass(event.target, 'js-drawer') ) return;
       event.preventDefault();
       this.closeDrawer(event.target);
     };
-  
+
     Drawer.prototype.trapFocus = function(event) {
       if( this.firstFocusable == document.activeElement && event.shiftKey) {
         //on Shift+Tab -> focus last focusable element when focus moves out of drawer
@@ -3405,14 +3405,14 @@ function initAlertEvent(element) {
         this.firstFocusable.focus();
       }
     }
-  
+
     Drawer.prototype.getFocusableElements = function() {
       //get all focusable elements inside the drawer
       var allFocusable = this.element.querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary');
       this.getFirstVisible(allFocusable);
       this.getLastVisible(allFocusable);
     };
-  
+
     Drawer.prototype.getFirstVisible = function(elements) {
       //get first visible focusable element inside the drawer
       for(var i = 0; i < elements.length; i++) {
@@ -3422,7 +3422,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     Drawer.prototype.getLastVisible = function(elements) {
       //get last visible focusable element inside the drawer
       for(var i = elements.length - 1; i >= 0; i--) {
@@ -3432,12 +3432,12 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     Drawer.prototype.emitDrawerEvents = function(eventName, target) {
       var event = new CustomEvent(eventName, {detail: target});
       this.element.dispatchEvent(event);
     };
-  
+
     //initialize the Drawer objects
     var drawer = document.getElementsByClassName('js-drawer');
     if( drawer.length > 0 ) {
@@ -3468,38 +3468,38 @@ function initAlertEvent(element) {
       this.input = this.element.getElementsByClassName('file-upload__input')[0];
       this.label = this.element.getElementsByClassName('file-upload__label')[0];
       this.multipleUpload = this.input.hasAttribute('multiple'); // allow for multiple files selection
-      
-      // this is the label text element -> when user selects a file, it will be changed from the default value to the name of the file 
+
+      // this is the label text element -> when user selects a file, it will be changed from the default value to the name of the file
       this.labelText = this.element.getElementsByClassName('file-upload__text')[0];
       this.initialLabel = this.labelText.textContent;
-  
+
       initInputFileEvents(this);
-    }; 
-  
+    };
+
     function initInputFileEvents(inputFile) {
       // make label focusable
       inputFile.label.setAttribute('tabindex', '0');
       inputFile.input.setAttribute('tabindex', '-1');
-  
+
       // move focus from input to label -> this is triggered when a file is selected or the file picker modal is closed
-      inputFile.input.addEventListener('focusin', function(event){ 
+      inputFile.input.addEventListener('focusin', function(event){
         inputFile.label.focus();
       });
-  
+
       // press 'Enter' key on label element -> trigger file selection
       inputFile.label.addEventListener('keydown', function(event) {
         if( event.keyCode && event.keyCode == 13 || event.key && event.key.toLowerCase() == 'enter') {inputFile.input.click();}
       });
-  
+
       // file has been selected -> update label text
-      inputFile.input.addEventListener('change', function(event){ 
+      inputFile.input.addEventListener('change', function(event){
         updateInputLabelText(inputFile);
       });
     };
-  
+
     function updateInputLabelText(inputFile) {
       var label = '';
-      if(inputFile.input.files && inputFile.input.files.length < 1) { 
+      if(inputFile.input.files && inputFile.input.files.length < 1) {
         label = inputFile.initialLabel; // no selection -> revert to initial label
       } else if(inputFile.multipleUpload && inputFile.input.files && inputFile.input.files.length > 1) {
         label = inputFile.input.files.length+ ' files'; // multiple selection -> show number of files
@@ -3508,7 +3508,7 @@ function initAlertEvent(element) {
       }
       inputFile.labelText.textContent = label;
     };
-  
+
     //initialize the InputFile objects
     var inputFiles = document.getElementsByClassName('file-upload');
     if( inputFiles.length > 0 ) {
@@ -3526,7 +3526,7 @@ function initAlertEvent(element) {
       for(var i = 0; i < floatingLabels.length; i++) {
         (function(i){initFloatingLabel(floatingLabels[i])})(i);
       }
-  
+
       function initFloatingLabel(element) {
         if(!placeholderSupported) { // :placeholder is not supported -> show label right away
           Util.addClass(element.getElementsByClassName('form-label')[0], 'form-label--floating');
@@ -3537,11 +3537,11 @@ function initAlertEvent(element) {
           resetFloatingLabel(element, input);
         });
       };
-  
+
       function resetFloatingLabel(element, input) { // show label if input is not empty
         Util.toggleClass(element.getElementsByClassName('form-label')[0], 'form-label--floating', input.value.length > 0);
       };
-  
+
       function checkPlaceholderSupport() {
         var input = document.createElement('input');
           return ('placeholder' in input);
@@ -3561,20 +3561,20 @@ function initAlertEvent(element) {
       this.index = this.currentPageIndex;
       initLoad(this);
     };
-  
+
     function initLoad(infiniteScroll) {
       setPathValues(infiniteScroll); // get dynamic content paths
-  
+
       getTresholdPixel(infiniteScroll);
-      
+
       if(infiniteScroll.options.container) { // get container of dynamic content
         infiniteScroll.container = infiniteScroll.element.querySelector(infiniteScroll.options.container);
       }
-      
+
       if((!infiniteScroll.options.loadBtn || infiniteScroll.options.loadBtnDelay) && infiniteScroll.loadBtn.length > 0) { // hide load more btn
         Util.addClass(infiniteScroll.loadBtn[0], 'sr-only');
       }
-  
+
       if(!infiniteScroll.options.loadBtn || infiniteScroll.options.loadBtnDelay) {
         if(intersectionObserverSupported) { // check element scrolling
           initObserver(infiniteScroll);
@@ -3583,9 +3583,9 @@ function initAlertEvent(element) {
           window.addEventListener('scroll', infiniteScroll.scrollEvent);
         }
       }
-      
+
       initBtnEvents(infiniteScroll); // listen for click on load Btn
-      
+
       if(!infiniteScroll.options.path) { // content has been loaded using a custom function
         infiniteScroll.element.addEventListener('loaded-new', function(event){
           contentWasLoaded(infiniteScroll, event.detail.path, event.detail.checkNext); // reset element
@@ -3594,7 +3594,7 @@ function initAlertEvent(element) {
         });
       }
     };
-  
+
     function setPathValues(infiniteScroll) { // path can be strin or comma-separated list
       if(!infiniteScroll.options.path) return;
       var split = infiniteScroll.options.path.split(',');
@@ -3603,29 +3603,29 @@ function initAlertEvent(element) {
         for(var i = 0; i < split.length; i++) infiniteScroll.options.path.push(split[i].trim());
       }
     };
-  
+
     function getTresholdPixel(infiniteScroll) { // get the threshold value in pixels - will be used only if intersection observer is not supported
       infiniteScroll.thresholdPixel = infiniteScroll.options.threshold.indexOf('px') > -1 ? parseInt(infiniteScroll.options.threshold.replace('px', '')) : parseInt(window.innerHeight*parseInt(infiniteScroll.options.threshold.replace('%', ''))/100);
     };
-  
+
     function initObserver(infiniteScroll) { // intersection observer supported
       // append an element to the bottom of the container that will be observed
       var observed = document.createElement("div");
       Util.setAttributes(observed, {'aria-hidden': 'true', 'class': 'js-infinite-scroll__observed', 'style': 'width: 100%; height: 1px; margin-top: -1px; visibility: hidden;'});
       infiniteScroll.element.appendChild(observed);
-  
+
       infiniteScroll.observed = infiniteScroll.element.getElementsByClassName('js-infinite-scroll__observed')[0];
-  
+
       var config = {rootMargin: '0px 0px '+infiniteScroll.options.threshold+' 0px'};
       infiniteScroll.observer = new IntersectionObserver(observerLoadContent.bind(infiniteScroll), config);
       infiniteScroll.observer.observe(infiniteScroll.observed);
     };
-  
-    function observerLoadContent(entry) { 
+
+    function observerLoadContent(entry) {
       if(this.loading) return;
       if(entry[0].intersectionRatio > 0) loadMore(this);
     };
-  
+
     function handleEvent(event) { // handle click/scroll events
       switch(event.type) {
         case 'click': {
@@ -3638,21 +3638,21 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function initScroll(infiniteScroll) { // listen to scroll event (only if intersectionObserver is not supported)
       (!window.requestAnimationFrame) ? setTimeout(checkLoad.bind(infiniteScroll)) : window.requestAnimationFrame(checkLoad.bind(infiniteScroll));
     };
-  
+
     function initBtnEvents(infiniteScroll) { // load more button events - click + focus (for keyboard accessibility)
       if(infiniteScroll.loadBtn.length == 0) return;
       infiniteScroll.clickEvent = handleEvent.bind(infiniteScroll);
       infiniteScroll.loadBtn[0].addEventListener('click', infiniteScroll.clickEvent);
-      
+
       if(infiniteScroll.options.loadBtn && !infiniteScroll.options.loadBtnDelay) {
         Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
         if(infiniteScroll.loader.length > 0 ) Util.addClass(infiniteScroll.loader[0], 'is-hidden');
       }
-  
+
       // toggle class sr-only if link is in focus/loses focus
       infiniteScroll.loadBtn[0].addEventListener('focusin', function(){
         if(Util.hasClass(infiniteScroll.loadBtn[0], 'sr-only')) {
@@ -3667,19 +3667,19 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     function initClick(infiniteScroll, event) { // click on 'Load More' button
       event.preventDefault();
       Util.addClass(infiniteScroll.loadBtn[0], 'sr-only');
       loadMore(infiniteScroll);
     };
-  
+
     function checkLoad() { // while scrolling -> check if we need to load new content (only if intersectionObserver is not supported)
       if(this.loading) return;
       if(!needLoad(this)) return;
       loadMore(this);
     };
-  
+
     function loadMore(infiniteScroll) { // new conten needs to be loaded
       infiniteScroll.loading = true;
       if(infiniteScroll.loader.length > 0) Util.removeClass(infiniteScroll.loader[0], 'is-hidden');
@@ -3692,7 +3692,7 @@ function initAlertEvent(element) {
         emitCustomEvents(infiniteScroll, 'load-new', moveFocus); // user takes care of loading content
       }
     };
-  
+
     function contentBasicLoad(infiniteScroll, moveFocus) {
       var filePath = getFilePath(infiniteScroll);
       // load file content
@@ -3703,13 +3703,13 @@ function initAlertEvent(element) {
         infiniteScroll.element.dispatchEvent(new CustomEvent('content-loaded', {detail: filePath}));
       });
     };
-  
+
     function getFilePath(infiniteScroll) { // get path of the file to load
-      return (Array.isArray(infiniteScroll.options.path)) 
+      return (Array.isArray(infiniteScroll.options.path))
         ? infiniteScroll.options.path[infiniteScroll.index]
         : infiniteScroll.options.path.replace('{n}', infiniteScroll.index+1);
     };
-  
+
     function getNewContent(path, cb) {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
@@ -3718,7 +3718,7 @@ function initAlertEvent(element) {
       xhttp.open("GET", path, true);
       xhttp.send();
     };
-  
+
     function insertNewContent(infiniteScroll, content, moveFocus) {
       var next = false;
       if(infiniteScroll.options.container) {
@@ -3735,37 +3735,37 @@ function initAlertEvent(element) {
       if(infiniteScroll.container) {
         infiniteScroll.container.insertAdjacentHTML('beforeend', content);
       } else {
-        (infiniteScroll.loader.length > 0) 
+        (infiniteScroll.loader.length > 0)
           ? infiniteScroll.loader[0].insertAdjacentHTML('beforebegin', content)
           : infiniteScroll.element.insertAdjacentHTML('beforeend', content);
       }
       if(moveFocus && lastItem) Util.moveFocus(lastItem);
-  
+
       return next;
     };
-  
+
     function getLastChild(infiniteScroll) {
       if(infiniteScroll.container) return infiniteScroll.container.lastElementChild;
       if(infiniteScroll.loader.length > 0) return infiniteScroll.loader[0].previousElementSibling;
       return infiniteScroll.element.lastElementChild;
     };
-  
+
     function checkNextPageAvailable(infiniteScroll, checkNext) { // check if there's still content to be loaded
       if(Array.isArray(infiniteScroll.options.path)) {
         return infiniteScroll.options.path.length > infiniteScroll.index + 1;
       }
       return checkNext;
     };
-  
-    function contentWasLoaded(infiniteScroll, url, checkNext) { // new content has been loaded - reset status 
+
+    function contentWasLoaded(infiniteScroll, url, checkNext) { // new content has been loaded - reset status
       if(infiniteScroll.loader.length > 0) Util.addClass(infiniteScroll.loader[0], 'is-hidden'); // hide loader
-      
+
       if(infiniteScroll.options.updateHistory && url) { // update browser history
         var pageArray = location.pathname.split('/'),
           actualPage = pageArray[pageArray.length - 1] ;
         if( actualPage != url && history.pushState ) window.history.replaceState({path: url},'',url);
       }
-      
+
       if(!checkNext) { // no need to load additional pages - remove scroll listening and/or click listening
         removeScrollEvents(infiniteScroll);
         if(infiniteScroll.clickEvent) {
@@ -3774,7 +3774,7 @@ function initAlertEvent(element) {
           Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
         }
       }
-      
+
       if(checkNext && infiniteScroll.options.loadBtn) { // check if we need to switch from scrolling to click -> add/remove proper listener
         if(!infiniteScroll.options.loadBtnDelay) {
           Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
@@ -3783,29 +3783,29 @@ function initAlertEvent(element) {
           Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
         }
       }
-  
+
       if(checkNext && infiniteScroll.loadBtn.length > 0 && Util.hasClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus')) { // keyboard accessibility
         Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
       }
-  
+
       infiniteScroll.index = infiniteScroll.index + 1;
       infiniteScroll.loading = false;
     };
-  
+
     function removeScrollEvents(infiniteScroll) {
       if(infiniteScroll.scrollEvent) window.removeEventListener('scroll', infiniteScroll.scrollEvent);
       if(infiniteScroll.observer) infiniteScroll.observer.unobserve(infiniteScroll.observed);
     };
-  
+
     function needLoad(infiniteScroll) { // intersectionObserverSupported not supported -> check if threshold has been reached
       return infiniteScroll.element.getBoundingClientRect().bottom - window.innerHeight <= infiniteScroll.thresholdPixel;
     };
-  
+
     function emitCustomEvents(infiniteScroll, eventName, moveFocus) { // applicable when user takes care of loading new content
       var event = new CustomEvent(eventName, {detail: {index: infiniteScroll.index+1, moveFocus: moveFocus}});
       infiniteScroll.element.dispatchEvent(event);
     };
-  
+
     InfiniteScroll.defaults = {
       element : '',
       path : false, // path of files to be loaded: set to comma-separated list or string (should include {n} to be replaced by integer index). If not set, user will take care of loading new content
@@ -3815,13 +3815,13 @@ function initAlertEvent(element) {
       loadBtn: false, // use a button to load more content
       loadBtnDelay: false // set to an integer if you want the load more button to be visible only after a number of loads on scroll - loadBtn needs to be 'on'
     };
-  
+
     window.InfiniteScroll = InfiniteScroll;
-  
+
     //initialize the InfiniteScroll objects
     var infiniteScroll = document.getElementsByClassName('js-infinite-scroll'),
       intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
-  
+
     if( infiniteScroll.length > 0) {
       for( var i = 0; i < infiniteScroll.length; i++) {
         (function(i){
@@ -3851,22 +3851,22 @@ function initAlertEvent(element) {
       // dropdown arrow inside the button element
       this.arrowSvgPath = '<svg viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>';
       this.globeSvgPath = '<svg viewBox="0 0 16 16"><path d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M13.9,7H12c-0.1-1.5-0.4-2.9-0.8-4.1 C12.6,3.8,13.6,5.3,13.9,7z M8,14c-0.6,0-1.8-1.9-2-5H10C9.8,12.1,8.6,14,8,14z M6,7c0.2-3.1,1.3-5,2-5s1.8,1.9,2,5H6z M4.9,2.9 C4.4,4.1,4.1,5.5,4,7H2.1C2.4,5.3,3.4,3.8,4.9,2.9z M2.1,9H4c0.1,1.5,0.4,2.9,0.8,4.1C3.4,12.2,2.4,10.7,2.1,9z M11.1,13.1 c0.5-1.2,0.7-2.6,0.8-4.1h1.9C13.6,10.7,12.6,12.2,11.1,13.1z"></path></svg>';
-  
+
       initLanguagePicker(this);
       initLanguagePickerEvents(this);
     };
-  
+
     function initLanguagePicker(picker) {
       // create the HTML for the custom dropdown element
       picker.element.insertAdjacentHTML('beforeend', initButtonPicker(picker) + initListPicker(picker));
-      
+
       // save picker elements
       picker.dropdown = picker.element.getElementsByClassName('language-picker__dropdown')[0];
       picker.languages = picker.dropdown.getElementsByClassName('language-picker__item');
       picker.firstLanguage = picker.languages[0];
       picker.trigger = picker.element.getElementsByClassName('language-picker__button')[0];
     };
-  
+
     function initLanguagePickerEvents(picker) {
       // make sure to add the icon class to the arrow dropdown inside the button element
       var svgs = picker.trigger.getElementsByTagName('svg');
@@ -3875,7 +3875,7 @@ function initAlertEvent(element) {
       // language selection in dropdown
       // ⚠️ Important: you need to modify this function in production
       initLanguageSelection(picker);
-  
+
       // click events
       picker.trigger.addEventListener('click', function(){
         toggleLanguagePicker(picker, false);
@@ -3889,7 +3889,7 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     function toggleLanguagePicker(picker, bool) {
       var ariaExpanded;
       if(bool) {
@@ -3908,32 +3908,32 @@ function initAlertEvent(element) {
         placeDropdown(picker);
       }
     };
-  
+
     function placeDropdown(picker) {
       var triggerBoundingRect = picker.trigger.getBoundingClientRect();
       Util.toggleClass(picker.dropdown, 'language-picker__dropdown--right', (window.innerWidth < triggerBoundingRect.left + picker.dropdown.offsetWidth));
       Util.toggleClass(picker.dropdown, 'language-picker__dropdown--up', (window.innerHeight < triggerBoundingRect.bottom + picker.dropdown.offsetHeight));
     };
-  
+
     function checkLanguagePickerClick(picker, target) { // if user clicks outside the language picker -> close it
       if( !picker.element.contains(target) ) toggleLanguagePicker(picker, 'false');
     };
-  
+
     function moveFocusToPickerTrigger(picker) {
       if(picker.trigger.getAttribute('aria-expanded') == 'false') return;
       if(document.activeElement.closest('.language-picker__dropdown') == picker.dropdown) picker.trigger.focus();
     };
-  
+
     function initButtonPicker(picker) { // create the button element -> picker trigger
       // check if we need to add custom classes to the button trigger
       var customClasses = picker.element.getAttribute('data-trigger-class') ? ' '+picker.element.getAttribute('data-trigger-class') : '';
-    
+
       var button = '<button class="language-picker__button'+customClasses+'" aria-label="'+picker.select.value+' '+picker.element.getElementsByTagName('label')[0].textContent+'" aria-expanded="false" aria-controls="'+picker.pickerId+'-dropdown">';
       button = button + '<span aria-hidden="true" class="language-picker__label language-picker__flag language-picker__flag--'+picker.select.value+'">'+picker.globeSvgPath+'<em>'+picker.selectedOption+'</em>';
       button = button +picker.arrowSvgPath+'</span>';
       return button+'</button>';
     };
-  
+
     function initListPicker(picker) { // create language picker dropdown
       var list = '<div class="language-picker__dropdown" aria-describedby="'+picker.pickerId+'-description" id="'+picker.pickerId+'-dropdown">';
       list = list + '<p class="sr-only" id="'+picker.pickerId+'-description">'+picker.element.getElementsByTagName('label')[0].textContent+'</p>';
@@ -3945,7 +3945,7 @@ function initAlertEvent(element) {
       };
       return list;
     };
-  
+
     function getSelectedOptionText(picker) { // used to initialize the label of the picker trigger button
       var label = '';
       if('selectedIndex' in picker.select) {
@@ -3955,24 +3955,24 @@ function initAlertEvent(element) {
       }
       return label;
     };
-  
+
     function getLanguageUrl(option) {
       // ⚠️ Important: You should replace this return value with the real link to your website in the selected language
       // option.value gives you the value of the language that you can use to create your real url (e.g, 'english' or 'italiano')
       return '#';
     };
-  
+
     function initLanguageSelection(picker) {
       picker.element.getElementsByClassName('language-picker__list')[0].addEventListener('click', function(event){
         var language = event.target.closest('.language-picker__item');
         if(!language) return;
-        
+
         if(language.hasAttribute('aria-selected') && language.getAttribute('aria-selected') == 'true') {
           // selecting the same language
           event.preventDefault();
           picker.trigger.setAttribute('aria-expanded', 'false'); // hide dropdown
-        } else { 
-          // ⚠️ Important: this 'else' code needs to be removed in production. 
+        } else {
+          // ⚠️ Important: this 'else' code needs to be removed in production.
           // The user has to be redirected to the new url -> nothing to do here
           event.preventDefault();
           picker.element.getElementsByClassName('language-picker__list')[0].querySelector('[aria-selected="true"]').removeAttribute('aria-selected');
@@ -3983,7 +3983,7 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     function keyboardNavigatePicker(picker, direction) {
       var index = Util.getIndexInArray(picker.languages, document.activeElement);
       index = (direction == 'next') ? index + 1 : index - 1;
@@ -3991,7 +3991,7 @@ function initAlertEvent(element) {
       if(index >= picker.languages.length) index = 0;
       Util.moveFocus(picker.languages[index]);
     };
-  
+
     //initialize the LanguagePicker objects
     var languagePicker = document.getElementsByClassName('js-language-picker');
     if( languagePicker.length > 0 ) {
@@ -3999,7 +3999,7 @@ function initAlertEvent(element) {
       for( var i = 0; i < languagePicker.length; i++) {
         (function(i){pickerArray.push(new LanguagePicker(languagePicker[i]));})(i);
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
@@ -4008,7 +4008,7 @@ function initAlertEvent(element) {
             moveFocusToPickerTrigger(element); // if focus is within dropdown, move it to dropdown trigger
             toggleLanguagePicker(element, 'false'); // close dropdown
           });
-        } 
+        }
       });
       // close language picker when clicking outside it
       window.addEventListener('click', function(event){
@@ -4039,12 +4039,12 @@ function initAlertEvent(element) {
       setGridLayout(this); // set grid params (width of elements)
       initMasonryLayout(this); // init gallery layout
     };
-  
+
     function checkFlexSupported(item) {
       var itemStyle = window.getComputedStyle(item);
       return itemStyle.getPropertyValue('flex-basis') != 'auto';
     };
-  
+
     function getGridLayout(grid) { // this is used to get initial grid details (width/grid gap)
       var itemStyle = window.getComputedStyle(grid.items[0]);
       if( grid.colStartWidth == 0) {
@@ -4052,7 +4052,7 @@ function initAlertEvent(element) {
       }
       grid.colGap = parseFloat(itemStyle.getPropertyValue('margin-right'));
     };
-  
+
     function setGridLayout(grid) { // set width of items in the grid
       var containerWidth = parseFloat(window.getComputedStyle(grid.element).getPropertyValue('width'));
       grid.activeColumns = parseInt((containerWidth + grid.colGap)/(grid.colStartWidth+grid.colGap));
@@ -4064,36 +4064,36 @@ function initAlertEvent(element) {
         grid.items[i].style.display = 'inline-block'; // reset items width
       }
     };
-  
+
     function initMasonryLayout(grid) {
       if(grid.flexSupported) {
         checkImgLoaded(grid); // reset layout when images are loaded
       } else {
         Util.addClass(grid.element, 'masonry--loaded'); // make sure the gallery is visible
       }
-  
+
       grid.element.addEventListener('masonry-resize', function(){ // window has been resized -> reset masonry layout
         getGridLayout(grid);
         setGridLayout(grid);
-        if(grid.flexSupported) layItems(grid); 
+        if(grid.flexSupported) layItems(grid);
       });
-  
+
       grid.element.addEventListener('masonry-reset', function(event){ // reset layout (e.g., new items added to the gallery)
-        if(grid.flexSupported) checkImgLoaded(grid); 
+        if(grid.flexSupported) checkImgLoaded(grid);
       });
     };
-  
+
     function layItems(grid) {
       Util.addClass(grid.element, 'masonry--loaded'); // make sure the gallery is visible
       grid.colHeights = [];
       grid.colItems = [];
-  
+
       // grid layout has already been set -> update container height and order of items
       for(var j = 0; j < grid.activeColumns; j++) {
         grid.colHeights.push(0); // reset col heights
         grid.colItems[j] = []; // reset items order
       }
-      
+
       for(var i = 0; i < grid.items.length; i++) {
         var minHeight = Math.min.apply( Math, grid.colHeights ),
           index = grid.colHeights.indexOf(minHeight);
@@ -4102,11 +4102,11 @@ function initAlertEvent(element) {
         var itemHeight = grid.items[i].getBoundingClientRect().height || grid.items[i].offsetHeight || 1;
         grid.colHeights[index] = grid.colHeights[index] + grid.colGap + itemHeight;
       }
-  
+
       // reset height of container
       var masonryHeight = Math.max.apply( Math, grid.colHeights ) + 5;
       grid.list.style.cssText = 'height: '+ masonryHeight + 'px;';
-  
+
       // go through elements and set flex order
       var order = 0;
       for(var i = 0; i < grid.colItems.length; i++) {
@@ -4120,14 +4120,14 @@ function initAlertEvent(element) {
           lastItemCol.style.flexBasis = masonryHeight - grid.colHeights[i] + lastItemCol.getBoundingClientRect().height - 5 + 'px';
         }
       }
-  
+
       // emit custom event when grid has been reset
       grid.element.dispatchEvent(new CustomEvent('masonry-laid'));
     };
-  
+
     function checkImgLoaded(grid) {
       var imgs = grid.list.getElementsByTagName('img');
-  
+
       function countLoaded() {
         var setTimeoutOn = false;
         for(var i = 0; i < imgs.length; i++) {
@@ -4139,7 +4139,7 @@ function initAlertEvent(element) {
             break;
           }
         }
-  
+
         if(!setTimeoutOn) {
           layItems(grid);
         } else {
@@ -4148,19 +4148,19 @@ function initAlertEvent(element) {
           }, 100);
         }
       };
-  
+
       if(imgs.length == 0) {
         layItems(grid); // no need to wait -> no img available
       } else {
         countLoaded();
       }
     };
-  
+
     //initialize the Masonry objects
-    var masonries = document.getElementsByClassName('js-masonry'), 
+    var masonries = document.getElementsByClassName('js-masonry'),
       flexSupported = Util.cssSupports('flex-basis', 'auto'),
       masonriesArray = [];
-  
+
     if( masonries.length > 0) {
       for( var i = 0; i < masonries.length; i++) {
         var maronry_items = masonries[i].getElementsByClassName('js-masonry__item');
@@ -4172,18 +4172,18 @@ function initAlertEvent(element) {
           }
         }
       }
-  
+
       if(!flexSupported) return;
-  
+
       // listen to window resize -> reorganize items in gallery
       var resizingId = false,
         customEvent = new CustomEvent('masonry-resize');
-        
+
       window.addEventListener('resize', function() {
         clearTimeout(resizingId);
         resizingId = setTimeout(doneResizing, 500);
       });
-  
+
       function doneResizing() {
         for( var i = 0; i < masonriesArray.length; i++) {
           (function(i){masonriesArray[i].element.dispatchEvent(customEvent)})(i);
@@ -4203,8 +4203,8 @@ function initAlertEvent(element) {
       this.menuIsOpen = false;
       this.initMenu();
       this.initMenuEvents();
-    };	
-  
+    };
+
     Menu.prototype.initMenu = function() {
       // init aria-labels
       for(var i = 0; i < this.trigger.length; i++) {
@@ -4215,7 +4215,7 @@ function initAlertEvent(element) {
         this.menuItems[i].setAttribute('tabindex', '0');
       }
     };
-  
+
     Menu.prototype.initMenuEvents = function() {
       var self = this;
       for(var i = 0; i < this.trigger.length; i++) {(function(i){
@@ -4230,7 +4230,7 @@ function initAlertEvent(element) {
           self.toggleMenu(!Util.hasClass(self.element, 'menu--is-visible'), true);
         });
       })(i);}
-      
+
       // keyboard events
       this.element.addEventListener('keydown', function(event) {
         // use up/down arrow to navigate list of menu items
@@ -4242,7 +4242,7 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     Menu.prototype.toggleMenu = function(bool, moveFocus) {
       var self = this;
       // toggle menu visibility
@@ -4264,16 +4264,16 @@ function initAlertEvent(element) {
         this.selectedTrigger = false;
       }
     };
-  
+
     Menu.prototype.positionMenu = function(event, direction) {
       var selectedTriggerPosition = this.selectedTrigger.getBoundingClientRect(),
         menuOnTop = (window.innerHeight - selectedTriggerPosition.bottom) < selectedTriggerPosition.top;
         // menuOnTop = window.innerHeight < selectedTriggerPosition.bottom + this.element.offsetHeight;
-        
+
       var left = selectedTriggerPosition.left,
         right = (window.innerWidth - selectedTriggerPosition.right),
         isRight = (window.innerWidth < selectedTriggerPosition.left + this.element.offsetWidth);
-  
+
       var horizontal = isRight ? 'right: '+right+'px;' : 'left: '+left+'px;',
         vertical = menuOnTop
           ? 'bottom: '+(window.innerHeight - selectedTriggerPosition.top)+'px;'
@@ -4283,7 +4283,7 @@ function initAlertEvent(element) {
       var maxHeight = menuOnTop ? selectedTriggerPosition.top - 20 : window.innerHeight - selectedTriggerPosition.bottom - 20;
       this.element.setAttribute('style', horizontal + vertical +'max-height:'+Math.floor(maxHeight)+'px;');
     };
-  
+
     Menu.prototype.navigateItems = function(event, direction) {
       event.preventDefault();
       var index = Util.getIndexInArray(this.menuItems, event.target),
@@ -4292,18 +4292,18 @@ function initAlertEvent(element) {
       if(nextIndex > this.menuItems.length - 1) nextIndex = 0;
       Util.moveFocus(this.menuItems[nextIndex]);
     };
-  
+
     Menu.prototype.checkMenuFocus = function() {
       var menuParent = document.activeElement.closest('.js-menu');
       if (!menuParent || !this.element.contains(menuParent)) this.toggleMenu(false, false);
     };
-  
+
     Menu.prototype.checkMenuClick = function(target) {
       if( !this.element.contains(target) && !target.closest('[aria-controls="'+this.elementId+'"]')) this.toggleMenu(false);
     };
-  
+
     window.Menu = Menu;
-  
+
     //initialize the Menu objects
     var menus = document.getElementsByClassName('js-menu');
     if( menus.length > 0 ) {
@@ -4311,7 +4311,7 @@ function initAlertEvent(element) {
       for( var i = 0; i < menus.length; i++) {
         (function(i){menusArray.push(new Menu(menus[i]));})(i);
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 9 || event.key && event.key.toLowerCase() == 'tab' ) {
@@ -4324,7 +4324,7 @@ function initAlertEvent(element) {
           menusArray.forEach(function(element){
             element.toggleMenu(false, false);
           });
-        } 
+        }
       });
       // close menu when clicking outside it
       window.addEventListener('click', function(event){
@@ -4652,25 +4652,25 @@ function initAlertEvent(element) {
       this.lastFocusable = false;
       // position target - position tooltip relative to a specified element
       this.positionTarget = getPositionTarget(this);
-      // gap between element and viewport - if there's max-height 
+      // gap between element and viewport - if there's max-height
       this.viewportGap = parseInt(getComputedStyle(this.element).getPropertyValue('--popover-viewport-gap')) || 20;
       initPopover(this);
       initPopoverEvents(this);
     };
-  
+
     // public methods
     Popover.prototype.togglePopover = function(bool, moveFocus) {
       togglePopover(this, bool, moveFocus);
     };
-  
+
     Popover.prototype.checkPopoverClick = function(target) {
       checkPopoverClick(this, target);
     };
-  
+
     Popover.prototype.checkPopoverFocus = function() {
       checkPopoverFocus(this);
     };
-  
+
     // private methods
     function getPositionTarget(popover) {
       // position tooltip relative to a specified element - if provided
@@ -4679,14 +4679,14 @@ function initAlertEvent(element) {
       var positionTarget = document.querySelector(positionTargetSelector);
       return positionTarget;
     };
-  
+
     function initPopover(popover) {
       // init aria-labels
       for(var i = 0; i < popover.trigger.length; i++) {
         Util.setAttributes(popover.trigger[i], {'aria-expanded': 'false', 'aria-haspopup': 'true'});
       }
     };
-    
+
     function initPopoverEvents(popover) {
       for(var i = 0; i < popover.trigger.length; i++) {(function(i){
         popover.trigger[i].addEventListener('click', function(event){
@@ -4700,7 +4700,7 @@ function initAlertEvent(element) {
           togglePopover(popover, !Util.hasClass(popover.element, popover.popoverVisibleClass), true);
         });
       })(i);}
-      
+
       // trap focus
       popover.element.addEventListener('keydown', function(event){
         if( event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' ) {
@@ -4709,7 +4709,7 @@ function initAlertEvent(element) {
         }
       });
     };
-    
+
     function togglePopover(popover, bool, moveFocus) {
       // toggle popover visibility
       Util.toggleClass(popover.element, popover.popoverVisibleClass, bool);
@@ -4732,7 +4732,7 @@ function initAlertEvent(element) {
         popover.selectedTrigger = false;
       }
     };
-    
+
     function focusPopover(popover) {
       if(popover.firstFocusable) {
         popover.firstFocusable.focus();
@@ -4740,18 +4740,18 @@ function initAlertEvent(element) {
         Util.moveFocus(popover.element);
       }
     };
-  
+
     function positionPopover(popover) {
       // reset popover position
       resetPopoverStyle(popover);
       var selectedTriggerPosition = (popover.positionTarget) ? popover.positionTarget.getBoundingClientRect() : popover.selectedTrigger.getBoundingClientRect();
-      
+
       var menuOnTop = (window.innerHeight - selectedTriggerPosition.bottom) < selectedTriggerPosition.top;
-        
+
       var left = selectedTriggerPosition.left,
         right = (window.innerWidth - selectedTriggerPosition.right),
         isRight = (window.innerWidth < selectedTriggerPosition.left + popover.element.offsetWidth);
-  
+
       var horizontal = isRight ? 'right: '+right+'px;' : 'left: '+left+'px;',
         vertical = menuOnTop
           ? 'bottom: '+(window.innerHeight - selectedTriggerPosition.top)+'px;'
@@ -4760,12 +4760,12 @@ function initAlertEvent(element) {
       if( isRight && (right + popover.element.offsetWidth) > window.innerWidth) horizontal = 'left: '+ parseInt((window.innerWidth - popover.element.offsetWidth)/2)+'px;';
       // check if popover needs a max-height (user will scroll inside the popover)
       var maxHeight = menuOnTop ? selectedTriggerPosition.top - popover.viewportGap : window.innerHeight - selectedTriggerPosition.bottom - popover.viewportGap;
-  
+
       var initialStyle = popover.element.getAttribute('style');
       if(!initialStyle) initialStyle = '';
       popover.element.setAttribute('style', initialStyle + horizontal + vertical +'max-height:'+Math.floor(maxHeight)+'px;');
     };
-    
+
     function resetPopoverStyle(popover) {
       // remove popover inline style before appling new style
       popover.element.style.maxHeight = '';
@@ -4774,27 +4774,27 @@ function initAlertEvent(element) {
       popover.element.style.left = '';
       popover.element.style.right = '';
     };
-  
+
     function checkPopoverClick(popover, target) {
       // close popover when clicking outside it
       if(!popover.popoverIsOpen) return;
       if(!popover.element.contains(target) && !target.closest('[aria-controls="'+popover.elementId+'"]')) togglePopover(popover, false);
     };
-  
+
     function checkPopoverFocus(popover) {
       // on Esc key -> close popover if open and move focus (if focus was inside popover)
       if(!popover.popoverIsOpen) return;
       var popoverParent = document.activeElement.closest('.js-popover');
       togglePopover(popover, false, popoverParent);
     };
-    
+
     function getFocusableElements(popover) {
       //get all focusable elements inside the popover
       var allFocusable = popover.element.querySelectorAll(focusableElString);
       getFirstVisible(popover, allFocusable);
       getLastVisible(popover, allFocusable);
     };
-  
+
     function getFirstVisible(popover, elements) {
       //get first visible focusable element inside the popover
       for(var i = 0; i < elements.length; i++) {
@@ -4804,7 +4804,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function getLastVisible(popover, elements) {
       //get last visible focusable element inside the popover
       for(var i = elements.length - 1; i >= 0; i--) {
@@ -4814,7 +4814,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function trapFocus(popover, event) {
       if( popover.firstFocusable == document.activeElement && event.shiftKey) {
         //on Shift+Tab -> focus last focusable element when focus moves out of popover
@@ -4827,19 +4827,19 @@ function initAlertEvent(element) {
         popover.firstFocusable.focus();
       }
     };
-    
+
     function isVisible(element) {
       // check if element is visible
       return element.offsetWidth || element.offsetHeight || element.getClientRects().length;
     };
-  
+
     window.Popover = Popover;
-  
+
     //initialize the Popover objects
     var popovers = document.getElementsByClassName('js-popover');
     // generic focusable elements string selector
     var focusableElString = '[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary';
-    
+
     if( popovers.length > 0 ) {
       var popoversArray = [];
       var scrollingContainers = [];
@@ -4850,7 +4850,7 @@ function initAlertEvent(element) {
           if(scrollableElement && !scrollingContainers.includes(scrollableElement)) scrollingContainers.push(scrollableElement);
         })(i);
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
@@ -4858,7 +4858,7 @@ function initAlertEvent(element) {
           popoversArray.forEach(function(element){
             element.checkPopoverFocus();
           });
-        } 
+        }
       });
       // close popover when clicking outside it
       window.addEventListener('click', function(event){
@@ -4893,7 +4893,7 @@ function initAlertEvent(element) {
   }());
 // File#: _1_progress-bar
 // Usage: codyhouse.co/license
-(function() {	
+(function() {
     var ProgressBar = function(element) {
       this.element = element;
       this.fill = this.element.getElementsByClassName('progress-bar__fill')[0];
@@ -4915,18 +4915,18 @@ function initAlertEvent(element) {
       initProgressBar(this);
       // store id to reset animation
       this.animationId = false;
-    }; 
-  
+    };
+
     // public function
     ProgressBar.prototype.setProgressBarValue = function(value) {
       setProgressBarValue(this, value);
     };
-  
+
     function getProgressBarValue(progressBar) { // get progress value
       // return (fill width/total width) * 100
       return parseFloat(progressBar.fill.offsetWidth*100/progressBar.element.getElementsByClassName('progress-bar__bg')[0].offsetWidth);
     };
-  
+
     function getProgressBarColorThresholds(progressBar) {
       var thresholds = [];
       var i = 1;
@@ -4936,12 +4936,12 @@ function initAlertEvent(element) {
       }
       return thresholds;
     };
-  
+
     function updatedProgressBarForReducedMotion(progressBar) {
       // if reduced motion is supported and set to reduced -> remove animations
       if(osHasReducedMotion) progressBar.element.removeAttribute('data-animation');
     };
-  
+
     function initProgressBar(progressBar) {
       // set initial bar color
       if(progressBar.changeColor) updateProgressBarColor(progressBar, progressBar.value);
@@ -4949,12 +4949,12 @@ function initAlertEvent(element) {
       if(progressBar.animate && progressBar.canAnimate) animateProgressBar(progressBar);
       // reveal fill and label -> --animate and --color-update variations only
       setTimeout(function(){Util.addClass(progressBar.element, 'progress-bar--init');}, 30);
-  
+
       // dynamically update value of progress bar
       progressBar.element.addEventListener('updateProgress', function(event){
         // cancel request animation frame if it was animating
         if(progressBar.animationId) window.cancelAnimationFrame(progressBar.animationId);
-        
+
         var final = event.detail.value,
           duration = (event.detail.duration) ? event.detail.duration : progressBar.animationDuration;
         var start = getProgressBarValue(progressBar);
@@ -4966,16 +4966,16 @@ function initAlertEvent(element) {
         });
       });
     };
-  
+
     function animateProgressBar(progressBar) {
       // reset inital values
       setProgressBarValue(progressBar, 0);
-      
+
       // listen for the element to enter the viewport -> start animation
       var observer = new IntersectionObserver(progressBarObserve.bind(progressBar), { threshold: [0, 0.1] });
       observer.observe(progressBar.element);
     };
-  
+
     function progressBarObserve(entries, observer) { // observe progressBar position -> start animation when inside viewport
       var self = this;
       if(entries[0].intersectionRatio.toFixed(1) > 0 && !this.animationTriggered) {
@@ -4984,20 +4984,20 @@ function initAlertEvent(element) {
         });
       }
     };
-  
+
     function updateProgressBar(progressBar, start, to, duration, cb) {
       var change = to - start,
         currentTime = null;
-  
-      var animateFill = function(timestamp){  
-        if (!currentTime) currentTime = timestamp;         
+
+      var animateFill = function(timestamp){
+        if (!currentTime) currentTime = timestamp;
         var progress = timestamp - currentTime;
         var val = parseInt((progress/duration)*change + start);
         // make sure value is in correct range
         if(change > 0 && val > to) val = to;
         if(change < 0 && val < to) val = to;
         if(progress >= duration) val = to;
-  
+
         setProgressBarValue(progressBar, val);
         if(progress < duration) {
           progressBar.animationId = window.requestAnimationFrame(animateFill);
@@ -5013,38 +5013,38 @@ function initAlertEvent(element) {
         cb();
       }
     };
-  
+
     function setProgressBarValue(progressBar, value) {
       progressBar.fill.style.width = value+'%';
       if(progressBar.label.length > 0 ) progressBar.label[0].textContent = value+'%';
       if(progressBar.changeColor) updateProgressBarColor(progressBar, value);
     };
-  
+
     function updateProgressBarColor(progressBar, value) {
       var className = 'progress-bar--fill-color-'+ progressBar.colorThresholds.length;
       for(var i = progressBar.colorThresholds.length; i > 0; i--) {
         if( !isNaN(progressBar.colorThresholds[i - 1]) && value <= progressBar.colorThresholds[i - 1]) {
           className = 'progress-bar--fill-color-' + i;
-        } 
+        }
       }
-      
+
       removeProgressBarColorClasses(progressBar);
       Util.addClass(progressBar.element, className);
     };
-  
+
     function removeProgressBarColorClasses(progressBar) {
       var classes = progressBar.element.className.split(" ").filter(function(c) {
         return c.lastIndexOf('progress-bar--fill-color-', 0) !== 0;
       });
       progressBar.element.className = classes.join(" ").trim();
     };
-  
+
     function emitProgressBarEvents(progressBar, eventName, detail) {
       progressBar.element.dispatchEvent(new CustomEvent(eventName, {detail: detail}));
     };
-  
+
     window.ProgressBar = ProgressBar;
-  
+
     //initialize the ProgressBar objects
     var progressBars = document.getElementsByClassName('js-progress-bar');
     var osHasReducedMotion = Util.osHasReducedMotion();
@@ -5069,11 +5069,11 @@ function initAlertEvent(element) {
       this.inputName = this.element.getAttribute('data-repeater-input-name');
       initRepeater(this);
     };
-  
+
     function initRepeater(element) {
       if(element.addNew.length < 1 || element.blocks.length < 1 || element.blockWrapper.length < 1 ) return;
       element.firstBlock = element.blocks[0].cloneNode(true);
-      
+
       // detect click on a Remove button
       element.element.addEventListener('click', function(event) {
         var deleteBtn = event.target.closest('.js-repeater__remove');
@@ -5082,14 +5082,14 @@ function initAlertEvent(element) {
           removeBlock(element, deleteBtn);
         }
       });
-  
+
       // detect click on Add button
       element.addNew[0].addEventListener('click', function(event) {
         event.preventDefault();
         addBlock(element);
       });
     };
-  
+
     function addBlock(element) {
       if(element.blocks.length > 0) {
         var clone = element.blocks[element.blocks.length - 1].cloneNode(true),
@@ -5100,16 +5100,16 @@ function initAlertEvent(element) {
         nameToReplace = element.inputName.replace('[n]', '[0]'),
         newName = element.inputName.replace('[n]', '[0]');
       }
-      
+
       if(element.cloneClass) Util.addClass(clone, element.cloneClass);
       // modify name/for/id attributes
       updateBlockAttrs(clone, nameToReplace, newName, true);
-  
+
       element.blockWrapper[0].appendChild(clone);
       // update blocks list
       getBlocksList(element)
     };
-  
+
     function removeBlock(element, trigger) {
       var block = trigger.closest('.js-repeater__item');
       if(block) {
@@ -5123,33 +5123,33 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function updateBlockAttrs(block, nameToReplace, newName, reset) {
       var nameElements = block.querySelectorAll('[name^="'+nameToReplace+'"]'),
         forElements = block.querySelectorAll('[for^="'+nameToReplace+'"]'),
         idElements = block.querySelectorAll('[id^="'+nameToReplace+'"]');
-  
+
       for(var i = 0; i < nameElements.length; i++) {
         var nameAttr = nameElements[i].getAttribute('name');
         nameElements[i].setAttribute('name', nameAttr.replace(nameToReplace, newName));
         if(reset && nameElements[i].value) nameElements[i].value = '';
       }
-  
+
       for(var i = 0; i < forElements.length; i++) {
         var forAttr = forElements[i].getAttribute('for');
         forElements[i].setAttribute('for', forAttr.replace(nameToReplace, newName));
       }
-  
+
       for(var i = 0; i < idElements.length; i++) {
         var idAttr = idElements[i].getAttribute('id');
         idElements[i].setAttribute('id', idAttr.replace(nameToReplace, newName));
       }
     };
-  
+
     function getBlocksList(element) {
       element.blocks = Util.getChildrenByClassName(element.blockWrapper[0], 'js-repeater__item');
     };
-  
+
     //initialize the Repeater objects
     var repeater = document.getElementsByClassName('js-repeater');
     if( repeater.length > 0 ) {
@@ -5175,15 +5175,15 @@ function initAlertEvent(element) {
       getCustomStaticClass(this); // custom classes for static version
       initSidebar(this);
     };
-  
+
     function getCustomStaticClass(element) {
       var customClasses = element.element.getAttribute('data-static-class');
       if(customClasses) element.customStaticClass = ' '+customClasses;
     };
-    
+
     function initSidebar(sidebar) {
       initSidebarResize(sidebar); // handle changes in layout -> mobile to static and viceversa
-      
+
       if ( sidebar.triggers ) { // open sidebar when clicking on trigger buttons - mobile layout only
         for(var i = 0; i < sidebar.triggers.length; i++) {
           sidebar.triggers[i].addEventListener('click', function(event) {
@@ -5200,13 +5200,13 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function showSidebar(sidebar) { // mobile layout only
       Util.addClass(sidebar.element, sidebar.showClass);
       getFocusableElements(sidebar);
       Util.moveFocus(sidebar.element);
     };
-  
+
     function closeSidebar(sidebar) { // mobile layout only
       Util.removeClass(sidebar.element, sidebar.showClass);
       sidebar.firstFocusable = null;
@@ -5216,19 +5216,19 @@ function initAlertEvent(element) {
       //remove listeners
       cancelSidebarEvents(sidebar);
     };
-  
+
     function initSidebarEvents(sidebar) { // mobile layout only
       //add event listeners
       sidebar.element.addEventListener('keydown', handleEvent.bind(sidebar));
       sidebar.element.addEventListener('click', handleEvent.bind(sidebar));
     };
-  
+
     function cancelSidebarEvents(sidebar) { // mobile layout only
       //remove event listeners
       sidebar.element.removeEventListener('keydown', handleEvent.bind(sidebar));
       sidebar.element.removeEventListener('click', handleEvent.bind(sidebar));
     };
-  
+
     function handleEvent(event) { // mobile layout only
       switch(event.type) {
         case 'click': {
@@ -5239,7 +5239,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function initKeyDown(sidebar, event) { // mobile layout only
       if( event.keyCode && event.keyCode == 27 || event.key && event.key == 'Escape' ) {
         //close sidebar window on esc
@@ -5249,14 +5249,14 @@ function initAlertEvent(element) {
         trapFocus(sidebar, event);
       }
     };
-  
+
     function initClick(sidebar, event) { // mobile layout only
-      //close sidebar when clicking on close button or sidebar bg layer 
+      //close sidebar when clicking on close button or sidebar bg layer
       if( !event.target.closest('.js-sidebar__close-btn') && !Util.hasClass(event.target, 'js-sidebar') ) return;
       event.preventDefault();
       closeSidebar(sidebar);
     };
-  
+
     function trapFocus(sidebar, event) { // mobile layout only
       if( sidebar.firstFocusable == document.activeElement && event.shiftKey) {
         //on Shift+Tab -> focus last focusable element when focus moves out of sidebar
@@ -5269,20 +5269,20 @@ function initAlertEvent(element) {
         sidebar.firstFocusable.focus();
       }
     };
-  
+
     function initSidebarResize(sidebar) {
       // custom event emitted when window is resized - detect only if the sidebar--static@{breakpoint} class was added
       var beforeContent = getComputedStyle(sidebar.element, ':before').getPropertyValue('content');
       if(beforeContent && beforeContent !='' && beforeContent !='none') {
         checkSidebarLayour(sidebar);
-  
+
         sidebar.element.addEventListener('update-sidebar', function(event){
           checkSidebarLayour(sidebar);
         });
-      } 
+      }
       Util.addClass(sidebar.element, sidebar.readyClass);
     };
-  
+
     function checkSidebarLayour(sidebar) {
       var layout = getComputedStyle(sidebar.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
       if(layout == sidebar.layout) return;
@@ -5290,19 +5290,19 @@ function initAlertEvent(element) {
       if(layout != 'static') Util.addClass(sidebar.element, 'is-hidden');
       Util.toggleClass(sidebar.element, sidebar.staticClass + sidebar.customStaticClass, layout == 'static');
       if(layout != 'static') setTimeout(function(){Util.removeClass(sidebar.element, 'is-hidden')});
-      // reset element role 
+      // reset element role
       (layout == 'static') ? sidebar.element.removeAttribute('role', 'alertdialog') :  sidebar.element.setAttribute('role', 'alertdialog');
       // reset mobile behaviour
       if(layout == 'static' && Util.hasClass(sidebar.element, sidebar.showClass)) closeSidebar(sidebar);
     };
-  
+
     function getFocusableElements(sidebar) {
       //get all focusable elements inside the drawer
       var allFocusable = sidebar.element.querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary');
       getFirstVisible(sidebar, allFocusable);
       getLastVisible(sidebar, allFocusable);
     };
-  
+
     function getFirstVisible(sidebar, elements) {
       //get first visible focusable element inside the sidebar
       for(var i = 0; i < elements.length; i++) {
@@ -5312,7 +5312,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     function getLastVisible(sidebar, elements) {
       //get last visible focusable element inside the sidebar
       for(var i = elements.length - 1; i >= 0; i--) {
@@ -5322,7 +5322,7 @@ function initAlertEvent(element) {
         }
       }
     };
-  
+
     //initialize the Sidebar objects
     var sidebar = document.getElementsByClassName('js-sidebar');
     if( sidebar.length > 0 ) {
@@ -5334,7 +5334,7 @@ function initAlertEvent(element) {
       window.addEventListener('resize', function(event){
         (!window.requestAnimationFrame) ? setTimeout(function(){resetLayout();}, 250) : window.requestAnimationFrame(resetLayout);
       });
-  
+
       function resetLayout() {
         for( var i = 0; i < sidebar.length; i++) {
           (function(i){sidebar[i].dispatchEvent(customEvent)})(i);
@@ -5355,7 +5355,7 @@ function initAlertEvent(element) {
         Util.toggleClass(listItem, 'sidenav__item--expanded', !bool);
       });
     };
-  
+
     var sideNavs = document.getElementsByClassName('js-sidenav');
     if( sideNavs.length > 0 ) {
       for( var i = 0; i < sideNavs.length; i++) {
@@ -5376,10 +5376,10 @@ function initAlertEvent(element) {
       this.scrollElementX = this.dataElementY ? document.querySelector(this.dataElementX) : window;
       this.initScroll();
     };
-  
+
     SmoothScroll.prototype.initScroll = function() {
       var self = this;
-  
+
       //detect click on link
       this.element.addEventListener('click', function(event){
         event.preventDefault();
@@ -5387,12 +5387,12 @@ function initAlertEvent(element) {
           target = document.getElementById(targetId),
           targetTabIndex = target.getAttribute('tabindex'),
           windowScrollTop = self.scrollElementY.scrollTop || document.documentElement.scrollTop;
-  
+
         // scroll vertically
         if(!self.dataElementY) windowScrollTop = window.scrollY || document.documentElement.scrollTop;
-  
+
         var scrollElementY = self.dataElementY ? self.scrollElementY : false;
-  
+
         var fixedHeight = self.getFixedElementHeight(); // check if there's a fixed element on the page
         Util.scrollTo(target.getBoundingClientRect().top + windowScrollTop - fixedHeight, self.scrollDuration, function() {
           // scroll horizontally
@@ -5404,23 +5404,23 @@ function initAlertEvent(element) {
         }, scrollElementY);
       });
     };
-  
+
     SmoothScroll.prototype.scrollHorizontally = function(target, delta) {
       var scrollEl = this.dataElementX ? this.scrollElementX : false;
       var windowScrollLeft = this.scrollElementX ? this.scrollElementX.scrollLeft : document.documentElement.scrollLeft;
       var final = target.getBoundingClientRect().left + windowScrollLeft - delta,
         duration = this.scrollDuration;
-  
+
       var element = scrollEl || window;
       var start = element.scrollLeft || document.documentElement.scrollLeft,
         currentTime = null;
-  
+
       if(!scrollEl) start = window.scrollX || document.documentElement.scrollLeft;
       // return if there's no need to scroll
       if(Math.abs(start - final) < 5) return;
-          
+
       var animateScroll = function(timestamp){
-        if (!currentTime) currentTime = timestamp;        
+        if (!currentTime) currentTime = timestamp;
         var progress = timestamp - currentTime;
         if(progress > duration) progress = duration;
         var val = Math.easeInOutQuad(progress, start, final-start, duration);
@@ -5431,17 +5431,17 @@ function initAlertEvent(element) {
           window.requestAnimationFrame(animateScroll);
         }
       };
-  
+
       window.requestAnimationFrame(animateScroll);
     };
-  
+
     SmoothScroll.prototype.resetTarget = function(target, tabindex) {
       if( parseInt(target.getAttribute('tabindex')) < 0) {
         target.style.outline = 'none';
         !tabindex && target.removeAttribute('tabindex');
-      }	
+      }
     };
-  
+
     SmoothScroll.prototype.getFixedElementHeight = function() {
       var scrollElementY = this.dataElementY ? this.scrollElementY : document.documentElement;
       var fixedElementDelta = parseInt(getComputedStyle(scrollElementY).getPropertyValue('scroll-padding'));
@@ -5452,7 +5452,7 @@ function initAlertEvent(element) {
       }
       return fixedElementDelta;
     };
-    
+
     //initialize the Smooth Scroll objects
     var smoothScrollLinks = document.getElementsByClassName('js-smooth-scroll');
     if( smoothScrollLinks.length > 0 && !Util.cssSupports('scroll-behavior', 'smooth') && window.requestAnimationFrame) {
@@ -5483,7 +5483,7 @@ function initAlertEvent(element) {
       var paramValue = button.getAttribute('data-'+params[i]);
       if(params[i] == 'hashtags') paramValue = encodeURI(paramValue.replace(/\#| /g, ''));
       if(paramValue) {
-        (social == 'facebook') 
+        (social == 'facebook')
           ? newUrl = newUrl + 'u='+encodeURIComponent(paramValue)+'&'
           : newUrl = newUrl + params[i]+'='+encodeURIComponent(paramValue)+'&';
       }
@@ -5532,7 +5532,7 @@ function initAlertEvent(element) {
       getBannerOffsets(this);
       initBanner(this);
     };
-  
+
     function getBannerOffsets(element) { // get offset in and offset out values
       // update offsetIn
       element.offsetIn = 0;
@@ -5555,15 +5555,15 @@ function initAlertEvent(element) {
         element.offsetOut = element.offsetOut + parseInt(dataOffsetOut);
       }
     };
-  
+
     function initBanner(element) {
       resetBannerVisibility(element);
-  
+
       element.element.addEventListener('resize-banner', function(){
         getBannerOffsets(element);
         resetBannerVisibility(element);
       });
-  
+
       element.element.addEventListener('scroll-banner', function(){
         if(element.reset < 10) {
           getBannerOffsets(element);
@@ -5572,7 +5572,7 @@ function initAlertEvent(element) {
         resetBannerVisibility(element);
       });
     };
-  
+
     function resetBannerVisibility(element) {
       var scrollTop = document.documentElement.scrollTop,
         topTarget = false,
@@ -5585,31 +5585,31 @@ function initAlertEvent(element) {
       }
       Util.toggleClass(element.element, 'sticky-banner--visible', bottomTarget && topTarget);
     };
-  
+
     //initialize the Sticky Banner objects
     var stckyBanner = document.getElementsByClassName('js-sticky-banner');
     if( stckyBanner.length > 0 ) {
       for( var i = 0; i < stckyBanner.length; i++) {
         (function(i){new StickyBanner(stckyBanner[i]);})(i);
       }
-      
+
       // init scroll/resize
       var resizingId = false,
         scrollingId = false,
         resizeEvent = new CustomEvent('resize-banner'),
         scrollEvent = new CustomEvent('scroll-banner');
-      
+
       window.addEventListener('resize', function(event){
         clearTimeout(resizingId);
         resizingId = setTimeout(function(){
           doneResizing(resizeEvent);
         }, 300);
       });
-  
+
       window.addEventListener('scroll', function(event){
         if(scrollingId) return;
         scrollingId = true;
-        window.requestAnimationFrame 
+        window.requestAnimationFrame
           ? window.requestAnimationFrame(function(){
             doneResizing(scrollEvent);
             scrollingId = false;
@@ -5618,12 +5618,12 @@ function initAlertEvent(element) {
             doneResizing(scrollEvent);
             scrollingId = false;
           }, 200);
-  
+
         resizingId = setTimeout(function(){
           doneResizing(resizeEvent);
         }, 300);
       });
-  
+
       function doneResizing(event) {
         for( var i = 0; i < stckyBanner.length; i++) {
           (function(i){stckyBanner[i].dispatchEvent(event)})(i);
@@ -5644,7 +5644,7 @@ function initAlertEvent(element) {
       this.collapsedLayoutClass = 'subnav--collapsed';
       initSideNav(this);
     };
-  
+
     function getFirstFocusable(sidenav) { // get first focusable element inside the subnav
       if(sidenav.navList.length == 0) return;
       var focusableEle = sidenav.navList[0].querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary'),
@@ -5655,21 +5655,21 @@ function initAlertEvent(element) {
           break;
         }
       }
-  
+
       return firstFocusable;
     };
-  
+
     function initSideNav(sidenav) {
       checkSideNavLayout(sidenav); // switch from --compressed to --expanded layout
       initSideNavToggle(sidenav); // mobile behavior + layout update on resize
     };
-  
-    function initSideNavToggle(sidenav) { 
+
+    function initSideNavToggle(sidenav) {
       // custom event emitted when window is resized
       sidenav.element.addEventListener('update-sidenav', function(event){
         checkSideNavLayout(sidenav);
       });
-  
+
       // mobile only
       if(sidenav.control.length == 0 || sidenav.navList.length == 0) return;
       sidenav.control[0].addEventListener('click', function(event){ // open sidenav
@@ -5681,7 +5681,7 @@ function initAlertEvent(element) {
         }
       });
     };
-  
+
     function openSideNav(sidenav, event) { // open side nav - mobile only
       event.preventDefault();
       sidenav.selectedTrigger = event.target;
@@ -5692,7 +5692,7 @@ function initAlertEvent(element) {
         sidenav.firstFocusable.focus();
       });
     };
-  
+
     function closeSideNav(sidenav, event, bool) { // close side sidenav - mobile only
       if( !Util.hasClass(sidenav.navList[0], sidenav.showClass) ) return;
       if(event) event.preventDefault();
@@ -5700,15 +5700,15 @@ function initAlertEvent(element) {
       if(!sidenav.selectedTrigger) return;
       sidenav.selectedTrigger.setAttribute('aria-expanded', 'false');
       if(!bool) sidenav.selectedTrigger.focus();
-      sidenav.selectedTrigger = false; 
+      sidenav.selectedTrigger = false;
     };
-  
+
     function checkSideNavLayout(sidenav) { // switch from --compressed to --expanded layout
       var layout = getComputedStyle(sidenav.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
       if(layout != 'expanded' && layout != 'collapsed') return;
       Util.toggleClass(sidenav.element, sidenav.collapsedLayoutClass, layout != 'expanded');
     };
-    
+
     var sideNav = document.getElementsByClassName('js-subnav'),
       SideNavArray = [],
       j = 0;
@@ -5720,7 +5720,7 @@ function initAlertEvent(element) {
         }
         (function(i){SideNavArray.push(new SideNav(sideNav[i]));})(i);
       }
-  
+
       if(j > 0) { // on resize - update sidenav layout
         var resizingId = false,
           customEvent = new CustomEvent('update-sidenav');
@@ -5728,18 +5728,18 @@ function initAlertEvent(element) {
           clearTimeout(resizingId);
           resizingId = setTimeout(doneResizing, 300);
         });
-  
+
         function doneResizing() {
           for( var i = 0; i < SideNavArray.length; i++) {
             (function(i){SideNavArray[i].element.dispatchEvent(customEvent)})(i);
           };
         };
-  
+
         (window.requestAnimationFrame) // init table layout
           ? window.requestAnimationFrame(doneResizing)
           : doneResizing();
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( (event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape' )) {// listen for esc key - close navigation on mobile if open
@@ -5823,17 +5823,17 @@ function initAlertEvent(element) {
   function endDrag(content, event) {
     cancelDragging(content);
     // credits: https://css-tricks.com/simple-swipe-with-vanilla-javascript/
-    var dx = parseInt(unify(event).clientX), 
+    var dx = parseInt(unify(event).clientX),
       dy = parseInt(unify(event).clientY);
-    
+
     // check if there was a left/right swipe
     if(content.delta && (content.delta[0] || content.delta[0] === 0)) {
       var s = getSign(dx - content.delta[0]);
-      
+
       if(Math.abs(dx - content.delta[0]) > 30) {
-        (s < 0) ? emitSwipeEvents(content, 'swipeLeft', [dx, dy]) : emitSwipeEvents(content, 'swipeRight', [dx, dy]);	
+        (s < 0) ? emitSwipeEvents(content, 'swipeLeft', [dx, dy]) : emitSwipeEvents(content, 'swipeRight', [dx, dy]);
       }
-      
+
       content.delta[0] = false;
     }
     // check if there was a top/bottom swipe
@@ -5854,8 +5854,8 @@ function initAlertEvent(element) {
   function drag(content, event) {
     if(!content.dragging) return;
     // emit dragging event with coordinates
-    (!window.requestAnimationFrame) 
-      ? content.intervalId = setTimeout(function(){emitDrag.bind(content, event);}, 250) 
+    (!window.requestAnimationFrame)
+      ? content.intervalId = setTimeout(function(){emitDrag.bind(content, event);}, 250)
       : content.intervalId = window.requestAnimationFrame(emitDrag.bind(content, event));
   };
 
@@ -5863,9 +5863,9 @@ function initAlertEvent(element) {
     emitSwipeEvents(this, 'dragging', [parseInt(unify(event).clientX), parseInt(unify(event).clientY)]);
   };
 
-  function unify(event) { 
+  function unify(event) {
     // unify mouse and touch events
-    return event.changedTouches ? event.changedTouches[0] : event; 
+    return event.changedTouches ? event.changedTouches[0] : event;
   };
 
   function emitSwipeEvents(content, eventName, detail, el) {
@@ -5885,7 +5885,7 @@ function initAlertEvent(element) {
   };
 
   window.SwipeContent = SwipeContent;
-  
+
   //initialize the SwipeContent objects
   var swipe = document.getElementsByClassName('js-swipe-content');
   if( swipe.length > 0 ) {
@@ -5902,9 +5902,9 @@ function initAlertEvent(element) {
       for(var i = 0; i < switchIcons.length; i++) {(function(i){
         if( !Util.hasClass(switchIcons[i], 'switch-icon--hover') ) initswitchIcons(switchIcons[i]);
       })(i);}
-  
+
       function initswitchIcons(btn) {
-        btn.addEventListener('click', function(event){	
+        btn.addEventListener('click', function(event){
           event.preventDefault();
           var status = !Util.hasClass(btn, 'switch-icon--state-b');
           Util.toggleClass(btn, 'switch-icon--state-b', status);
@@ -5938,11 +5938,11 @@ function initAlertEvent(element) {
 				panelId = this.panels[i].getAttribute('id');
 			this.listItems[i].setAttribute('role', 'presentation');
 			Util.setAttributes(this.triggers[i], {'role': 'tab', 'aria-selected': bool, 'aria-controls': panelId, 'id': 'tab-'+panelId});
-			Util.addClass(this.triggers[i], 'js-tabs__trigger'); 
+			Util.addClass(this.triggers[i], 'js-tabs__trigger');
 			Util.setAttributes(this.panels[i], {'role': 'tabpanel', 'aria-labelledby': 'tab-'+panelId});
 			Util.toggleClass(this.panels[i], this.hideClass, !bool);
 
-			if(!bool) this.triggers[i].setAttribute('tabindex', '-1'); 
+			if(!bool) this.triggers[i].setAttribute('tabindex', '-1');
 		}
 
 		//listen for Tab events
@@ -5955,7 +5955,7 @@ function initAlertEvent(element) {
 		this.tabList.addEventListener('click', function(event) {
 			if( event.target.closest('.js-tabs__trigger') ) self.triggerTab(event.target.closest('.js-tabs__trigger'), event);
 		});
-		//arrow keys to navigate through tabs 
+		//arrow keys to navigate through tabs
 		this.tabList.addEventListener('keydown', function(event) {
 			if( !event.target.closest('.js-tabs__trigger') ) return;
 			if( event.keyCode && event.keyCode == 39 || event.key && event.key == 'ArrowRight' ) {
@@ -5970,21 +5970,21 @@ function initAlertEvent(element) {
 		var selectedTab = this.tabList.querySelector('[aria-selected="true"]'),
 			index = Util.getIndexInArray(this.triggers, selectedTab);
 		index = (direction == 'next') ? index + 1 : index - 1;
-		//make sure index is in the correct interval 
+		//make sure index is in the correct interval
 		//-> from last element go to first using the right arrow, from first element go to last using the left arrow
 		if(index < 0) index = this.listItems.length - 1;
-		if(index >= this.listItems.length) index = 0;	
+		if(index >= this.listItems.length) index = 0;
 		this.triggerTab(this.triggers[index]);
 		this.triggers[index].focus();
 	};
 
 	Tab.prototype.triggerTab = function(tabTrigger, event) {
 		var self = this;
-		event && event.preventDefault();	
+		event && event.preventDefault();
 		var index = Util.getIndexInArray(this.triggers, tabTrigger);
 		//no need to do anything if tab was already selected
 		if(this.triggers[index].getAttribute('aria-selected') == 'true') return;
-		
+
 		for( var i = 0; i < this.triggers.length; i++) {
 			var bool = (i == index);
 			Util.toggleClass(this.panels[i], this.hideClass, !bool);
@@ -5993,7 +5993,7 @@ function initAlertEvent(element) {
 			bool ? this.triggers[i].setAttribute('tabindex', '0') : this.triggers[i].setAttribute('tabindex', '-1');
 		}
 	};
-	
+
 	//initialize the Tab objects
 	var tabs = document.getElementsByClassName('js-tabs');
 	if( tabs.length > 0 ) {
@@ -6002,8 +6002,10 @@ function initAlertEvent(element) {
 		}
 	}
 }());
+// When user have change theme, we must save it in local-storage, or these options reset after page be updated;
 document.getElementById('themeSwitch').addEventListener('change', function(event){
     (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+    localStorage.setItem('selected-theme', event.target.checked ? 'dark' : 'white')
   });
 // File#: _2_adv-custom-select
 // Usage: codyhouse.co/license
@@ -6019,15 +6021,15 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.trigger = this.element.getElementsByClassName('js-adv-select__control')[0];
       this.triggerLabel = this.trigger.getElementsByClassName('js-adv-select__value')[0];
       this.dropdown = document.getElementById(this.trigger.getAttribute('aria-controls'));
-  
+
       initAdvSelect(this); // init markup
       initAdvSelectEvents(this); // init event listeners
     };
-  
+
     function getOptionsData(select) {
       var obj = [],
         dataset = select.options[0].dataset;
-  
+
       function camelCaseToDash( myStr ) {
         return myStr.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();
       }
@@ -6039,7 +6041,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return obj;
     };
-  
+
     function initAdvSelect(select) {
       // create custom structure
       createAdvStructure(select);
@@ -6050,7 +6052,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       Util.removeClass(select.trigger, 'is-hidden');
       Util.removeClass(select.dropdown, 'is-hidden');
     };
-  
+
     function initAdvSelectEvents(select) {
       if(select.selectLabel) {
         // move focus to custom trigger when clicking on <select> label
@@ -6058,12 +6060,12 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           select.trigger.focus();
         });
       }
-  
+
       // option is selected in dropdown
       select.dropdown.addEventListener('click', function(event){
         triggerSelection(select, event.target);
       });
-  
+
       // keyboard navigation
       select.dropdown.addEventListener('keydown', function(event){
         if(event.keyCode && event.keyCode == 38 || event.key && event.key.toLowerCase() == 'arrowup') {
@@ -6075,7 +6077,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
       });
     };
-  
+
     function createAdvStructure(select) {
       // store optgroup and option structure
       var optgroup = select.dropdown.querySelector('[role="group"]'),
@@ -6088,9 +6090,9 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         optgroupLabel = document.getElementById(optgroupClone.getAttribute('describedby'));
       }
       if(option) optionClone = option.cloneNode(true);
-  
+
       var dropdownCode = '';
-  
+
       if(select.optGroups.length > 0) {
         for(var i = 0; i < select.optGroups.length; i++) {
           dropdownCode = dropdownCode + getOptGroupCode(select, select.optGroups[i], optgroupClone, optionClone, optgroupLabel, i);
@@ -6100,10 +6102,10 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           dropdownCode = dropdownCode + getOptionCode(select, select.options[i], optionClone);
         }
       }
-  
+
       select.dropdown.innerHTML = dropdownCode;
     };
-  
+
     function getOptGroupCode(select, optGroup, optGroupClone, optionClone, optgroupLabel, index) {
       if(!optGroupClone || !optionClone) return '';
       var code = '';
@@ -6117,11 +6119,11 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         label.setAttribute('id', id);
         optGroupClone.setAttribute('describedby', id);
         code = label.outerHTML.replace('{optgroup-label}', optGroup.getAttribute('label')) + code;
-      } 
+      }
       optGroupClone.innerHTML = code;
       return optGroupClone.outerHTML;
     };
-  
+
     function getOptionCode(select, option, optionClone) {
       optionClone.setAttribute('data-value', option.value);
       if(option.selected) {
@@ -6138,22 +6140,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return optionHtml;
     };
-  
+
     function updateTriggerLabel(select) {
       // select.triggerLabel.textContent = select.options[select.select.selectedIndex].text;
       select.triggerLabel.innerHTML = select.dropdown.querySelector('[aria-selected="true"]').innerHTML;
     };
-  
+
     function triggerSelection(select, target) {
       var option = target.closest('[role="option"]');
       if(!option) return;
       selectOption(select, option);
     };
-  
+
     function selectOption(select, option) {
       if(option.hasAttribute('aria-selected') && option.getAttribute('aria-selected') == 'true') {
         // selecting the same option
-      } else { 
+      } else {
         var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
         if(selectedOption) {
           selectedOption.removeAttribute('aria-selected');
@@ -6170,26 +6172,26 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         select.trigger.click();
       });
     };
-  
+
     function updateNativeSelect(select, selectedValue) {
       var selectedOption = select.select.querySelector('[value="'+selectedValue+'"');
       select.select.selectedIndex = Util.getIndexInArray(select.options, selectedOption);
       select.select.dispatchEvent(new CustomEvent('change', {bubbles: true})); // trigger change event
     };
-  
+
     function keyboardCustomSelect(select, direction) {
       var selectedOption = select.select.querySelector('[value="'+document.activeElement.getAttribute('data-value')+'"]');
       if(!selectedOption) return;
       var index = Util.getIndexInArray(select.options, selectedOption);
-      
+
       index = direction == 'next' ? index + 1 : index - 1;
       if(index < 0) return;
       if(index >= select.options.length) return;
-      
+
       var dropdownOption = select.dropdown.querySelector('[data-value="'+select.options[index].getAttribute('value')+'"]');
       if(dropdownOption) Util.moveFocus(dropdownOption);
     };
-  
+
     //initialize the AdvSelect objects
     var advSelect = document.getElementsByClassName('js-adv-select');
     if( advSelect.length > 0 ) {
@@ -6222,13 +6224,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       initAutocomplete(this);
       this.autocompleteClosed = false; // fix issue when selecting an option from the list
     };
-  
+
     function initAutocomplete(element) {
       initAutocompleteAria(element); // set aria attributes for SR and keyboard users
       initAutocompleteTemplates(element);
       initAutocompleteEvents(element);
     };
-  
+
     function initAutocompleteAria(element) {
       // set aria attributes for input element
       Util.setAttributes(element.input, {'role': 'combobox', 'aria-autocomplete': 'list'});
@@ -6237,7 +6239,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // set aria attributes for autocomplete list
       element.resultsList.setAttribute('role', 'list');
     };
-  
+
     function initAutocompleteTemplates(element) {
       element.templateItems = element.resultsList.querySelectorAll('.'+element.resultClassName+'[data-autocomplete-template]');
       if(element.templateItems.length < 1) element.templateItems = element.resultsList.querySelectorAll('.'+element.resultClassName);
@@ -6246,23 +6248,23 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         element.templates[i] = element.templateItems[i].getAttribute('data-autocomplete-template');
       }
     };
-  
+
     function initAutocompleteEvents(element) {
-      // input - keyboard navigation 
+      // input - keyboard navigation
       element.input.addEventListener('keyup', function(event){
         handleInputTyped(element, event);
       });
-  
+
       // if input type="search" -> detect when clicking on 'x' to clear input
       element.input.addEventListener('search', function(event){
         updateSearch(element);
       });
-  
+
       // make sure dropdown is open on click
       element.input.addEventListener('click', function(event){
         updateSearch(element, true);
       });
-  
+
       element.input.addEventListener('focus', function(event){
         if(element.autocompleteClosed) {
           element.autocompleteClosed = false;
@@ -6270,22 +6272,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
         updateSearch(element, true);
       });
-  
+
       // input loses focus -> close menu
       element.input.addEventListener('blur', function(event){
         checkFocusLost(element, event);
       });
-  
-      // results list - keyboard navigation 
+
+      // results list - keyboard navigation
       element.resultsList.addEventListener('keydown', function(event){
         navigateList(element, event);
       });
-  
+
       // results list loses focus -> close menu
       element.resultsList.addEventListener('focusout', function(event){
         checkFocusLost(element, event);
       });
-  
+
       // close on esc
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
@@ -6294,18 +6296,18 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           selectResult(element, document.activeElement.closest('.'+element.resultClassName), event);
         }
       });
-  
+
       // select element from list
       element.resultsList.addEventListener('click', function(event){
         selectResult(element, event.target.closest('.'+element.resultClassName), event);
       });
     };
-  
+
     function checkFocusLost(element, event) {
       if(element.element.contains(event.relatedTarget)) return;
       toggleOptionsList(element, false);
     };
-  
+
     function handleInputTyped(element, event) {
       if(event.key.toLowerCase() == 'arrowdown' || event.keyCode == '40') {
         moveFocusToList(element);
@@ -6313,7 +6315,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         updateSearch(element);
       }
     };
-  
+
     function moveFocusToList(element) {
       if(!Util.hasClass(element.element, element.dropdownActiveClass)) return;
       resetSearch(element); // clearTimeout
@@ -6324,7 +6326,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       getListFocusableEl(element.resultsItems[index]).focus();
     };
-  
+
     function updateSearch(element, bool) {
       var inputValue = element.input.value;
       if(inputValue == element.inputVal && !bool) return; // input value did not change
@@ -6342,7 +6344,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         updateResultsList(element, 'type');
       }, element.options.debounce);
     };
-  
+
     function toggleOptionsList(element, bool) {
       // toggle visibility of options list
       if(bool) {
@@ -6361,20 +6363,20 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         resetSearch(element); // clearTimeout
       }
     };
-  
+
     function truncateAutocompleteList(element) {
       if(!element.truncateDropdown) return;
       // reset max height
       element.resultsList.style.maxHeight = '';
-      // check available space 
+      // check available space
       var spaceBelow = (window.innerHeight - element.input.getBoundingClientRect().bottom - 10),
         maxHeight = parseInt(getComputedStyle(element.resultsList).maxHeight);
-  
-      (maxHeight > spaceBelow) 
-        ? element.resultsList.style.maxHeight = spaceBelow+'px' 
+
+      (maxHeight > spaceBelow)
+        ? element.resultsList.style.maxHeight = spaceBelow+'px'
         : element.resultsList.style.maxHeight = '';
     };
-  
+
     function updateResultsList(element, eventType) {
       if(element.searching) return;
       element.searching = true;
@@ -6388,18 +6390,18 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         element.searching = false;
       }, eventType);
     };
-  
+
     function updateAriaRegion(element) {
       element.resultsItems = element.resultsList.querySelectorAll('.'+element.resultClassName+'[tabindex="-1"]');
       if(element.ariaResult.length == 0) return;
       element.ariaResult[0].textContent = element.resultsItems.length;
     };
-  
+
     function resetSearch(element) {
       if(element.typeId) clearInterval(element.typeId);
       element.typeId = false;
     };
-  
+
     function navigateList(element, event) {
       var downArrow = (event.key.toLowerCase() == 'arrowdown' || event.keyCode == '40'),
         upArrow = (event.key.toLowerCase() == 'arrowup' || event.keyCode == '38');
@@ -6410,7 +6412,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       var newIndex = getElementFocusbleIndex(element, index, downArrow);
       getListFocusableEl(element.resultsItems[newIndex]).focus();
     };
-  
+
     function getElementFocusbleIndex(element, index, nextItem) {
       var newIndex = nextItem ? index + 1 : index - 1;
       if(newIndex < 0) newIndex = element.resultsItems.length - 1;
@@ -6422,7 +6424,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return newIndex;
     };
-  
+
     function elementListIsFocusable(item) {
       var role = item.getAttribute('role');
       if(role && role == 'presentation') {
@@ -6431,14 +6433,14 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return true;
     };
-  
+
     function getListFocusableEl(item) {
       var newFocus = item,
         focusable = newFocus.querySelectorAll('button:not([disabled]), [href]');
       if(focusable.length > 0 ) newFocus = focusable[0];
       return newFocus;
     };
-  
+
     function selectResult(element, result, event) {
       if(!result) return;
       if(element.options.onClick) {
@@ -6451,21 +6453,21 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       element.inputVal = element.input.value;
     };
-  
+
     function getResultContent(result) { // get text content of selected item
       var labelElement = result.querySelector('[data-autocomplete-label]');
       return labelElement ? labelElement.textContent : result.textContent;
     };
-  
+
     function populateResults(element, data) {
       var innerHtml = '';
-  
+
       for(var i = 0; i < data.length; i++) {
         innerHtml = innerHtml + getItemHtml(element, data[i]);
       }
       element.resultsList.innerHTML = innerHtml;
     };
-  
+
     function getItemHtml(element, data) {
       var clone = getClone(element, data);
       Util.removeClass(clone, 'is-hidden');
@@ -6481,7 +6483,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return clone.outerHTML;
     };
-  
+
     function getClone(element, data) {
       var item = false;
       if(element.templateItems.length == 1 || !data['template']) item = element.templateItems[0];
@@ -6495,28 +6497,28 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return item.cloneNode(true);
     };
-  
+
     function setLabel(clone, label) {
       var labelElement = clone.querySelector('[data-autocomplete-label]');
-      labelElement 
+      labelElement
         ? labelElement.textContent = label
         : clone.textContent = label;
     };
-  
+
     function setClass(clone, classList) {
       Util.addClass(clone, classList);
     };
-  
+
     function setUrl(clone, url) {
       var linkElement = clone.querySelector('[data-autocomplete-url]');
       if(linkElement) linkElement.setAttribute('href', url);
     };
-  
+
     function setSrc(clone, src) {
       var imgElement = clone.querySelector('[data-autocomplete-src]');
       if(imgElement) imgElement.setAttribute('src', src);
     };
-  
+
     function setKey(clone, key, value) {
       var subElement = clone.querySelector('[data-autocomplete-'+key+']');
       if(subElement) {
@@ -6524,7 +6526,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         else subElement.textContent = value;
       }
     };
-  
+
     Autocomplete.defaults = {
       element : '',
       debounce: 200,
@@ -6532,7 +6534,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       searchData: false, // function used to return results
       onClick: false // function executed when selecting an item in the list; arguments (result, obj) -> selected <li> item + Autocompletr obj reference
     };
-  
+
     window.Autocomplete = Autocomplete;
   }());
 // File#: _2_comments
@@ -6548,19 +6550,19 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         emitKeypressEvents(element, voteCounter, pressed);
       });
     };
-  
+
     function resetCounter(voteCounter, pressed) { // update counter value (if present)
       if(voteCounter.length == 0) return;
       var count = parseInt(voteCounter[0].textContent);
       voteCounter[0].textContent = pressed ? count - 1 : count + 1;
     };
-  
+
     function emitKeypressEvents(element, label, pressed) { // emit custom event when vote is updated
       var count = (label.length == 0) ? false : parseInt(label[0].textContent);
       var event = new CustomEvent('newVote', {detail: {count: count, upVote: !pressed}});
       element.dispatchEvent(event);
     };
-  
+
     var voteCounting = document.getElementsByClassName('js-comments__vote-btn');
     if( voteCounting.length > 0 ) {
       for( var i = 0; i < voteCounting.length; i++) {
@@ -6589,8 +6591,8 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       initProgress(this, 0, 1, false);
       initDdf(this);
     };
-  
-    function initDndMessageResponse(element) { 
+
+    function initDndMessageResponse(element) {
       // use this function to initilise the response of the Ddf when files are dropped (e.g., show list of files, update label message, show loader)
       if(element.options.showFiles) {
         element.filesList = element.element.getElementsByClassName('js-ddf__list');
@@ -6604,37 +6606,37 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         if(element.options.upload) element.progress = element.element.getElementsByClassName('js-ddf__progress');
       }
     };
-  
+
     function initDdf(element) {
       if(element.input.length > 0 ) { // store accepted file format
         var accept = element.input[0].getAttribute('accept');
         if(accept) element.options.acceptFile = accept.split(',').map(function(element){ return element.trim();})
       }
-  
+
       initDndInput(element);
       initDndArea(element);
     };
-  
+
     function initDndInput(element) { // listen to changes in the input file element
       if(element.input.length == 0 ) return;
       element.input[0].addEventListener('change', function(event){
-        if(element.input[0].value == '') return; 
+        if(element.input[0].value == '') return;
         storeDroppedFiles(element, element.input[0].files);
         element.input[0].value = '';
         updateDndArea(element);
       });
     };
-  
+
     function initDndArea(element) { //drag event listeners
       element.element.addEventListener('dragenter', handleEvent.bind(element));
       element.element.addEventListener('dragover', handleEvent.bind(element));
       element.element.addEventListener('dragleave', handleEvent.bind(element));
       element.element.addEventListener('drop', handleEvent.bind(element));
     };
-  
+
     function handleEvent(event) {
       switch(event.type) {
-        case 'dragenter': 
+        case 'dragenter':
         case 'dragover':
           preventDefaults(event);
           Util.addClass(this.area[0], 'ddf__area--file-hover');
@@ -6650,7 +6652,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           break;
       }
     };
-  
+
     function storeDroppedFiles(element, fileData) { // check files size/format/number
       element.lastDroppedFiles = [];
       if(element.options.replaceFiles) element.droppedFiles = [];
@@ -6659,7 +6661,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       element.droppedFiles = element.droppedFiles.concat(element.lastDroppedFiles);
       if(element.options.maxFiles) filterMaxFiles(element); // check max number of files
     };
-  
+
     function updateDndArea(element) { // update UI + emit events
       if(element.options.showFiles) updateDndList(element);
       else {
@@ -6669,19 +6671,19 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       Util.removeClass(element.area[0], 'ddf__area--file-hover');
       emitCustomEvents(element, 'filesUploaded', false);
     };
-  
+
     function preventDefaults(event) {
       event.preventDefault();
       event.stopPropagation();
     };
-  
+
     function filterUploadedFiles(element) {
       // check max weight
       if(element.options.maxSize) filterMaxWeight(element);
       // check file format
       if(element.options.acceptFile.length > 0) filterAcceptFile(element);
     };
-  
+
     function filterMaxWeight(element) { // filter files by size
       var rejected = [];
       for(var i = element.lastDroppedFiles.length - 1; i >= 0; i--) {
@@ -6694,7 +6696,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         emitCustomEvents(element, 'rejectedWeight', rejected);
       }
     };
-  
+
     function filterAcceptFile(element) { // filter files by format
       var rejected = [];
       for(var i = element.lastDroppedFiles.length - 1; i >= 0; i--) {
@@ -6703,24 +6705,24 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           rejected.push(rejectedFile[0].name);
         }
       }
-  
+
       if(rejected.length > 0) {
         emitCustomEvents(element, 'rejectedFormat', rejected);
       }
     };
-  
+
     function formatInList(element, index) {
       var formatArray = element.lastDroppedFiles[index].type.split('/'),
         type = formatArray[0]+'/*',
         extension = formatArray.length > 1 ? formatArray[1]: false;
-  
+
       var accepted = false;
       for(var i = 0; i < element.options.acceptFile.length; i++) {
         if(element.lastDroppedFiles[index].type == element.options.acceptFile[i] || type == element.options.acceptFile[i] || (extension && extension == element.options.acceptFile[i]) ) {
           accepted = true;
           break;
         }
-  
+
         if(extension && extensionInList(extension, element.options.acceptFile[i])) { // extension could be list of format; e.g. for the svg it is svg+xml
           accepted = true;
           break;
@@ -6728,7 +6730,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return accepted;
     };
-  
+
     function extensionInList(extensionList, extension) {
       // extension could be .svg, .pdf, ..
       // extensionList could be png, svg+xml, ...
@@ -6743,39 +6745,39 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return accepted;
     }
-  
+
     function filterMaxFiles(element) { // check number of uploaded files
-      if(element.options.maxFiles >= element.droppedFiles.length) return; 
+      if(element.options.maxFiles >= element.droppedFiles.length) return;
       var rejected = [];
       while (element.droppedFiles.length > element.options.maxFiles) {
         var rejectedFile = element.droppedFiles.pop();
         element.lastDroppedFiles.pop();
         rejected.push(rejectedFile.name);
       }
-  
+
       if(rejected.length > 0) {
         emitCustomEvents(element, 'rejectedNumber', rejected);
       }
     };
-  
+
     function updateDndAreaMessage(element) {
-      if(element.progress && element.progress[0]) { // reset progress bar 
+      if(element.progress && element.progress[0]) { // reset progress bar
         element.progressObj[0].setProgressBarValue(0);
         Util.toggleClass(element.progress[0], 'is-hidden', element.droppedFiles.length == 0);
         Util.removeClass(element.progress[0], element.progressCompleteClass);
       }
-  
+
       if(element.droppedFiles.length > 0 && element.labelEndMessage) {
         var finalMessage = element.labelEnd.innerHTML;
         if(element.labelEndMessage.length > 3) {
-          finalMessage = element.droppedFiles.length > 1 
+          finalMessage = element.droppedFiles.length > 1
             ? element.labelEndMessage[0] + element.labelEndMessage[2] + element.labelEndMessage[3]
             : element.labelEndMessage[0] + element.labelEndMessage[1] + element.labelEndMessage[3];
         }
         element.labelEnd[0].innerHTML = finalMessage.replace('{n}', element.droppedFiles.length);
       }
     };
-  
+
     function updateDndList(element) {
       // create new list of files to be appended
       if(!element.fileItems || element.fileItems.length == 0) return
@@ -6786,26 +6788,26 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         clone.getElementsByClassName('js-ddf__file-name')[0].textContent = element.lastDroppedFiles[i].name;
         string = clone.outerHTML + string;
       }
-  
+
       if(element.options.replaceFiles) { // replace all files in list with new files
         string = element.fileItems[0].outerHTML + string;
         element.filesList[0].innerHTML = string;
       } else {
         element.fileItems[0].insertAdjacentHTML('afterend', string);
       }
-  
+
       if(element.options.upload) storeMultipleProgress(element);
-  
+
       Util.toggleClass(element.filesList[0], 'is-hidden', element.droppedFiles.length == 0);
     };
-  
+
     function initRemoveFile(element) { // if list of files is visible - option to remove file from list
       element.filesList[0].addEventListener('click', function(event){
         if(!event.target.closest('.js-ddf__remove-btn')) return;
         event.preventDefault();
         var item = event.target.closest('.js-ddf__item'),
           index = Util.getIndexInArray(element.filesList[0].getElementsByClassName('js-ddf__item'), item);
-        
+
         var removedFile = element.droppedFiles.splice(element.droppedFiles.length - index, 1);
         if(element.progress && element.progress.length > element.droppedFiles.length - index) {
           element.progress.splice();
@@ -6818,9 +6820,9 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         item.remove();
         emitCustomEvents(element, 'fileRemoved', removedFile);
       });
-  
+
     };
-  
+
     function storeMultipleProgress(element) { // handle progress bar elements
       element.progress = [];
       var delta = element.droppedFiles.length - element.lastDroppedFiles.length;
@@ -6829,7 +6831,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       initProgress(element, 0, element.lastDroppedFiles.length, true);
     };
-  
+
     function initProgress(element, start, end, bool) {
       element.progressObj = [];
       if(!element.progress || element.progress.length == 0) return;
@@ -6842,12 +6844,12 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         });
       })(i);}
     };
-  
+
     function emitCustomEvents(element, eventName, detail) {
       var event = new CustomEvent(eventName, {detail: detail});
       element.element.dispatchEvent(event);
     };
-    
+
     Ddf.defaults = {
       element : '',
       maxFiles: false, // max number of files
@@ -6856,7 +6858,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       replaceFiles: true, // when new files are loaded -> they replace the old ones
       upload: false // show progress bar for the upload process
     };
-  
+
     window.Ddf = Ddf;
   }());
 // File#: _2_draggable-img-gallery
@@ -6867,7 +6869,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     this.list = this.element.getElementsByTagName('ul')[0];
     this.imgs = this.list.children;
     this.gestureHint = this.element.getElementsByClassName('drag-gallery__gesture-hint');// drag gesture hint
-    this.galleryWidth = getGalleryWidth(this); 
+    this.galleryWidth = getGalleryWidth(this);
     this.translate = 0; // store container translate value
     this.dragStart = false; // start dragging position
     // drag momentum option
@@ -6876,19 +6878,19 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     this.dragTimeMEnd = false;
     this.dragMSpeed = false;
     this.dragAnimId = false;
-    initDragGalleryEvents(this); 
+    initDragGalleryEvents(this);
   };
 
   function initDragGalleryEvents(gallery) {
     initDragging(gallery); // init dragging
 
     gallery.element.addEventListener('update-gallery-width', function(event){ // window resize
-      gallery.galleryWidth = getGalleryWidth(gallery); 
+      gallery.galleryWidth = getGalleryWidth(gallery);
       // reset translate value if not acceptable
       checkTranslateValue(gallery);
       setTranslate(gallery);
     });
-     
+
     if(intersectionObsSupported) initOpacityAnim(gallery); // init image animation
 
     if(!reducedMotion && gallery.gestureHint.length > 0) initHintGesture(gallery); // init hint gesture element animation
@@ -6904,7 +6906,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     new SwipeContent(gallery.element);
     gallery.element.addEventListener('dragStart', function(event){
       window.cancelAnimationFrame(gallery.dragAnimId);
-      Util.addClass(gallery.element, 'drag-gallery--is-dragging'); 
+      Util.addClass(gallery.element, 'drag-gallery--is-dragging');
       gallery.dragStart = event.detail.x;
       gallery.dragMStart = event.detail.x;
       gallery.dragTimeMStart = new Date().getTime();
@@ -6991,7 +6993,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     var currentTime = false;
 
     function animMomentumDrag(timestamp) {
-      if (!currentTime) currentTime = timestamp;         
+      if (!currentTime) currentTime = timestamp;
       var progress = timestamp - currentTime;
       currentTime = timestamp;
       if(Math.abs(gallery.dragMSpeed) < 0.01) {
@@ -7030,7 +7032,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
   if( dragGallery.length > 0 ) {
     var dragGalleryArray = [];
     for( var i = 0; i < dragGallery.length; i++) {
-      (function(i){ 
+      (function(i){
         if(!intersectionObsSupported || reducedMotion) Util.addClass(dragGallery[i], 'drag-gallery--anim-off');
         dragGalleryArray.push(new DragGallery(dragGallery[i]));
       })(i);
@@ -7039,7 +7041,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     // resize event
     var resizingId = false,
       customEvent = new CustomEvent('update-gallery-width');
-    
+
     window.addEventListener('resize', function() {
       clearTimeout(resizingId);
       resizingId = setTimeout(doneResizing, 500);
@@ -7061,17 +7063,17 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         // set svg attributes to create fill-in animation on click
         initCircleAttributes(element, circle[0]);
       }
-  
+
       var drawerId = element.getAttribute('aria-controls'),
         drawer = document.getElementById(drawerId);
       if(drawer) {
         // when the drawer is closed without click (e.g., user presses 'Esc') -> reset trigger status
-        drawer.addEventListener('drawerIsClose', function(event){ 
+        drawer.addEventListener('drawerIsClose', function(event){
           if(!event.detail || (event.detail && !event.detail.closest('.js-dr-nav-control[aria-controls="'+drawerId+'"]')) ) resetTrigger(element);
         });
       }
     };
-  
+
     function initCircleAttributes(element, circle) {
       // set circle stroke-dashoffset/stroke-dasharray values
       var circumference = (2*Math.PI*circle.getAttribute('r')).toFixed(2);
@@ -7079,11 +7081,11 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       circle.setAttribute('stroke-dasharray', circumference);
       Util.addClass(element, 'dr-nav-control--ready-to-animate');
     };
-  
+
     function resetTrigger(element) {
-      Util.removeClass(element, 'anim-menu-btn--state-b'); 
+      Util.removeClass(element, 'anim-menu-btn--state-b');
     };
-  
+
     var drNavControl = document.getElementsByClassName('js-dr-nav-control');
     if(drNavControl.length > 0) initDrNavControl(drNavControl[0]);
   }());
@@ -7102,7 +7104,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 		this.prevFocus = false; // store element that was in focus before focus changed
 		this.addDropdownEvents();
 	};
-	
+
 	Dropdown.prototype.addDropdownEvents = function(){
 		//place dropdown
 		var self = this;
@@ -7188,7 +7190,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 	    });
 		}
 		// store focus element before change in focus
-		this.element.addEventListener('keydown', function(event) { 
+		this.element.addEventListener('keydown', function(event) {
 			if( event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' ) {
 				self.prevFocus = document.activeElement;
 			}
@@ -7210,13 +7212,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 					self.showLevel(focusElementSibling);
 				}
 
-				// check previous element in focus -> hide sublevel if required 
+				// check previous element in focus -> hide sublevel if required
 				if( !self.prevFocus) return;
 				var prevFocusElementParent = self.prevFocus.closest('.dropdown__menu'),
 					prevFocusElementSibling = self.prevFocus.nextElementSibling;
-				
+
 				if( !prevFocusElementParent ) return;
-				
+
 				// element in focus and element prev in focus are siblings
 				if( focusElementParent && focusElementParent == prevFocusElementParent) {
 					if(prevFocusElementSibling) self.hideLevel(prevFocusElementSibling);
@@ -7225,18 +7227,18 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 
 				// element in focus is inside submenu triggered by element prev in focus
 				if( prevFocusElementSibling && focusElementParent && focusElementParent == prevFocusElementSibling) return;
-				
+
 				// shift tab -> element in focus triggers the submenu of the element prev in focus
 				if( focusElementSibling && prevFocusElementParent && focusElementSibling == prevFocusElementParent) return;
-				
+
 				var focusElementParentParent = focusElementParent.parentNode.closest('.dropdown__menu');
-				
+
 				// shift tab -> element in focus is inside the dropdown triggered by a siblings of the element prev in focus
 				if(focusElementParentParent && focusElementParentParent == prevFocusElementParent) {
 					if(prevFocusElementSibling) self.hideLevel(prevFocusElementSibling);
 					return;
 				}
-				
+
 				if(prevFocusElementParent && Util.hasClass(prevFocusElementParent, 'dropdown__menu--is-visible')) {
 					self.hideLevel(prevFocusElementParent);
 				}
@@ -7271,7 +7273,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 		if(!Util.hasClass(level, 'dropdown__menu--is-visible')) return;
 		Util.removeClass(level, 'dropdown__menu--is-visible');
 		Util.addClass(level, 'dropdown__menu--is-hidden');
-		
+
 		level.addEventListener('animationend', function cb(){
 			level.removeEventListener('animationend', cb);
 			Util.removeClass(level, 'dropdown__menu--is-hidden dropdown__menu--left');
@@ -7294,7 +7296,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 		var menuTrigger = flexHeader[0].getElementsByClassName('js-anim-menu-btn')[0],
 			firstFocusableElement = getMenuFirstFocusable();
 
-		// we'll use these to store the node that needs to receive focus when the mobile menu is closed 
+		// we'll use these to store the node that needs to receive focus when the mobile menu is closed
 		var focusMenu = false;
 
 		menuTrigger.addEventListener('anim-menu-btn-clicked', function(event){ // toggle menu visibility an small devices
@@ -7336,7 +7338,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 
 			return firstFocusable;
     };
-    
+
     function isVisible(element) {
       return (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
     };
@@ -7353,12 +7355,12 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.sortingRows = this.element.getElementsByClassName('js-int-table__sort-row');
       initIntTable(this);
     };
-  
+
     function initIntTable(table) {
       // check if there are checkboxes to select/deselect a row/all rows
       var selectAll = table.element.getElementsByClassName('js-int-table__select-all');
       if(selectAll.length > 0) initIntTableSelection(table, selectAll);
-      
+
       // check if there are sortable columns
       table.sortableCols = table.element.getElementsByClassName('js-int-table__cell--sort');
       if(table.sortableCols.length > 0) {
@@ -7382,7 +7384,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
             sortColumns(table, selectedCol);
           }
         });
-  
+
         // change cell style when in focus
         table.header.addEventListener('focusin', function(event){
           var closestCell = document.activeElement.closest('.js-int-table__cell--sort');
@@ -7395,7 +7397,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         });
       }
     };
-  
+
     function initIntTableSelection(table, select) { // checkboxes for rows selection
       table.selectAll = select[0];
       table.selectRow = table.element.getElementsByClassName('js-int-table__select-row');
@@ -7403,13 +7405,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       table.selectAll.addEventListener('click', function(event){ // we cannot use the 'change' event as on IE/Edge the change from "indeterminate" to either "checked" or "unchecked"  does not trigger that event
         toggleRowSelection(table);
       });
-      // select/deselect single row - reset all row selector 
+      // select/deselect single row - reset all row selector
       table.body.addEventListener('change', function(event){
         if(!event.target.closest('.js-int-table__select-row')) return;
         toggleAllSelection(table);
       });
     };
-  
+
     function toggleRowSelection(table) { // 'Select All Rows' checkbox has been selected/deselected
       var status = table.selectAll.checked;
       for(var i = 0; i < table.selectRow.length; i++) {
@@ -7417,7 +7419,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         Util.toggleClass(table.selectRow[i].closest('.int-table__row'), 'int-table__row--checked', status);
       }
     };
-  
+
     function toggleAllSelection(table) { // Single row has been selected/deselected
       var allChecked = true,
         oneChecked = false;
@@ -7430,22 +7432,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // if status if false but one input is checked -> set an indeterminate state for the 'Select All' checkbox
       if(!allChecked) table.selectAll.indeterminate = oneChecked;
     };
-  
-    function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting 
+
+    function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting
       var rowsArray = table.body.getElementsByTagName('tr');
       for(var i = 0; i < rowsArray.length; i++) {
         rowsArray[i].setAttribute('data-order', i);
       }
     };
-  
+
     function sortColumns(table, selectedCol, customOrder) {
       // determine sorting order (asc/desc/reset)
       var order = customOrder || getSortingOrder(selectedCol),
         colIndex = Util.getIndexInArray(table.headerCols, selectedCol);
       // sort table
       sortTableContent(table, order, colIndex, selectedCol);
-      
-      // reset appearance of the th column that was previously sorted (if any) 
+
+      // reset appearance of the th column that was previously sorted (if any)
       for(var i = 0; i < table.headerCols.length; i++) {
         Util.removeClass(table.headerCols[i], 'int-table__cell--asc int-table__cell--desc');
       }
@@ -7455,13 +7457,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // reset checkbox selection
       if(!customOrder) selectedCol.querySelector('input[value="'+order+'"]').checked = true;
     };
-  
+
     function getSortingOrder(selectedCol) { // determine sorting order
       if( Util.hasClass(selectedCol, 'int-table__cell--asc') ) return 'desc';
       if( Util.hasClass(selectedCol, 'int-table__cell--desc') ) return 'none';
       return 'asc';
     };
-  
+
     function sortTableContent(table, order, index, selctedCol) { // determine the new order of the rows
       var rowsArray = table.body.getElementsByTagName('tr'),
         switching = true,
@@ -7472,7 +7474,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         for (i = 0; i < rowsArray.length - 1; i++) {
           var contentOne = (order == 'none') ? rowsArray[i].getAttribute('data-order') : rowsArray[i].children[index].textContent.trim(),
             contentTwo = (order == 'none') ? rowsArray[i+1].getAttribute('data-order') : rowsArray[i+1].children[index].textContent.trim();
-  
+
           shouldSwitch = compareValues(contentOne, contentTwo, order, selctedCol);
           if(shouldSwitch) {
             table.body.insertBefore(rowsArray[i+1], rowsArray[i]);
@@ -7482,7 +7484,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
       }
     };
-  
+
     function compareValues(val1, val2, order, selctedCol) {
       var compare,
         dateComparison = selctedCol.getAttribute('data-date-format');
@@ -7491,22 +7493,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       } else if( !isNaN(val1) && !isNaN(val2) ) { // comparing numbers
         compare =  (order == 'asc' || order == 'none') ? Number(val1) > Number(val2) : Number(val2) > Number(val1);
       } else { // comparing strings
-        compare =  (order == 'asc' || order == 'none') 
+        compare =  (order == 'asc' || order == 'none')
           ? val2.toString().localeCompare(val1) < 0
           : val1.toString().localeCompare(val2) < 0;
       }
       return compare;
     };
-  
+
     function parseCustomDate(date, format) {
-      var parts = date.match(/(\d+)/g), 
+      var parts = date.match(/(\d+)/g),
         i = 0, fmt = {};
       // extract date-part indexes from the format
       format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
-  
+
       return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
     };
-  
+
     //initialize the IntTable objects
     var intTable = document.getElementsByClassName('js-int-table');
     if( intTable.length > 0 ) {
@@ -7525,20 +7527,20 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.moreItemsTrigger = this.element.getElementsByClassName('js-menu-bar__trigger');
       initMenuBar(this);
     };
-  
+
     function initMenuBar(menu) {
       setMenuTabIndex(menu); // set correct tabindexes for menu item
       initMenuBarMarkup(menu); // create additional markup
       checkMenuLayout(menu); // set menu layout
       Util.addClass(menu.element, 'menu-bar--loaded'); // reveal menu
-  
+
       // custom event emitted when window is resized
       menu.element.addEventListener('update-menu-bar', function(event){
         checkMenuLayout(menu);
         if(menu.menuInstance) menu.menuInstance.toggleMenu(false, false); // close dropdown
       });
-  
-      // keyboard events 
+
+      // keyboard events
       // open dropdown when pressing Enter on trigger element
       if(menu.moreItemsTrigger.length > 0) {
         menu.moreItemsTrigger[0].addEventListener('keydown', function(event) {
@@ -7548,7 +7550,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
             menu.menuInstance.toggleMenu(!Util.hasClass(menu.subMenu, 'menu--is-visible'), true);
           }
         });
-  
+
         // close dropdown on esc
         menu.subMenu.addEventListener('keydown', function(event) {
           if((event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape')) { // close submenu on esc
@@ -7556,7 +7558,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           }
         });
       }
-      
+
       // navigate menu items using left/right arrows
       menu.element.addEventListener('keydown', function(event) {
         if( (event.keyCode && event.keyCode == 39) || (event.key && event.key.toLowerCase() == 'arrowright') ) {
@@ -7566,7 +7568,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
       });
     };
-  
+
     function setMenuTabIndex(menu) { // set tabindexes for the menu items to allow keyboard navigation
       var nextItem = false;
       for(var i = 0; i < menu.items.length; i++ ) {
@@ -7576,15 +7578,15 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         else nextItem = false;
       }
     };
-  
+
     function initMenuBarMarkup(menu) {
       if(menu.mobHideItems.length == 0 ) { // no items to hide on mobile - remove trigger
         if(menu.moreItemsTrigger.length > 0) menu.element.removeChild(menu.moreItemsTrigger[0]);
         return;
       }
-  
+
       if(menu.moreItemsTrigger.length == 0) return;
-  
+
       // create the markup for the Menu element
       var content = '';
       menu.menuControlId = 'submenu-bar-'+Date.now();
@@ -7592,30 +7594,30 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         var item = menu.mobHideItems[i].cloneNode(true),
           svg = item.getElementsByTagName('svg')[0],
           label = item.getElementsByClassName('menu-bar__label')[0];
-  
+
         svg.setAttribute('class', 'icon menu__icon');
         content = content + '<li role="menuitem"><span class="menu__content js-menu__content">'+svg.outerHTML+'<span>'+label.innerHTML+'</span></span></li>';
       }
-  
+
       Util.setAttributes(menu.moreItemsTrigger[0], {'role': 'button', 'aria-expanded': 'false', 'aria-controls': menu.menuControlId, 'aria-haspopup': 'true'});
-  
+
       var subMenu = document.createElement('menu'),
         customClass = menu.element.getAttribute('data-menu-class');
       Util.setAttributes(subMenu, {'id': menu.menuControlId, 'class': 'menu js-menu '+customClass});
       subMenu.innerHTML = content;
       document.body.appendChild(subMenu);
-  
+
       menu.subMenu = subMenu;
       menu.subItems = subMenu.getElementsByTagName('li');
-  
+
       menu.menuInstance = new Menu(menu.subMenu); // this will handle the dropdown behaviour
     };
-  
+
     function checkMenuLayout(menu) { // switch from compressed to expanded layout and viceversa
       var layout = getComputedStyle(menu.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
       Util.toggleClass(menu.element, 'menu-bar--collapsed', layout == 'collapsed');
     };
-  
+
     function navigateItems(list, event, direction, prevIndex) { // keyboard navigation among menu items
       event.preventDefault();
       var index = (typeof prevIndex !== 'undefined') ? prevIndex : Util.getIndexInArray(list, event.target),
@@ -7625,11 +7627,11 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // check if element is visible before moving focus
       (list[nextIndex].offsetParent === null) ? navigateItems(list, event, direction, nextIndex) : Util.moveFocus(list[nextIndex]);
     };
-  
+
     function checkMenuClick(menu, target) { // close dropdown when clicking outside the menu element
       if(menu.menuInstance && !menu.moreItemsTrigger[0].contains(target) && !menu.subMenu.contains(target)) menu.menuInstance.toggleMenu(false, false);
     };
-  
+
     // init MenuBars objects
     var menuBars = document.getElementsByClassName('js-menu-bar');
     if( menuBars.length > 0 ) {
@@ -7642,23 +7644,23 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           j = j + 1;
         }
       }
-      
+
       if(j > 0) {
         var resizingId = false,
           customEvent = new CustomEvent('update-menu-bar');
-        // update Menu Bar layout on resize  
+        // update Menu Bar layout on resize
         window.addEventListener('resize', function(event){
           clearTimeout(resizingId);
           resizingId = setTimeout(doneResizing, 150);
         });
-  
+
         // close menu when clicking outside it
         window.addEventListener('click', function(event){
           menuBarArray.forEach(function(element){
             checkMenuClick(element, event.target);
           });
         });
-  
+
         function doneResizing() {
           for( var i = 0; i < menuBars.length; i++) {
             (function(i){menuBars[i].dispatchEvent(customEvent)})(i);
@@ -7682,39 +7684,39 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.arrowIcon = this.element.getElementsByTagName('svg');
       this.label = document.querySelector('[for="'+this.selectId+'"]');
       this.selectedOptCounter = 0;
-  
+
       this.optionIndex = 0; // used while building the custom dropdown
-  
+
       // label options
       this.noSelectText = this.element.getAttribute('data-no-select-text') || 'Select';
-      this.multiSelectText = this.element.getAttribute('data-multi-select-text') || '{n} items selected'; 
+      this.multiSelectText = this.element.getAttribute('data-multi-select-text') || '{n} items selected';
       this.nMultiSelect = this.element.getAttribute('data-n-multi-select') || 1;
       this.noUpdateLabel = this.element.getAttribute('data-update-text') && this.element.getAttribute('data-update-text') == 'off';
       this.insetLabel = this.element.getAttribute('data-inset-label') && this.element.getAttribute('data-inset-label') == 'on';
-  
+
       // init
       initCustomSelect(this); // init markup
       initCustomSelectEvents(this); // init event listeners
     };
-    
+
     function initCustomSelect(select) {
       // create the HTML for the custom dropdown element
       select.element.insertAdjacentHTML('beforeend', initButtonSelect(select) + initListSelect(select));
-      
+
       // save custom elements
       select.dropdown = select.element.getElementsByClassName('js-multi-select__dropdown')[0];
       select.trigger = select.element.getElementsByClassName('js-multi-select__button')[0];
       select.customOptions = select.dropdown.getElementsByClassName('js-multi-select__option');
-      
+
       // hide default select
       Util.addClass(select.select, 'is-hidden');
       if(select.arrowIcon.length > 0 ) select.arrowIcon[0].style.display = 'none';
     };
-  
+
     function initCustomSelectEvents(select) {
       // option selection in dropdown
       initSelection(select);
-  
+
       // click events
       select.trigger.addEventListener('click', function(event){
         event.preventDefault();
@@ -7735,7 +7737,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
       });
     };
-  
+
     function toggleCustomSelect(select, bool) {
       var ariaExpanded;
       if(bool) {
@@ -7754,7 +7756,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         placeDropdown(select); // place dropdown based on available space
       }
     };
-  
+
     function placeDropdown(select) {
       var triggerBoundingRect = select.trigger.getBoundingClientRect();
       Util.toggleClass(select.dropdown, 'multi-select__dropdown--right', (window.innerWidth < triggerBoundingRect.left + select.dropdown.offsetWidth));
@@ -7766,7 +7768,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // set max-height (based on available space) and width
       select.dropdown.setAttribute('style', 'max-height: '+maxHeight+'px; width: '+triggerBoundingRect.width+'px;');
     };
-  
+
     function keyboardCustomSelect(select, direction, event) { // navigate custom dropdown with keyboard
       event.preventDefault();
       var index = Util.getIndexInArray(select.customOptions, document.activeElement.closest('.js-multi-select__option'));
@@ -7775,7 +7777,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       if(index >= select.customOptions.length) index = 0;
       Util.moveFocus(select.customOptions[index].getElementsByClassName('js-multi-select__checkbox')[0]);
     };
-  
+
     function initSelection(select) { // option selection
       select.dropdown.addEventListener('change', function(event){
         var option = event.target.closest('.js-multi-select__option');
@@ -7788,49 +7790,49 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         selectOption(select, option);
       });
     };
-    
+
     function selectOption(select, option) {
       if(option.hasAttribute('aria-selected') && option.getAttribute('aria-selected') == 'true') {
         // deselecting that option
         option.setAttribute('aria-selected', 'false');
         // update native select element
         updateNativeSelect(select, option.getAttribute('data-index'), false);
-      } else { 
+      } else {
         option.setAttribute('aria-selected', 'true');
         // update native select element
         updateNativeSelect(select, option.getAttribute('data-index'), true);
-        
+
       }
       var triggerLabel = getSelectedOptionText(select);
       select.trigger.getElementsByClassName('js-multi-select__label')[0].innerHTML = triggerLabel[0]; // update trigger label
       Util.toggleClass(select.trigger, 'multi-select__button--active', select.selectedOptCounter > 0);
       updateTriggerAria(select, triggerLabel[1]); // update trigger arai-label
     };
-  
+
     function updateNativeSelect(select, index, bool) {
       select.options[index].selected = bool;
       select.select.dispatchEvent(new CustomEvent('change', {bubbles: true})); // trigger change event
     };
-  
+
     function updateTriggerAria(select, ariaLabel) { // new label for custom triegger
       select.trigger.setAttribute('aria-label', ariaLabel);
     };
-  
+
     function getSelectedOptionText(select) {// used to initialize the label of the custom select button
       var noSelectionText = '<span class="multi-select__term">'+select.noSelectText+'</span>';
       if(select.noUpdateLabel) return [noSelectionText, select.noSelectText];
       var label = '';
       var ariaLabel = '';
       select.selectedOptCounter = 0;
-  
+
       for (var i = 0; i < select.options.length; i++) {
         if(select.options[i].selected) {
           if(select.selectedOptCounter != 0 ) label = label + ', '
           label = label + '' + select.options[i].text;
           select.selectedOptCounter = select.selectedOptCounter + 1;
-        } 
+        }
       }
-  
+
       if(select.selectedOptCounter > select.nMultiSelect) {
         label = '<span class="multi-select__details">'+select.multiSelectText.replace('{n}', select.selectedOptCounter)+'</span>';
         ariaLabel = select.multiSelectText.replace('{n}', select.selectedOptCounter)+', '+select.noSelectText;
@@ -7841,27 +7843,27 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         label = noSelectionText;
         ariaLabel = select.noSelectText;
       }
-  
+
       if(select.insetLabel && select.selectedOptCounter > 0) label = noSelectionText+label;
       return [label, ariaLabel];
     };
-    
+
     function initButtonSelect(select) { // create the button element -> custom select trigger
       // check if we need to add custom classes to the button trigger
       var customClasses = select.element.getAttribute('data-trigger-class') ? ' '+select.element.getAttribute('data-trigger-class') : '';
-  
-      var triggerLabel = getSelectedOptionText(select);	
+
+      var triggerLabel = getSelectedOptionText(select);
       var activeSelectionClass = select.selectedOptCounter > 0 ? ' multi-select__button--active' : '';
-      
+
       var button = '<button class="js-multi-select__button multi-select__button'+customClasses+activeSelectionClass+'" aria-label="'+triggerLabel[1]+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-multi-select__label multi-select__label">'+triggerLabel[0]+'</span>';
       if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {
         button = button +select.arrowIcon[0].outerHTML;
       }
-      
+
       return button+'</button>';
-  
+
     };
-  
+
     function initListSelect(select) { // create custom select dropdown
       var list = '<div class="js-multi-select__dropdown multi-select__dropdown" aria-describedby="'+select.selectId+'-description" id="'+select.selectId+'-dropdown">';
       list = list + getSelectLabelSR(select);
@@ -7876,7 +7878,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return list;
     };
-  
+
     function getSelectLabelSR(select) {
       if(select.label) {
         return '<p class="sr-only" id="'+select.selectId+'-description">'+select.label.textContent+'</p>'
@@ -7884,7 +7886,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         return '';
       }
     };
-  
+
     function getOptionsList(select, options) {
       var list = '';
       for(var i = 0; i < options.length; i++) {
@@ -7895,22 +7897,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       };
       return list;
     };
-  
+
     function getSelectedOption(select) { // return first selected option
       var option = select.dropdown.querySelector('[aria-selected="true"]');
       if(option) return option.getElementsByClassName('js-multi-select__checkbox')[0];
       else return select.dropdown.getElementsByClassName('js-multi-select__option')[0].getElementsByClassName('js-multi-select__checkbox')[0];
     };
-  
+
     function moveFocusToSelectTrigger(select) {
       if(!document.activeElement.closest('.js-multi-select')) return
       select.trigger.focus();
     };
-    
+
     function checkCustomSelectClick(select, target) { // close select when clicking outside it
       if( !select.element.contains(target) ) toggleCustomSelect(select, 'false');
     };
-    
+
     //initialize the CustomSelect objects
     var customSelect = document.getElementsByClassName('js-multi-select');
     if( customSelect.length > 0 ) {
@@ -7918,7 +7920,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       for( var i = 0; i < customSelect.length; i++) {
         (function(i){selectArray.push(new MultiCustomSelect(customSelect[i]));})(i);
       }
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
@@ -7927,7 +7929,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
             moveFocusToSelectTrigger(element); // if focus is within dropdown, move it to dropdown trigger
             toggleCustomSelect(element, 'false'); // close dropdown
           });
-        } 
+        }
       });
       // close custom select when clicking outside it
       window.addEventListener('click', function(event){
@@ -7947,7 +7949,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.threshold = '50%'; // Share Bar will be revealed when .js-sticky-sharebar-target element reaches 50% of the viewport
       initShareBar(this);
     };
-  
+
     function initShareBar(shareBar) {
       if(shareBar.contentTarget.length < 1) {
         Util.addClass(shareBar.element, shareBar.showClass);
@@ -7959,21 +7961,21 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         Util.addClass(shareBar.element, shareBar.showClass);
       }
     };
-  
+
     function initObserver(shareBar) {
       var observer = new IntersectionObserver(
-        function(entries, observer) { 
+        function(entries, observer) {
           Util.toggleClass(shareBar.element, shareBar.showClass, entries[0].isIntersecting);
-        }, 
+        },
         {rootMargin: "0px 0px -"+shareBar.threshold+" 0px"}
       );
       observer.observe(shareBar.contentTarget[0]);
     };
-  
+
     //initialize the StickyShareBar objects
     var stickyShareBar = document.getElementsByClassName('js-sticky-sharebar'),
       intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
-    
+
     if( stickyShareBar.length > 0 ) {
       for( var i = 0; i < stickyShareBar.length; i++) {
         (function(i){ new StickyShareBar(stickyShareBar[i]); })(i);
@@ -7992,7 +7994,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.intervalID = false;
       initToc(this);
     };
-  
+
     function getSections(toc) {
       var sections = [];
       // get all content sections
@@ -8002,48 +8004,48 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       return sections;
     };
-  
+
     function initToc(toc) {
       // listen for click on anchors
       toc.list.addEventListener('click', function(event){
         var anchor = event.target.closest('a[href^="#"]');
         if(!anchor) return;
-        // reset link apperance 
+        // reset link apperance
         toc.clickScrolling = true;
         resetAnchors(toc, anchor);
       });
-  
+
       // check when a new section enters the viewport
       var observer = new IntersectionObserver(
-        function(entries, observer) { 
+        function(entries, observer) {
           entries.forEach(function(entry){
             if(!toc.clickScrolling) { // do not update classes if user clicked on a link
               getVisibleSection(toc);
             }
           });
-        }, 
+        },
         {
           threshold: [0, 0.1],
           rootMargin: "0px 0px -70% 0px"
         }
       );
-  
+
       for(var i = 0; i < toc.sections.length; i++) {
         observer.observe(toc.sections[i]);
       }
-  
+
       // detect the end of scrolling -> reactivate IntersectionObserver on scroll
       toc.element.addEventListener('toc-scroll', function(event){
         toc.clickScrolling = false;
       });
     };
-  
+
     function resetAnchors(toc, anchor) {
       if(!anchor) return;
       for(var i = 0; i < toc.anchors.length; i++) Util.removeClass(toc.anchors[i], 'toc__link--selected');
       Util.addClass(anchor, 'toc__link--selected');
     };
-  
+
     function getVisibleSection(toc) {
       if(toc.intervalID) {
         clearInterval(toc.intervalID);
@@ -8061,25 +8063,25 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         toc.intervalID = false;
       }, 100);
     };
-    
+
     var tocs = document.getElementsByClassName('js-toc'),
       intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
-  
+
     var tocsArray = [];
     if( tocs.length > 0 && intersectionObserverSupported) {
       for( var i = 0; i < tocs.length; i++) {
         (function(i){ tocsArray.push(new Toc(tocs[i])); })(i);
       }
-  
+
       // listen to window scroll -> reset clickScrolling property
       var scrollId = false,
         customEvent = new CustomEvent('toc-scroll');
-        
+
       window.addEventListener('scroll', function() {
         clearTimeout(scrollId);
         scrollId = setTimeout(doneScrolling, 100);
       });
-  
+
       function doneScrolling() {
         for( var i = 0; i < tocsArray.length; i++) {
           (function(i){tocsArray[i].element.dispatchEvent(customEvent)})(i);
@@ -8096,9 +8098,9 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       if(appMenuBtn.length < 1) return;
       var appExpandedClass = 'app-ui--nav-expanded';
       var firstFocusableElement = false,
-        // we'll use these to store the node that needs to receive focus when the mobile menu is closed 
+        // we'll use these to store the node that needs to receive focus when the mobile menu is closed
         focusMenu = false;
-  
+
       // toggle navigation on mobile
       appMenuBtn[0].addEventListener('click', function(event) {
         var openMenu = !Util.hasClass(appUi[0], appExpandedClass);
@@ -8112,7 +8114,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           focusMenu = false;
         }
       });
-  
+
       // listen for key events
       window.addEventListener('keyup', function(event){
         // listen for esc key
@@ -8129,18 +8131,18 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           if(appMenuBtn[0].getAttribute('aria-expanded') == 'true' && isVisible(appMenuBtn[0]) && !document.activeElement.closest('.js-app-ui__nav')) appMenuBtn[0].click();
         }
       });
-      
+
       // listen for resize
       var resizingId = false;
       window.addEventListener('resize', function() {
         clearTimeout(resizingId);
         resizingId = setTimeout(doneResizing, 500);
       });
-  
+
       function doneResizing() {
         if( !isVisible(appMenuBtn[0]) && Util.hasClass(appUi[0], appExpandedClass)) appMenuBtn[0].click();
       };
-  
+
       function getMenuFirstFocusable() {
         var mobileNav = appUi[0].getElementsByClassName('js-app-ui__nav');
         if(mobileNav.length < 1) return false;
@@ -8152,10 +8154,10 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
             break;
           }
         }
-        
+
         return firstFocusable;
       };
-      
+
       function isVisible(element) {
         return (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
       };
@@ -8172,20 +8174,20 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     subNav = Array.prototype.filter.call(hidingNav, function(element) {
       return Util.hasClass(element, 'js-hide-nav--sub');
     });
-    
+
     var scrolling = false,
       previousTop = window.scrollY,
       currentTop = window.scrollY,
       scrollDelta = 10,
       scrollOffset = 150, // scrollY needs to be bigger than scrollOffset to hide navigation
-      headerHeight = 0; 
+      headerHeight = 0;
 
     var navIsFixed = false; // check if main navigation is fixed
     if(mainNav.length > 0 && Util.hasClass(mainNav[0], 'hide-nav--fixed')) navIsFixed = true;
 
     // store button that triggers navigation on mobile
     var triggerMobile = getTriggerMobileMenu();
-    
+
     // init navigation and listen to window scroll event
     initSecondaryNav();
     resetHideNav();
@@ -8240,7 +8242,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // on mobile -> hide navigation only if dropdown is not open
       if(triggerMobile && triggerMobile.getAttribute('aria-expanded') == "true") return;
       if( mainNav.length > 0 ) {
-        setTranslate(mainNav[0], '-100%'); 
+        setTranslate(mainNav[0], '-100%');
         mainNav[0].addEventListener('transitionend', addOffCanvasClass);
 
       }
@@ -8269,7 +8271,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       if(trigger.length > 0) return trigger[0];
       return false;
     };
-    
+
   } else {
     // if window requestAnimationFrame is not supported -> add bg class to fixed header
     var mainNav = document.getElementsByClassName('js-hide-nav--main');
@@ -8288,7 +8290,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       this.sortingRows = this.element.getElementsByClassName('js-int-table__sort-row');
       initIntTable(this);
     };
-  
+
     function initIntTable(table) {
       // check if table has actions
       initIntTableActions(table);
@@ -8318,7 +8320,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
             sortColumns(table, selectedCol);
           }
         });
-  
+
         // change cell style when in focus
         table.header.addEventListener('focusin', function(event){
           var closestCell = document.activeElement.closest('.js-int-table__cell--sort');
@@ -8331,7 +8333,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         });
       }
     };
-  
+
     function initIntTableActions(table) {
       // check if table has actions and store them
       var tableId = table.element.getAttribute('id');
@@ -8341,7 +8343,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       table.actionsSelection = tableActions.getElementsByClassName('js-int-table-actions__items-selected');
       table.actionsNoSelection = tableActions.getElementsByClassName('js-int-table-actions__no-items-selected');
     };
-  
+
     function initIntTableSelection(table, select) { // checkboxes for rows selection
       table.selectAll = select[0];
       table.selectRow = table.element.getElementsByClassName('js-int-table__select-row');
@@ -8349,7 +8351,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       table.selectAll.addEventListener('click', function(event){ // we cannot use the 'change' event as on IE/Edge the change from "indeterminate" to either "checked" or "unchecked"  does not trigger that event
         toggleRowSelection(table);
       });
-      // select/deselect single row - reset all row selector 
+      // select/deselect single row - reset all row selector
       table.body.addEventListener('change', function(event){
         if(!event.target.closest('.js-int-table__select-row')) return;
         toggleAllSelection(table);
@@ -8357,7 +8359,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // toggle actions
       toggleActions(table, table.element.getElementsByClassName('int-table__row--checked').length > 0);
     };
-  
+
     function toggleRowSelection(table) { // 'Select All Rows' checkbox has been selected/deselected
       var status = table.selectAll.checked;
       for(var i = 0; i < table.selectRow.length; i++) {
@@ -8366,7 +8368,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       }
       toggleActions(table, status);
     };
-  
+
     function toggleAllSelection(table) { // Single row has been selected/deselected
       var allChecked = true,
         oneChecked = false;
@@ -8380,22 +8382,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       if(!allChecked) table.selectAll.indeterminate = oneChecked;
       toggleActions(table, oneChecked);
     };
-  
-    function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting 
+
+    function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting
       var rowsArray = table.body.getElementsByTagName('tr');
       for(var i = 0; i < rowsArray.length; i++) {
         rowsArray[i].setAttribute('data-order', i);
       }
     };
-  
+
     function sortColumns(table, selectedCol, customOrder) {
       // determine sorting order (asc/desc/reset)
       var order = customOrder || getSortingOrder(selectedCol),
         colIndex = Util.getIndexInArray(table.headerCols, selectedCol);
       // sort table
       sortTableContent(table, order, colIndex, selectedCol);
-      
-      // reset appearance of the th column that was previously sorted (if any) 
+
+      // reset appearance of the th column that was previously sorted (if any)
       for(var i = 0; i < table.headerCols.length; i++) {
         Util.removeClass(table.headerCols[i], 'int-table__cell--asc int-table__cell--desc');
       }
@@ -8405,13 +8407,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       // reset checkbox selection
       if(!customOrder) selectedCol.querySelector('input[value="'+order+'"]').checked = true;
     };
-  
+
     function getSortingOrder(selectedCol) { // determine sorting order
       if( Util.hasClass(selectedCol, 'int-table__cell--asc') ) return 'desc';
       if( Util.hasClass(selectedCol, 'int-table__cell--desc') ) return 'none';
       return 'asc';
     };
-  
+
     function sortTableContent(table, order, index, selctedCol) { // determine the new order of the rows
       var rowsArray = table.body.getElementsByTagName('tr'),
         switching = true,
@@ -8422,7 +8424,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         for (i = 0; i < rowsArray.length - 1; i++) {
           var contentOne = (order == 'none') ? rowsArray[i].getAttribute('data-order') : rowsArray[i].children[index].textContent.trim(),
             contentTwo = (order == 'none') ? rowsArray[i+1].getAttribute('data-order') : rowsArray[i+1].children[index].textContent.trim();
-  
+
           shouldSwitch = compareValues(contentOne, contentTwo, order, selctedCol);
           if(shouldSwitch) {
             table.body.insertBefore(rowsArray[i+1], rowsArray[i]);
@@ -8432,7 +8434,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         }
       }
     };
-  
+
     function compareValues(val1, val2, order, selctedCol) {
       var compare,
         dateComparison = selctedCol.getAttribute('data-date-format');
@@ -8441,22 +8443,22 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       } else if( !isNaN(val1) && !isNaN(val2) ) { // comparing numbers
         compare =  (order == 'asc' || order == 'none') ? Number(val1) > Number(val2) : Number(val2) > Number(val1);
       } else { // comparing strings
-        compare =  (order == 'asc' || order == 'none') 
+        compare =  (order == 'asc' || order == 'none')
           ? val2.toString().localeCompare(val1) < 0
           : val1.toString().localeCompare(val2) < 0;
       }
       return compare;
     };
-  
+
     function parseCustomDate(date, format) {
-      var parts = date.match(/(\d+)/g), 
+      var parts = date.match(/(\d+)/g),
         i = 0, fmt = {};
       // extract date-part indexes from the format
       format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
-  
+
       return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
     };
-  
+
     function toggleActions(table, selection) {
       if(table.actionsSelection && table.actionsSelection.length > 0) {
         Util.toggleClass(table.actionsSelection[0], 'is-hidden', !selection);
@@ -8465,7 +8467,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         Util.toggleClass(table.actionsNoSelection[0], 'is-hidden', selection);
       }
     };
-  
+
     //initialize the IntTable objects
     var intTable = document.getElementsByClassName('js-int-table');
     if( intTable.length > 0 ) {
@@ -8485,7 +8487,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     this.dropdownFocus = false;
     this.hideInterval = false;
     this.prevFocus = false; // nested dropdown - store element that was in focus before focus changed
-    
+
     if (typeof this.trigger !== 'undefined' && typeof this.dropdown !== 'undefined') {
       initSubmenu(this);
       initNestedDropdown(this);
@@ -8554,7 +8556,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       });
     }
     // store focus element before change in focus
-    list.element.addEventListener('keydown', function(event) { 
+    list.element.addEventListener('keydown', function(event) {
       if( event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' ) {
         list.prevFocus = document.activeElement;
       }
@@ -8576,13 +8578,13 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
           showLevel(list, focusElementSibling);
         }
 
-        // check previous element in focus -> hide sublevel if required 
+        // check previous element in focus -> hide sublevel if required
         if( !list.prevFocus) return;
         var prevFocusElementParent = list.prevFocus.closest('.header-v2__nav-dropdown'),
           prevFocusElementSibling = list.prevFocus.nextElementSibling;
-        
+
         if( !prevFocusElementParent ) return;
-        
+
         // element in focus and element prev in focus are siblings
         if( focusElementParent && focusElementParent == prevFocusElementParent) {
           if(prevFocusElementSibling) hideLevel(list, prevFocusElementSibling);
@@ -8591,18 +8593,18 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 
         // element in focus is inside submenu triggered by element prev in focus
         if( prevFocusElementSibling && focusElementParent && focusElementParent == prevFocusElementSibling) return;
-        
+
         // shift tab -> element in focus triggers the submenu of the element prev in focus
         if( focusElementSibling && prevFocusElementParent && focusElementSibling == prevFocusElementParent) return;
-        
+
         var focusElementParentParent = focusElementParent.parentNode.closest('.header-v2__nav-dropdown');
-        
+
         // shift tab -> element in focus is inside the dropdown triggered by a siblings of the element prev in focus
         if(focusElementParentParent && focusElementParentParent == prevFocusElementParent) {
           if(prevFocusElementSibling) hideLevel(list, prevFocusElementSibling);
           return;
         }
-        
+
         if(prevFocusElementParent && Util.hasClass(prevFocusElementParent, 'header-v2__nav-list--is-visible')) {
           hideLevel(list, prevFocusElementParent);
         }
@@ -8635,7 +8637,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
   function hideLevel(list, level) {
     if(!Util.hasClass(level, 'header-v2__nav-list--is-visible')) return;
     Util.removeClass(level, 'header-v2__nav-list--is-visible');
-    
+
     level.addEventListener('transition', function cb(){
       level.removeEventListener('transition', cb);
       Util.removeClass(level, 'header-v2__nav-dropdown--nested-left');
@@ -8646,7 +8648,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
   if(mainHeader.length > 0) {
     var menuTrigger = mainHeader[0].getElementsByClassName('js-anim-menu-btn');
 
-    // we'll use these to store the node that needs to receive focus when the mobile menu is closed 
+    // we'll use these to store the node that needs to receive focus when the mobile menu is closed
     var focusMenu = false;
 
     // Version 2: To support multiple sub menus
@@ -8856,7 +8858,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     initSearch(megaNav); // controll search navigation
     initMenu(megaNav); // control main menu nav - mobile only
     initSubNav(megaNav); // toggle sub navigation visibility
-    
+
     megaNav.element.addEventListener('update-menu-layout', function(event){
       setMegaNavLayout(megaNav); // window resize - update layout
     });
@@ -8872,7 +8874,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
       closeSubNav(megaNav, false);
       // if the mega navigation has dropdown elements -> make sure they are in the right position (viewport awareness)
       triggerDropdownPosition(megaNav);
-    } 
+    }
     closeSearch(megaNav, false);
     resetMegaNavOffset(megaNav); // reset header offset top value
     resetNavAppearance(megaNav); // reset nav expanded appearance
@@ -8889,7 +8891,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     if(Util.hasClass(megaNav.menu[0], megaNav.classNavVisible)) {
       toggleMenu(megaNav, megaNav.menu[0], 'menuActiveController', megaNav.classNavVisible, megaNav.menuActiveController, true);
     }
-    //close subnav 
+    //close subnav
     closeSubNav(megaNav, false);
     resetNavAppearance(megaNav); // reset nav expanded appearance
   };
@@ -9052,7 +9054,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     window.addEventListener('click', function(event){
       if(!event.target.closest('.js-mega-nav')) closeNavigation(megaNavArray[0]);
     });
-    
+
     // resize - update menu layout
     var resizingId = false,
       customEvent = new CustomEvent('update-menu-layout');
@@ -9253,7 +9255,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 (function(){
 	var stickyMenu = document.getElementsByClassName('js-cs-sticky-menu');
 	if(stickyMenu.length > 0) {
-		var 
+		var
 			stickyMenuBody = stickyMenu[0].getElementsByClassName('cs-sticky-menu__body')[0],
 			stickyMenuList = stickyMenuBody.getElementsByTagName('ul')[0],
 			stickyMenuListItems = stickyMenuList.getElementsByClassName('cs-sticky-menu__item');
@@ -9275,7 +9277,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
 
 		function toggleMenu(bool) { // toggle stickyMenu visibility
 			var stickyMenuIsOpen = ( typeof bool === 'undefined' ) ? Util.hasClass(stickyMenu[0], 'cs-sticky-menu--open') : bool;
-		
+
 			if( stickyMenuIsOpen ) {
 				Util.removeClass(stickyMenu[0], 'cs-sticky-menu--open');
 			} else {
@@ -9303,7 +9305,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     this.levelOutClass = 'cs-sticky-submenu__list--out';
     // store the max height of the element
     this.maxHeight = false;
-    // store drop menu layout 
+    // store drop menu layout
     this.layout = false;
     // vertical gap - desktop layout
     this.verticalGap = parseInt(getComputedStyle(this.element).getPropertyValue('--cs-sticky-submenu-gap-y')) || 4;
@@ -9415,8 +9417,8 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     var currentTime = null,
       duration = menu.animationDuration*1000;
 
-    var animateHeight = function(timestamp){  
-      if (!currentTime) currentTime = timestamp;         
+    var animateHeight = function(timestamp){
+      if (!currentTime) currentTime = timestamp;
       var progress = timestamp - currentTime;
       if(progress > duration) progress = duration;
       if(progress < duration) {
@@ -9425,7 +9427,7 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         if(cb) cb();
       }
     };
-    
+
     //set the height of the element before starting animation -> fix bug on Safari
     window.requestAnimationFrame(animateHeight);
   };

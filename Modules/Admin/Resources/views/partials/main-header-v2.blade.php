@@ -145,7 +145,7 @@
 
           @auth
           <li class="header-v2__nav-item padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Log out</a></li>
-          
+
           <!-- Theme Switch -->
           <div class="margin-left-md switch">
           <input class="switch__input" type="checkbox" id="themeSwitch">
@@ -185,8 +185,29 @@
           <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
           <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
         </ul>
-      </nav>   
+      </nav>
     </div>
   </div>
-
 </header>
+
+<script>
+    // Check save theme in local storage;
+    let selectedTheme = localStorage.getItem('selected-theme')
+    const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
+
+    // If we do not have any theme in storage, we must get in from default system settings;
+    if(selectedTheme == null){
+        selectedTheme = defaultTheme;
+    }
+
+    switch(selectedTheme){
+        case 'dark':
+            document.body.setAttribute('data-theme', 'dark')
+            document.getElementById('themeSwitch').checked = true
+            break
+        case 'white':
+            document.body.removeAttribute('data-theme')
+            document.getElementById('themeSwitch').checked = false
+            break
+    }
+</script>
