@@ -14,3 +14,8 @@
 Route::prefix('ad')->group(function() {
     Route::get('/', 'AdController@index');
 });
+
+  
+  Route::get('/admin/ad',function(){
+    return view('ad::index');
+  });

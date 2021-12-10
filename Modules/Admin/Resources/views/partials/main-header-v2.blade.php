@@ -67,10 +67,14 @@
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"
             {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/pages') }}" class="header-v2__nav-link"
+            {{ Request::path() == 'admin/pages' ? 'aria-current' : '' }}><span>Pages</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/ad') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/ad' ? 'aria-current' : '' }}><span>Ads</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/scraper') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/scraper' ? 'aria-current' : '' }}><span>scrapers</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
