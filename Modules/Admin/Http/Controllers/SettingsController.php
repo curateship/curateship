@@ -72,7 +72,8 @@ class SettingsController extends Controller {
       'page_template',
       'tag_template',
       'profile_template',
-      'socials'
+      'socials',
+      'theme'
     ];
 
     $checkbox_keys = [
@@ -223,7 +224,7 @@ class SettingsController extends Controller {
     foreach($post_videos_data as $post) {
       $post_videos[] = $post->video;
     }
-    
+
     $post_media_path = 'public/posts';
 
     // Check post's original images & videos
@@ -254,7 +255,7 @@ class SettingsController extends Controller {
             'size' => filesize(storage_path() . '/app/' . $original_path . '/' . $file_name)
           );
           Storage::delete($file);
-        }  
+        }
       }
     }
 
@@ -368,7 +369,7 @@ class SettingsController extends Controller {
     foreach($scrapers as $scraper) {
       $scraper_ids[] = $scraper->id;
     }
-  
+
     return view('admin::scraper.settings', compact('scraper_ip_ports', 'delay_min', 'delay_max', 'scraper_ids'));
   }
 

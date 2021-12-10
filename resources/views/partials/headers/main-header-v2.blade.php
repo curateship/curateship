@@ -77,7 +77,7 @@
       </div>
 
       <nav id="main-menu" class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
-        <?php 
+        <?php
           $shortcode = app('shortcode');
           echo $shortcode->compile('[menu name="Primary Menu" version=2]');
 
@@ -110,14 +110,14 @@
                   </div>
                 </div>
               </div>
-            
+
               <!-- dropdown -->
               <div class="autocomplete__results  js-autocomplete__results">
                 <ul id="autocomplete1" class="autocomplete__list js-autocomplete__list">
                   <li class="autocomplete__item padding-y-xs padding-x-sm text-truncate js-autocomplete__item is-hidden"></li>
                 </ul>
               </div>
-            
+
               <p class="sr-only" aria-live="polite" aria-atomic="true"><span class="js-autocomplete__aria-results">0</span> results found.</p>
             </div>
 
@@ -167,7 +167,7 @@
                   <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                   <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
                   <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
-                  @if ( auth()->user()->isAdmin() ) 
+                  @if ( auth()->user()->isAdmin() )
                   <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
                   <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
                   <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
@@ -243,7 +243,26 @@
       </div>
     </div>
   </div>
-
-  
-
 </header>
+
+<script>
+    // Check save theme in local storage;
+    let selectedTheme = localStorage.getItem('selected-theme')
+    const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
+
+    // If we do not have any theme in storage, we must get in from default system settings;
+    if(selectedTheme == null){
+        selectedTheme = defaultTheme;
+    }
+
+    switch(selectedTheme){
+        case 'dark':
+            document.body.setAttribute('data-theme', 'dark')
+            document.getElementById('themeSwitch').checked = true
+            break
+        case 'white':
+            document.body.removeAttribute('data-theme')
+            document.getElementById('themeSwitch').checked = false
+            break
+    }
+</script>
