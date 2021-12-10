@@ -214,10 +214,6 @@
           <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
           <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
           <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
-
-          <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-          <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
-          <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
         </ul>
       </nav>
 
