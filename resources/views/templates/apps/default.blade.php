@@ -38,6 +38,8 @@
     @yield('content')
     @include('partials.footers.footer')
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/util.js') }}"></script>
+    <script src="{{ asset('assets/js/components/_2_image_zoom_FIXED.js') }}"></script>
 
     <!-- MODULE SCRIPTS -->
     @stack('module-scripts')

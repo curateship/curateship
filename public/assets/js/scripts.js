@@ -3790,6 +3790,9 @@ function initAlertEvent(element) {
 
       infiniteScroll.index = infiniteScroll.index + 1;
       infiniteScroll.loading = false;
+
+      // Init zoom images after every load;
+      iniImagesZoom()
     };
 
     function removeScrollEvents(infiniteScroll) {
