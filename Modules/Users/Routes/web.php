@@ -54,7 +54,7 @@ Route::middleware($middleware)->group(function(){
     Route::post('users/delete-coverphoto/{id}', [
       'uses' => 'UsersController@postAjaxDeleteCoverPhotoAdmin'
     ]);
-    Route::post('users/settings/avatar/delete/ajax/{id}', [ 
+    Route::post('users/settings/avatar/delete/ajax/{id}', [
       'uses' => 'UsersController@postAjaxDeleteAvatarAdmin'
     ]);
     Route::post('users/add-coverphoto', [

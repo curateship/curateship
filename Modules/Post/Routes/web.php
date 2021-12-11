@@ -53,6 +53,11 @@ Route::middleware($middleware)->group(function(){
             'uses' => 'PostController@deleteMultiple'
         ]);
 
+        Route::post('posts/post/multiple', [
+            'as' => 'posts.post.multiple',
+            'uses' => 'PostController@postMultiple'
+        ]);
+
         Route::post('posts/trash/empty', [
             'as' => 'posts.trash.empty',
             'uses' => 'PostController@emptyTrash'
@@ -86,7 +91,7 @@ Route::middleware($middleware)->group(function(){
         Route::post('posts/reject', [
             'as' => 'posts.reject',
             'uses' => 'PostController@makePostReject'
-        ]);        
+        ]);
     });
 });
 
@@ -96,7 +101,7 @@ Route::prefix('pages')->group(function(){
       'as'   => 'pages.posts',
       'uses' => 'PostController@posts'
     ]);
-  
+
     Route::get('/search-archive', [
       'as'   => 'pages.searches',
       'uses' => 'PostController@searches'
@@ -119,7 +124,7 @@ $user_middleware = ['auth'];
 if (config('settings.need_verify_email') === true) {
   $user_middleware = ['auth', 'verified'];
 }
-Route::middleware($user_middleware)->group(function(){ 
+Route::middleware($user_middleware)->group(function(){
     Route::post('/posts/upload-media', [
       'as' => 'posts.upload-media',
       'uses' => '\Modules\Admin\Http\Controllers\MediaUploadController@uploadPostMedia'

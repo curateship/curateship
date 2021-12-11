@@ -198,7 +198,7 @@
                 </a>
               </td>
 
-              @if ( auth()->user()->isAdmin() ) 
+              @if ( auth()->user()->isAdmin() )
               <td class="int-table__cell">{{ $post->username }}</td>
               @endif
 
@@ -507,7 +507,7 @@
                 </a>
               </td>
 
-              @if ( auth()->user()->isAdmin() ) 
+              @if ( auth()->user()->isAdmin() )
               <td class="int-table__cell">{{ $post->username }}</td>
               @endif
 
@@ -529,7 +529,7 @@
                 </form>
               </td>
 
-              @if ( auth()->user()->isAdmin() ) 
+              @if ( auth()->user()->isAdmin() )
               <td>
                 <a href="{{ route('dashboard.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
               </td>
