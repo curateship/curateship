@@ -949,6 +949,9 @@ class ScraperService {
    * Once copy 1 GB, close file and reopen to append.
    */
   public function chunked_copy($source_url, $destination) {
+    // No time limits for loading real big files;
+    set_time_limit(0);
+
     // 1 mega byte at a time.
     $buffer_size = 1048576;
 
