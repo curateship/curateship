@@ -17,12 +17,12 @@
     @else
       <span class="card__img card__img-cropped bg-opacity-50%"></span>
       <div class="post-cell text-component line-height-xs v-space-xxs text-sm line-height-md">
-       
+
       </div>
     @endif
       <div class="user-cell">
           <h3 class="text-xs padding-xs@md text-md@md"><a class="color-contrast-low" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h3>
       </div>
-    </li>  
-  @endforeach 
+    </li>
+  @endforeach
 </ul>

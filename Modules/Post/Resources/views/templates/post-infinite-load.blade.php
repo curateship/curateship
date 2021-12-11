@@ -25,7 +25,11 @@
             </video>
           </div>
         @else
-          <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+          <!--<img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">-->
+
+              <figure class="image-zoom js-image-zoom ">
+                  <img class="image-zoom__preview js-image-zoom__preview" src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+              </figure>
         @endif
 
         <div class="author__content">
@@ -52,6 +56,6 @@
         </span>
       </figure>
     </div>
-  </article> <!-- End of each post content --> 
+  </article> <!-- End of each post content -->
   @endif
 </div>
