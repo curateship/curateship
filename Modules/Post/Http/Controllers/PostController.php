@@ -346,7 +346,7 @@ class PostController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Post does not exists!'
-            ]);            
+            ]);
         }
 
         $status = request()->has('status') ? request('status') : $post->status;
@@ -452,7 +452,7 @@ class PostController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -512,7 +512,7 @@ class PostController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -520,6 +520,35 @@ class PostController extends Controller
 
         return redirect('admin/posts');
 
+    }
+
+    public function postMultiple(Request $request){
+        $selectedIDs     = $request->input('selectedIDs');
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach($selectedIDs as $id){
+            $post = Post::find($id);
+            if (!$post) {
+                continue;
+            }
+
+            // Clear Rejected reason.
+            PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
+
+            $post->update(['status' => 'published']);
+        }
+
+
+        $alert = [
+            'message' => 'Posts has been posted!',
+            'class'   => '',
+        ];
+
+        return back()->with('alert', $alert);
     }
 
     public function deleteMultiple(Request $request)
@@ -533,13 +562,13 @@ class PostController extends Controller
 
         // Clear Rejected reason.
         PostsMeta::deleteMultipleMetaData( $selectedIDs, 'rejected_reason' );
-        
+
         Post::whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
 
         $alert = [
             'message' => 'Posts has been deleted!',
             'class'   => '',
-        ];            
+        ];
         return back()->with('alert', $alert);
     }
 
@@ -563,7 +592,7 @@ class PostController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -603,7 +632,7 @@ class PostController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -621,7 +650,7 @@ class PostController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -732,7 +761,7 @@ class PostController extends Controller
             ))->where(
                 [
                     'posts.status' => 'published'
-                ]    
+                ]
             )
             ->orderBy('created_at', 'desc')
             ->offset($offset)
@@ -811,7 +840,7 @@ class PostController extends Controller
                 [
                     'tags.name' => $tag,
                     'posts.status'    => 'published'
-                ]    
+                ]
             )
             ->groupBy('posts.id')
             ->orderBy('relevance', 'desc')
@@ -835,7 +864,7 @@ class PostController extends Controller
             posts.created_at as created_at,
             thumbnail,
             thumbnail_medium,
-            IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'    
+            IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'
         ))
         ->whereIn('posts.id', $post_ids)
         ->get();
@@ -850,7 +879,7 @@ class PostController extends Controller
                 [
                     'tags.name' => $tag,
                     'posts.status'    => 'published'
-                ]    
+                ]
             )
             ->groupBy('posts.id')->count();
 
@@ -861,7 +890,7 @@ class PostController extends Controller
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
 
         return view('post::templates.post-masonry-load', $data);
-    }    
+    }
 
     public function ajaxInfiniteLoadPost($post_id, $page_num) {
         // This requires to filter 'post' only.
@@ -881,7 +910,7 @@ class PostController extends Controller
             ->where(
                 [
                     'posts.status'    => 'published'
-                ]    
+                ]
             )
             ->groupBy('posts.id')
             ->orderBy('relevance', 'desc')
@@ -923,7 +952,7 @@ class PostController extends Controller
             ->where(
                 [
                     'posts.status'    => 'published'
-                ]    
+                ]
             )->groupBy('posts.id');
         $posts_count = count($posts_count->get());
 
@@ -943,8 +972,8 @@ class PostController extends Controller
                 'status' => false,
                 'message' => 'Post does not exists!'
             ]);
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         if ( $post->status != 'pending' ) {
@@ -952,15 +981,15 @@ class PostController extends Controller
                 'status' => false,
                 'message' => 'The post is not pending post'
             ]);
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         // Save Rejected reason.
         PostsMeta::insertMetaData( $post->id, 'rejected_reason', request('message') );
 
         $post->update(['status' => 'rejected']);
-       
+
         return response()->json([
             'status' => true,
             'message' => 'Post has been rejected.'

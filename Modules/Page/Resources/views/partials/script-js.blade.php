@@ -87,7 +87,7 @@
     input.element.addEventListener('input', function(event){
       if (getCustomInputElementConent(input) === '')
         input.element.innerHTML = '';
-      
+
       if (input.element.hasAttribute('required') && getCustomInputElementConent(input) === '') {
         Util.addClass(input.element, 'form-control--error');
       } else {
@@ -171,7 +171,7 @@
             $(elem).removeClass('form-control--error');
             $(elem).parent('.ddf__area').removeClass('form-control--error');
           }
-          
+
         } else if ($(elem).prop('type') == 'button' || $(elem).prop('type') == 'submit') {
           // buttons, ignore this
         } else {
@@ -183,7 +183,7 @@
           }
         }
         break;
-      
+
       default:
         if ($(elem).hasClass('custom-input')) {
           if ($(elem).html().trim() == '') {
@@ -213,7 +213,7 @@
       return false;
 
     return true;
-  }  
+  }
 
   $(function(){
     const ImageTool = window.ImageTool;

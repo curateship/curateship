@@ -52,6 +52,19 @@
             </svg>
           </li>
         </menu>
+
+          <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnPostMultiple">
+              <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>send</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-miterlimit="10" stroke-linejoin="miter" stroke-linecap="butt" d="M18.26 1.66l-12.45 9.96v5.81l2.99-3.57"></path><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M1.66 8.3l16.6-6.64-3.32 16.6z"></path></g></svg>
+              </li>
+              <li class="menu-bar__item" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>send</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-miterlimit="10" stroke-linejoin="miter" stroke-linecap="butt" d="M18.26 1.66l-12.45 9.96v5.81l2.99-3.57"></path><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" stroke-linejoin="miter" d="M1.66 8.3l16.6-6.64-3.32 16.6z"></path></g></svg>
+                  <span class="menu-bar__label">Post</span>
+                  <span class="counter counter--critical counter--docked"><span id="postBadge">1</span> <i class="sr-only">Notifications</i></span>
+              </li>
+
+          </menu>
+
         @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
         <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
           <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">

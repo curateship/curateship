@@ -83,7 +83,7 @@
     input.element.addEventListener('input', function(event){
       if (getCustomInputElementConent(input) === '')
         input.element.innerHTML = '';
-      
+
       if (input.element.hasAttribute('required') && getCustomInputElementConent(input) === '') {
         Util.addClass(input.element, 'form-control--error');
       } else {
@@ -109,7 +109,7 @@
 </script>
 
 <script>
-var videojs_template = 
+var videojs_template =
   `<video id="media-player" class="video-js video-small vjs-big-play-centered" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' width="320" height="150" style="display:none">
     <source src="" type="" />
     <p class="vjs-no-js">
@@ -230,7 +230,7 @@ var videojs_template =
           $('#edit-media-player').hide();
         }
 
-        // Enable Save Buttons 
+        // Enable Save Buttons
         $('#btnSave, #btnPublish, #btnEditSaveDraft, #btnEditSave, #btnEditSavePublish, .restore-post-link').removeClass('btn--disabled');
       },
       error: function() {
@@ -245,7 +245,7 @@ var videojs_template =
     });
 
     return false;
-  }  
+  }
   $(document).on('change', '#editMedia', uploadMedia);
   $(document).on('change', '#upload-file', uploadMedia);
 }());
@@ -337,7 +337,7 @@ var videojs_template =
 
     return isValid;
   }
-  
+
   function validateCustomSelect(selector) {
     if ($(selector).parents('.post-tag-wrp').length > 0) {
       $form = $(selector).parents('form')[0];
@@ -386,7 +386,7 @@ var videojs_template =
             $(elem).removeClass('form-control--error');
             $(elem).parent('.ddf__area').removeClass('form-control--error');
           }
-          
+
         } else if ($(elem).prop('type') == 'button' || $(elem).prop('type') == 'submit') {
           // buttons, ignore this
         } else {
@@ -398,7 +398,7 @@ var videojs_template =
           }
         }
         break;
-      
+
       default:
         if ($(elem).hasClass('custom-input')) {
           if ($(elem).html().trim() == '') {
@@ -430,7 +430,7 @@ var videojs_template =
       return false;
 
     return true;
-  }  
+  }
 
   var tags_by_category = {!! $tags_by_category !!};
 
@@ -457,7 +457,7 @@ var videojs_template =
 
     // Return `null` if the term should not be displayed
     return null;
-  } 
+  }
 
   function select2ForTags(selector){
     $(selector).select2({
@@ -665,7 +665,7 @@ var videojs_template =
             showNotificationBox(response);
             return;
           }
-          
+
           var allTagsPerCategory = JSON.parse(response.tags);
 
           for (let i = 0; i < allTagsPerCategory.length; i++) {

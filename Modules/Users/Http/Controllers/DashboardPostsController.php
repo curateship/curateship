@@ -73,13 +73,13 @@ class DashboardPostsController extends Controller
             $posts_draft_count = Post::where('status', 'draft')->count();
             $posts_pending_count = Post::where('status', 'pending')->count();
             $posts_deleted_count = Post::where('status', 'deleted')->count();
-    
+
         } else {
             // get user specific posts count
             $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
             $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
             $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -97,7 +97,7 @@ class DashboardPostsController extends Controller
         $postsearch = request('postsearch');
 
         $tag_categories = TagCategory::all();
-        
+
         // get all tags
         $tags_by_category = array();
         $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
@@ -116,7 +116,7 @@ class DashboardPostsController extends Controller
 
                 if ($post_with_same_slug) {
                     $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
-                    $slug = getNewSlug($slug, $duplicated_slugs);              
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $post->slug = $slug;
@@ -150,7 +150,7 @@ class DashboardPostsController extends Controller
             $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
             $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
             $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();
         }
 
         $tag_categories = TagCategory::all();
@@ -185,7 +185,7 @@ class DashboardPostsController extends Controller
             $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
             $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
             $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();
         }
 
         $posts_settings = PostSetting::first();
@@ -266,7 +266,7 @@ class DashboardPostsController extends Controller
 
         if ($post_with_same_slug) {
             $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
-            $slug = getNewSlug($slug, $duplicated_slugs);      
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $status = request('status') ? request('status') : 'published';
@@ -353,7 +353,7 @@ class DashboardPostsController extends Controller
                 'message' => 'Published post cannot be edited. Please email us if there is a mistake on your post',
                 'class'   => 'alert--error',
             ];
-    
+
             return json_encode($alert);
         }
 
@@ -425,8 +425,8 @@ class DashboardPostsController extends Controller
                 'message' => 'Post does not exists!',
                 'class'   => 'alert--error',
             ];
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         if (!auth()->user()->isAdmin() && $post->status == 'published') {
@@ -434,8 +434,8 @@ class DashboardPostsController extends Controller
                 'message' => 'You are not authorized to edit published post',
                 'class'   => 'alert--error',
             ];
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         $status = ($post->status == 'published' && auth()->user()->isAdmin()) ? 'published' : ((request('status') == 'published' && !auth()->user()->isRegisteredUser()) ? 'published' : 'draft');
@@ -532,7 +532,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -590,7 +590,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'You are not authorized to delete post permanently.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -600,7 +600,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -658,7 +658,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -698,7 +698,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -716,7 +716,7 @@ class DashboardPostsController extends Controller
             $alert = [
                 'message' => 'Post does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -739,8 +739,8 @@ class DashboardPostsController extends Controller
                 'status' => false,
                 'message' => 'Post does not exists!'
             ]);
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         if (!auth()->user()->isAdmin() && $post->status != 'pending') {
@@ -748,15 +748,15 @@ class DashboardPostsController extends Controller
                 'status' => false,
                 'message' => 'You are not authorized to edit published post'
             ]);
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         // Save Rejected reason.
         PostsMeta::insertMetaData( $post->id, 'rejected_reason', request('message') );
 
         $post->update(['status' => 'rejected']);
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Post has been rejected.'
