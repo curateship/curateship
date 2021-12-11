@@ -16,7 +16,7 @@ $flexbin-space-phone: $flexbin-space !default;
     display: flex;
     overflow: hidden;
     flex-wrap: wrap;
-    margin: - $space / 2;
+    margin: - calc($space / 2);
 
     // Let final row align left fit if images are not enough to fill
     // If the gap is very small, fill the final row
@@ -31,7 +31,7 @@ $flexbin-space-phone: $flexbin-space !default;
         position: relative;
         display: block;
         height: $row-height;
-        margin: $space / 2;
+        margin: calc($space / 2);
         flex-grow: 1;
 
         > img {
@@ -47,7 +47,7 @@ $flexbin-space-phone: $flexbin-space !default;
     // Add margin around flexbin gallery
     // Visual margin is the same with space between rows
     &.flexbin-margin {
-        margin: $space / 2;
+        margin: calc($space / 2);
     }
 }
 

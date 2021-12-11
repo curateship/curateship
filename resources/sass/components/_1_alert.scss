@@ -6,6 +6,7 @@ Descr: Feedback message
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .alert {
     padding: var(--space-xs) var(--space-sm);

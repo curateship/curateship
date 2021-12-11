@@ -6,6 +6,7 @@ Descr: Application menu with a list of common actions that users can perform
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --menu-bar-button-size: 2.5em; // size of the menu buttons

@@ -8,6 +8,8 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 // >>> style affecting all (collapsed + expanded) versions 👇
+@use '../base' as *;
+
 .cl-table {
     position: relative;
     z-index: 1;

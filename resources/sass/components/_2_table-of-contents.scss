@@ -6,6 +6,8 @@ Descr: A navigation with a list of links to the main sections of the page
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
+
 :root {
     --toc-border-width: 1px;
   }

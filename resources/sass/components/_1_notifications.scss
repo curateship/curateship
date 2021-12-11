@@ -6,6 +6,7 @@ Descr: A list of notification items
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --notif-figure-size: 48px;

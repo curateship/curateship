@@ -6,6 +6,7 @@ Descr: A modal dialog used to display critical information
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .modal {
     position: fixed;

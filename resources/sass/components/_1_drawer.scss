@@ -6,6 +6,7 @@ Descr: A slide-in panel used to display critical content
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --drawer-width: 400px;

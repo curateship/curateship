@@ -6,6 +6,7 @@ Descr: A hoverable link that toggles the visibility of a dropdown list
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
   --dropdown-item-padding: var(--space-xxs) var(--space-sm);

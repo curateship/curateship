@@ -6,6 +6,7 @@ Descr: Basic table template
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .tbl {
     position: relative;

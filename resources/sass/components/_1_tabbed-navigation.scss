@@ -6,6 +6,7 @@ Descr: Tabbed secondary navigation
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 :root {
     --s-tabs-border-bottom-width: 1px;

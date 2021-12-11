@@ -6,6 +6,7 @@ Descr: A collection of text backgrounds animated on hover
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .text-bg-fx {
     background-repeat: no-repeat;

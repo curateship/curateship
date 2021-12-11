@@ -6,6 +6,7 @@ Descr: Sticky social sharing bar
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .sticky-sharebar {
     display: flex;

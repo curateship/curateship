@@ -6,6 +6,7 @@ Descr: Secondary navigation template
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .subnav__nav {
   position: relative;

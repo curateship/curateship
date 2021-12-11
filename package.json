@@ -14,7 +14,7 @@
         "autoprefixer": "^9.4.3",
         "axios": "^0.21.1",
         "browser-sync": "^2.27.5",
-        "codyhouse-framework": "^2.5.4",
+        "codyhouse-framework": "^3.0.3",
         "cross-env": "^7.0",
         "gulp": "^4.0.0",
         "gulp-concat": "^2.6.1",
@@ -31,7 +31,7 @@
         "postcss-calc": "^7.0.1",
         "postcss-css-variables": "git+https://github.com/CodyHouse/postcss-css-variables",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.42.1",
+        "sass": "^1.44.0",
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"

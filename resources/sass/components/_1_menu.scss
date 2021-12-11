@@ -6,6 +6,7 @@ Descr: Application menu that provides access to a set of functionalities
 Usage: codyhouse.co/license
 
 -------------------------------- */
+@use '../base' as *;
 
 .menu {
     --menu-vertical-gap: 4px; // vertical gap between the Menu element and its control
