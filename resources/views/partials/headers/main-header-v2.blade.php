@@ -31,7 +31,7 @@
             <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
               <path d="M4.222 4.222l15.556 15.556" />
               <path d="M19.778 4.222L4.222 19.778" />
-              <circle cx="9.5" cy="9.5" r="6.5" />
+              <circle cx="9.5" cy="9.5" r="6.5"></circle>
             </g>
           </svg>
         </button>
@@ -53,16 +53,15 @@
           </button>
           @else
           <button class="header-v2__nav-control reset anim-menu-btn anim-menu-btn--avatar js-anim-menu-btn js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-              <title>face-man</title>
-              <g class="icon__group" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)" fill="white" stroke="white">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+              <g class="icon__group" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)">
                 <path fill="none" stroke-miterlimit="10"
                   d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-                <circle data-stroke="none" fill="white" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                <circle data-stroke="none" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                   stroke-linecap="square" stroke="none"></circle>
-                <circle data-stroke="none" fill="white" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                <circle data-stroke="none" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                   stroke-linecap="square" stroke="none"></circle>
-                <circle fill="none" stroke="white" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+                <circle fill="none" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
                 <path d="M4.222 4.222l15.556 15.556" />
                 <path d="M19.778 4.222L4.222 19.778" />
               </g>
@@ -71,9 +70,9 @@
           @endif
         @endauth
 
-        <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
-          <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
-        </button>
+          <button class="header-v2__nav-control reset anim-menu-btn color-contrast-high js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
+              <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
+          </button>
       </div>
 
       <nav id="main-menu" class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
@@ -240,6 +239,10 @@
     </div>
   </div>
 </header>
+
+<style>
+
+</style>
 
 <script>
     // Check save theme in local storage;
