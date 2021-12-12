@@ -109,14 +109,12 @@ class Post extends Model
 
     public static function getByTagNames($tags = [], $limit = 5)
     {
-
+/*
         $posts = Tag::leftJoin('posts_tags', 'posts_tags.tag_id', '=', 'tags.id')
             ->leftJoin('posts', 'posts.id', '=', 'posts_tags.post_id')
             ->selectRaw('posts.*')
             ->whereIn('tags.name', $tags);
-
-/*
-        !!! THIS IS STUPID PEACE OF SHIT !!!
+*/
 
         $tags_collection = Tag::whereIn('name', $tags)->get();
 
@@ -134,12 +132,11 @@ class Post extends Model
         });
 
         $posts = $posts->unique()->sortByDesc('created_at')->where('status', 'published');
-*/
         if ($limit) {
-            $posts = $posts->limit(0, $limit);
-        }   else{
-            $posts = $posts->get();
+            $posts = $posts->slice(0, $limit);
         }
+
+        $posts = $posts->all();
 
         foreach($posts as $post) {
             $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
