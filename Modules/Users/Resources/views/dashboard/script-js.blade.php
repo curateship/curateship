@@ -252,49 +252,7 @@ var videojs_template =
 </script>
 
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.1/tinymce.min.js"></script>
 <script>
-  function getTiny(urls, sltr){
-    var editor_config = {
-      path_absolute : urls+"/",
-      selector : sltr,
-      fontsize_formats: '1pt 2pt 3pt 4pt 5pt 6pt 7pt 8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 36pt',
-      plugins: [
-        "advlist autolink lists link image",
-        "wordcount"
-      ],
-      toolbar: "undo redo | bold underline italic |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-      menu_bar: false,
-      image_dimensions: false,
-      image_description: false,
-      media_live_embeds: true,
-      media_alt_source: false,
-      relative_urls: false,
-      file_browser_callback : function(field_name, url, type, win) {
-        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-        var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
-        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-        if (type == 'image') {
-          cmsURL = cmsURL + "&type=Images";
-        } else {
-          cmsURL = cmsURL + "&type=Files";
-        }
-
-        tinyMCE.activeEditor.windowManager.open({
-          file : cmsURL,
-          title : 'File Manager',
-          width : x * 0.8,
-          height : y * 0.8,
-          resizeble : 'yes',
-          close_previous : 'no'
-        });
-      }
-
-      };
-
-      tinymce.init(editor_config);
-  }
-
   function showNotificationBox(data) {
     $('#notification-box').removeClass('alert--error').removeClass('alert--success');
     $('#notification-box').addClass(data.class);
@@ -482,9 +440,6 @@ var videojs_template =
   }
 
   $(function(){
-
-    // getTiny('{{ URL::to('/') }}', '#description');
-
     $('.site-tag-pills').each(function(){
       select2ForTags(this);
     });
@@ -650,7 +605,6 @@ var videojs_template =
       $('.site-tag-pills').each(function(){
         $(this).val('').trigger('change');
       });
-      // tinymce.remove('#editDescription');
       editor2.clear(); // used editorjs for edit post form
 
       $('#edit-media-player').html(videojs_template);
@@ -740,8 +694,6 @@ var videojs_template =
           $('.edit-post-wrp').removeClass('hidden'); // show post edit section
 
           $('.subnav a[aria-current]').attr('aria-current', '');
-
-          // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
       });
 
