@@ -19,7 +19,7 @@ class EditorjsController extends Controller
         return response()->json([
             'success' => 1,
             'file'    => [
-                'url' => $url
+                'url' => url($url)
             ]
         ]);
     }
