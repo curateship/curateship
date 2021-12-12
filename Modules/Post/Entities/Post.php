@@ -37,8 +37,9 @@ class Post extends Model
 
     public function showThumbnail($type = 'original')
     {
+        $post = Post::find($this->id);
     	if($type == 'original'){
-    		return asset('storage/posts/original') . '/' . $this->thumbnail;
+    		return asset('storage/posts/original') . '/' . $post->thumbnail;
     	}
 
     	if($type == 'medium'){
