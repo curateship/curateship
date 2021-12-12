@@ -484,6 +484,8 @@ class TagController extends Controller
         $data['description'] = $tag ? Post::parseContent(TagsMeta::getMetaData($tag->id, 'description')) : '';
         $data['posts']      = $posts;
 
-        return view('templates.layouts.tag', $data);
+        return view('templates.layouts.tag', [
+            'data' => $data
+        ]);
     }
 }
