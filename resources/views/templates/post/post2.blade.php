@@ -12,5 +12,5 @@
 @endisset
 
 @section('content')
-<x-posts.single.infinite-post-load id='{{ $post->id }}' />
+    @include('components.posts.single.infinite-post-load-core')
 @endsection
