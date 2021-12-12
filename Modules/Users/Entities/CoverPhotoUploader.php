@@ -19,7 +19,7 @@ class CoverPhotoUploader extends Model
 		$name = md5(uniqid()) . time() . '.' . $extension; // as6d57a9sd7a5sd67856a9s.jpg
 
 		if ( ! file_exists(base_path() . "/" . $server_path)) {
-			mkdir(base_path() . "/" . $server_path);
+			mkdir(base_path() . "/" . $server_path, 0777, true);
 		}
 
 		// Temp details

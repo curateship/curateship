@@ -378,7 +378,7 @@
         $('#base64Image').val('');
         $('#base64Image').val(response);
         $.ajax({
-          url: '/admin/users/update-coverphoto/' + currentUserId,
+          url: "{{ url('/admin/users/update-coverphoto') }}" + "/" + {{Auth::user()->id}},
           dataType: 'json',
           type: 'post',
           data: {
