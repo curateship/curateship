@@ -836,6 +836,12 @@ var videojs_template =
     }
     $(document).on('click', '#btnReject', rejectPost);
 
+    $(document).on('change', '#filterItems', function(){
+        $(document).find('#btnRefreshTable').removeClass('is-hidden');
+        $(document).find('#btnDeleteMultiple').addClass('is-hidden');
+        $(document).find('#btnPostMultiple').addClass('is-hidden');
+    })
+
     // Trash icon badge update
     $(document).on('click', '.checkbox-delete', function(){
       var checkPostCount = 0;
@@ -846,10 +852,14 @@ var videojs_template =
         }
       });
 
+      const currentFilter = $('#filterItems').val()
+
       if($('.checkbox-delete:checked').length){
         $(document).find('#btnRefreshTable').addClass('is-hidden');
         $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
-          $(document).find('#btnPostMultiple').removeClass('is-hidden');
+        if(currentFilter === 'draft'){
+            $(document).find('#btnPostMultiple').removeClass('is-hidden');
+        }
       } else {
         $(document).find('#btnRefreshTable').removeClass('is-hidden');
         $(document).find('#btnDeleteMultiple').addClass('is-hidden');
@@ -877,10 +887,14 @@ var videojs_template =
         }
       });
 
+        const currentFilter = $('#filterItems').val()
+
         if($('.checkbox-delete:checked').length){
             $(document).find('#btnRefreshTable').addClass('is-hidden');
             $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
-            $(document).find('#btnPostMultiple').removeClass('is-hidden');
+            if(currentFilter === 'draft'){
+                $(document).find('#btnPostMultiple').removeClass('is-hidden');
+            }
         } else {
             $(document).find('#btnRefreshTable').removeClass('is-hidden');
             $(document).find('#btnDeleteMultiple').addClass('is-hidden');

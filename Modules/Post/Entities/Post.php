@@ -109,12 +109,15 @@ class Post extends Model
 
     public static function getByTagNames($tags = [], $limit = 5)
     {
-/*
-        $posts = Tag::leftJoin('posts_tags', 'posts_tags.tag_id', '=', 'tags.id')
-            ->leftJoin('posts', 'posts.id', '=', 'posts_tags.post_id')
+
+        $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->leftJoin('tags', 'tags.id', '=', 'posts_tags.tag_id')
             ->selectRaw('posts.*')
+            ->groupBy('posts.id')
             ->whereIn('tags.name', $tags);
-*/
+
+/*
+        !!! THIS IS STUPID PEACE OF SHIT !!!
 
         $tags_collection = Tag::whereIn('name', $tags)->get();
 
@@ -132,24 +135,28 @@ class Post extends Model
         });
 
         $posts = $posts->unique()->sortByDesc('created_at')->where('status', 'published');
+*/
+
         if ($limit) {
-            $posts = $posts->slice(0, $limit);
+            $posts = $posts->limit($limit);
         }
 
-        $posts = $posts->all();
+        $posts = $posts->get();
 
         foreach($posts as $post) {
-            $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-            $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+            if($post->post_type == 'video'){
+                $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
+                $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
 
-            $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-            if (isMobileDevice() && File::exists($video_mobile)) {
-                $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-            } else {
-                $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+                $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+                if (isMobileDevice() && File::exists($video_mobile)) {
+                    $post->video    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+                } else {
+                    $post->video    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+                }
+
+                $post->video_type  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
             }
-
-            $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         }
 
         return $posts;

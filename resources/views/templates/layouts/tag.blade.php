@@ -1,2 +1,5 @@
-<?php $layout_template = (isset($settings_data['tag_template']) && !empty($settings_data['tag_template'])) ? "templates.tag.{$settings_data['tag_template']}" : 'templates.tag.default'; ?>
-@extends($layout_template)
+@if(isset($settings_data['tag_template']) && !empty($settings_data['tag_template']))
+    @include("templates.tag.{$settings_data['tag_template']}", $data)
+    @else
+    @include('templates.tag.default', $data)
+@endif
