@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Modules\Post\Entities\{ PostSetting };
 
 class MediaUploadController extends Controller
@@ -30,10 +31,14 @@ class MediaUploadController extends Controller
     }
 
     public function uploadMedia(Request $request, $type = 'post') {
-        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
-        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
-        Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
-        Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+        try {
+            Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
+            Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
+            Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
+            Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+        } catch (Exception $e) {
+            // something goes wrong?
+        }
 
         $request->validate([
             'media' => 'required',
