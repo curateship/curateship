@@ -341,7 +341,7 @@ class TagController extends Controller
 
         return $tag->delete();
     }
-    
+
     /**
      * Empty trash
      *
@@ -465,7 +465,6 @@ class TagController extends Controller
 
     public function tags(Request $request, $tag_query = null)
     {
-
         // If tag is not found -> return 404 | Not Found
         if (!$tag_query) {
             abort(404);
