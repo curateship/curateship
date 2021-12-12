@@ -231,7 +231,7 @@
           class: ImageTool,
           config: {
             endpoints: {
-              byFile: window.location.origin + '/editorjs/upload-image'
+              byFile: "{{ url('/editorjs/upload-image') }}"
             },
             additionalRequestHeaders : {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -264,7 +264,7 @@
           class: ImageTool,
           config: {
             endpoints: {
-              byFile: window.location.origin + '/editorjs/upload-image'
+              byFile: "{{ url('/editorjs/upload-image') }}"
             },
             additionalRequestHeaders : {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
