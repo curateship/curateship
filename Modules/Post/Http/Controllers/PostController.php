@@ -950,8 +950,7 @@ class PostController extends Controller
         $data['tag_pills'] = $tag_pills;
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
 
-        //return view('post::templates.post-infinite-load', $data);
-        return view('components.posts.single.post-seed', $data);
+        return view('components.posts.single.infinite-post-load-core', $data);
     }
 
     public function makePostReject() {
