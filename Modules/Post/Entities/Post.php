@@ -113,8 +113,22 @@ class Post extends Model
         $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
             ->leftJoin('tags', 'tags.id', '=', 'posts_tags.tag_id')
             ->selectRaw('posts.*')
-            ->groupBy('posts.id')
-            ->whereIn('tags.name', $tags);
+            ->whereIn('tags.name', $tags)
+            ->where('posts.status', 'published')
+            ->orderBy('posts.created_at', 'DESC')
+            ->groupBy([
+                'posts.id',
+                'posts.user_id',
+                'posts.title',
+                'posts.description',
+                'posts.thumbnail',
+                'posts.thumbnail_medium',
+                'posts.created_at',
+                'posts.updated_at',
+                'posts.slug',
+                'posts.post_type',
+                'posts.status'
+                ]);
 
 /*
         !!! THIS IS STUPID PEACE OF SHIT !!!
