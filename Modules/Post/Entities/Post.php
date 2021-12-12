@@ -5,9 +5,22 @@ namespace Modules\Post\Entities;
 use File;
 use Illuminate\Database\Eloquent\Model;
 
-use Modules\Post\Entities\{PostsTag, PostsMeta};
+use Modules\Post\Entities\{PostsMeta, PostsTag};
 use Modules\Tag\Entities\{Tag, TagCategory};
 
+/**
+ * @property string|void $description
+ * @property string $video
+ * @property string $video_type
+ * @property string $seo_title
+ * @property mixed $slug
+ * @property string $url
+ * @property mixed $title
+ * @property mixed $id
+ * @property mixed $postsTag
+ * @property mixed $thumbnail
+ * @property mixed $thumbnail_medium
+ */
 class Post extends Model
 {
     protected $guarded = ['id'];
@@ -90,18 +103,8 @@ class Post extends Model
 
         $posts = $posts->all();
 
-        foreach($posts as &$post) {
-            $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-            $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-
-            $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-            if (isMobileDevice() && File::exists($video_mobile)) {
-                $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-            } else {
-                $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
-            }
-
-            $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        foreach($posts as $post) {
+            $post->PrepareDataForShow();
         }
 
         return $posts;
@@ -159,17 +162,7 @@ class Post extends Model
 
         foreach($posts as $post) {
             if($post->post_type == 'video'){
-                $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-                $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-
-                $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-                if (isMobileDevice() && File::exists($video_mobile)) {
-                    $post->video    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-                } else {
-                    $post->video    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
-                }
-
-                $post->video_type  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+                $post->PrepareDataForShow();
             }
         }
 
@@ -419,5 +412,22 @@ class Post extends Model
         ';
 
         return $html;
+    }
+
+    public function PrepareDataForShow(){
+        $this->description = Post::parseContent($this->description);
+        $video_file = PostsMeta::getMetaData( $this->id, 'video' );
+        $video_extension = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $this->video    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $this->video    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
+
+        $this->video_type  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        $this->seo_title   = $this->title . ' | [sitetitle]';
+        $this->url = 'post/' . $this->slug;
     }
 }

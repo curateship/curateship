@@ -1,2 +1,5 @@
-<?php $layout_template = (isset($settings_data['post_template']) && !empty($settings_data['post_template'])) ? "templates.post.{$settings_data['post_template']}" : 'templates.post.default'; ?>
-@extends($layout_template)
+@if((isset($settings_data['post_template']) && !empty($settings_data['post_template'])))
+    @include("templates.post.{$settings_data['post_template']}")
+@else
+    @include('templates.post.default')
+@endif

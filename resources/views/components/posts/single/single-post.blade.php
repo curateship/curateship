@@ -116,6 +116,6 @@
   <script type="text/javascript">
     videojs.hook('setup', function(player) {
       $('.main-video-wrap').addClass("loaded");
-    });  
+    });
   </script>
 @endpush

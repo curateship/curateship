@@ -21,21 +21,15 @@ class SingleViewController extends Controller
       abort(404);
     }
 
-    $post['description'] = Post::parseContent($post['description']);
+    $post->PrepareDataForShow();
 
-    $data['post']       = $post;
+    $tag_pills = $post->getTagNames();
+    $data['tag_pills'] = $tag_pills;
+
     $data['page_title'] = $post->title;
-    $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-    $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+    $data['post'] = $post;
 
-    $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-    if (isMobileDevice() && File::exists($video_mobile)) {
-        $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-    } else {
-        $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
-    }
-
-    $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+    $data['nextpage'] = 0;
 
     return view('templates.layouts.post', $data);
   }
@@ -75,7 +69,7 @@ class SingleViewController extends Controller
 
       if ( $page ) {
         $page['description'] = Page::parseContent($page['description']);
-        
+
         $data['page']       = $page;
         $data['page_title'] = $page->title;
         $data['theme']      = $theme;
@@ -90,25 +84,13 @@ class SingleViewController extends Controller
       ]);
 
       if ( $post ) {
-        $post['description'] = Post::parseContent($post['description']);
-    
-        $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-        $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+          $post->PrepareDataForShow();
 
-        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-        if (isMobileDevice() && File::exists($video_mobile)) {
-            $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-        } else {
-            $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
-        }
-
-        $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
-    
         $data['post']       = $post;
         $data['page_title'] = $post->title;
         $data['theme']      = $theme;
-    
-        return view('post::templates.post-template-v1', $data);    
+
+        return view('post::templates.post-template-v1', $data);
       }
     }
 

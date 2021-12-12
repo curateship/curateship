@@ -925,20 +925,7 @@ class PostController extends Controller
             $post = Post::find($new_post_info['id']);
 
             if ($post) {
-                $post['description'] = Post::parseContent($post['description']);
-                $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
-                $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-
-                $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
-                if (isMobileDevice() && File::exists($video_mobile)) {
-                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
-                } else {
-                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
-                }
-
-                $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
-                $post['seo_title']   = $post['title'] . ' | [sitetitle]';
-                $post['url'] = 'post/' . $post['slug'];
+                $post->PrepareDataForShow();
             }
         }
 
@@ -962,7 +949,9 @@ class PostController extends Controller
         $data['post'] = $post;
         $data['tag_pills'] = $tag_pills;
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
-        return view('post::templates.post-infinite-load', $data);
+
+        //return view('post::templates.post-infinite-load', $data);
+        return view('components.posts.single.post-seed', $data);
     }
 
     public function makePostReject() {
