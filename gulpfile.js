@@ -1,5 +1,6 @@
 var gulp = require("gulp");
-var sass = require("gulp-sass");
+var sass = require('gulp-sass');
+// sass.compiler = require('sass');
 var sassGlob = require("gulp-sass-glob");
 var browserSync = require("browser-sync").create();
 var postcss = require("gulp-postcss");
