@@ -25,7 +25,7 @@
         "gulp-sass": "^4.0.2",
         "gulp-sass-glob": "^1.1.0",
         "gulp-uglify": "^3.0.2",
-        "laravel-mix": "^5.0.1",
+        "laravel-mix": "^6.0.39",
         "laravel-mix-purgecss": "^6.0.0",
         "lodash": "^4.17.21",
         "postcss-calc": "^7.0.1",
