@@ -16,6 +16,10 @@ Route::prefix('ad')->group(function() {
 });
 
   
-  Route::get('/admin/ad',function(){
-    return view('ad::index');
+  Route::get('/admin/ad/popups',function(){
+    return view('ad::popups.index');
+  });
+
+  Route::get('/admin/ad/templates',function(){
+    return view('ad::popups.templates');
   });
