@@ -1,3 +1,15 @@
+<style>
+    #ownerChangeMultiple{
+        width: 150px;
+        height: 35px;
+        border-radius: 40px;
+    }
+
+    .controlbar--sticky .flex{
+        align-items: center;
+    }
+</style>
+
 <div class="controlbar--sticky flex justify-between">
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
@@ -19,28 +31,27 @@
   <!-- Menu Bar -->
   <div class="flex flex-wrap items-center justify-between margin-right-xxs">
     <div class="flex flex-wrap">
+        <div class="menu-bar__item is-hidden" id="ownerChangeMultiple">
+            <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
+                <h1 class="text-md color-contrast-high padding-y-xxxxs is-hidden margin-x-xs" for="ownerChangeMultipleSelect">Owners:</h1>
+                <select name="changeOwner" id="ownerChangeMultipleSelect">
+                    <optgroup label="Default">
+                        <option value="" selected>Assign Owner</option>
+                    </optgroup>
 
-        <div class="menu-bar__item is-hidden" style="width: 200px;" id="ownerChangeMultiple">
-            <div class="flex flex-column items-start">
-                <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select id="ownerChangeMultipleSelect">
-                        <option value="0" selected>Assign Owner</option>
+                    <optgroup label="Admin">
+                        @foreach(\Modules\Users\Entities\User::getList('admin') as $user)
+                            <option value="{{$user->id}}" @if($user->hasAvatar()) data-avatar="{{$user->getAvatar()}}" @endif>{{$user->name}}</option>
+                        @endforeach
+                    </optgroup>
 
-                        <optgroup label="Admin">
-                            @foreach(\Modules\Users\Entities\User::getList('admin') as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
-                            @endforeach
-                        </optgroup>
-
-                        <optgroup label="Editors">
-                            @foreach(\Modules\Users\Entities\User::getList('editor') as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
-                            @endforeach
-                        </optgroup>
-                    </select>
-
-                    <svg class="icon icon--xxs margin-left-xxs" aria-hidden="true" viewBox="0 0 12 12"><path d="M10.947,3.276A.5.5,0,0,0,10.5,3h-9a.5.5,0,0,0-.4.8l4.5,6a.5.5,0,0,0,.8,0l4.5-6A.5.5,0,0,0,10.947,3.276Z"/></svg>
-                </div>
+                    <optgroup label="Editors">
+                        @foreach(\Modules\Users\Entities\User::getList('editor') as $user)
+                            <option value="{{$user->id}}" @if($user->hasAvatar()) data-avatar="{{$user->getAvatar()}}" @endif>{{$user->name}}</option>
+                        @endforeach
+                    </optgroup>
+                </select>
+                <svg class="icon icon--xxs margin-left-xxs" aria-hidden="true" viewBox="0 0 12 12"><path d="M10.947,3.276A.5.5,0,0,0,10.5,3h-9a.5.5,0,0,0-.4.8l4.5,6a.5.5,0,0,0,.8,0l4.5-6A.5.5,0,0,0,10.947,3.276Z"/></svg>
             </div>
         </div>
 
