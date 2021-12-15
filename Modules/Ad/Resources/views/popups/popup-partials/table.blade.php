@@ -94,12 +94,12 @@
           </th>
 
           <th class="int-table__cell int-table__cell--th text-left">
-            Description
+            Timer
           </th>
 
           <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort" data-date-format="dd-mm-yyyy">
             <div class="flex items-center">
-              <span>Date</span>
+              <span>Expired</span>
 
               <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                 <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -140,8 +140,8 @@
           </th>
           <td class="int-table__cell">1</td>
           <td class="int-table__cell" aria-controls="edit-modal"><a href="#0">Popup Name 1</a></td>
-          <td class="int-table__cell">Default Template</td>
-          <td class="int-table__cell text-truncate max-width-xxxxs">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat eveniet nisi itaque!</td>
+          <td class="int-table__cell">Template 1</td>
+          <td class="int-table__cell text-truncate max-width-xxxxs">3 Seconds</td>
           <td class="int-table__cell">01/01/2020</td>
           <td class="int-table__cell">Enabled</td>
           <td class="int-table__cell">
@@ -165,16 +165,6 @@
         <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
       </svg>
       <span>Edit</span>
-    </span>
-  </li>
-
-  <li role="menuitem">
-    <span class="menu__content js-menu__content">
-      <svg class="icon menu__icon" aria-hidden="true" viewBox="0 0 16 16">
-        <path d="M15,4H1C0.4,4,0,4.4,0,5v10c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V5C16,4.4,15.6,4,15,4z M14,14H2V6h12V14z"></path>
-        <rect x="2" width="12" height="2"></rect>
-      </svg>
-      <span>Copy</span>
     </span>
   </li>
 

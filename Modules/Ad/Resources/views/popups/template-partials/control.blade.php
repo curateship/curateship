@@ -5,7 +5,7 @@
       <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
         <select name="filterItems" id="filterItems">
           <optgroup label="Post Status">
-            <option value=""selected>All Templates</option>
+            <option value=""selected>Published</option>
             <option value="draft">Draft</option>
             <option value="deleted">Trash</option>
           </optgroup>

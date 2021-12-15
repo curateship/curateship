@@ -20,9 +20,13 @@
       <input class="form-control width-100%" type="email" name="inputEmail" id="inputEmail" placeholder="Enter Name">
    </div>
 
-      <label class="form-label margin-bottom-xxs" for="textarea">Insert Your Ad Codes</label>
+      <label class="form-label margin-bottom-xxs" for="textarea">Insert Your Modal Codes</label>
        <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
-        <p class="text-xs color-contrast-medium margin-top-xxs">Use helper text to provide additional information.</p>
+        <p class="text-xs color-contrast-medium margin-top-xxs margin-bottom-md">Modal html codes only</p>
+
+        <label class="form-label margin-bottom-xxs" for="textarea">Insert Your Ad Codes</label>
+       <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
+        <p class="text-xs color-contrast-medium margin-top-xxs">Ads HTML codes only</p>
    </div>
 </div>
 
