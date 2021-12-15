@@ -602,3 +602,14 @@ button:focus {
         }
     }
 }
+
+button[menu-target="user-menu"]{
+    .icon{
+        height: 22px;
+        width: 22px;
+    }
+}
+
+.cross-fix{
+    background-image: none;
+}

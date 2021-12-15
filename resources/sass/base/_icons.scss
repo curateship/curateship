@@ -19,6 +19,7 @@
     display: inline-block;
     color: inherit;
     fill: currentColor;
+    stroke: currentColor;
     height: 1em;
     width: 1em;
     line-height: 1;
@@ -27,7 +28,7 @@
   }
 
   // icon size
-  .icon--xxxs { 
+  .icon--xxxs {
     width: var(--icon-xxxs);
     height: var(--icon-xxxs);
   }
