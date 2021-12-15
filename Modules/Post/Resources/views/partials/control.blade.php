@@ -1,15 +1,3 @@
-<style>
-    #ownerChangeMultiple{
-        width: 150px;
-        height: 35px;
-        border-radius: 40px;
-    }
-
-    .controlbar--sticky .flex{
-        align-items: center;
-    }
-</style>
-
 <div class="controlbar--sticky flex justify-between">
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
