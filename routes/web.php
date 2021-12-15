@@ -62,3 +62,7 @@ Route::group([
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleViewbyTheme'
   ]);
 });
+
+Route::get('/admin/component-editor',function(){
+  return view('admin::component-editor.index');
+});
