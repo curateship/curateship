@@ -1,3 +1,4 @@
+@if($post !== null)
 <div class="js-infinite-scroll container max-width-lg" data-path="{{ url('/api/post/' . $post->id . '/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
 
     <div class="js-infinite-scroll__content" data-path="{{ url('/api/post/' . $post->id . '/page={n}') }}" data-current-page="{{ $nextpage }}">
@@ -62,6 +63,7 @@
   </div>
 
 </div>
+@endif
 
 @push('module-styles')
   <!-- MODULE'S CUSTOM Style -->
