@@ -58,6 +58,11 @@ Route::middleware($middleware)->group(function(){
             'uses' => 'PostController@postMultiple'
         ]);
 
+        Route::post('posts/changeOwner/multiple', [
+            'as' => 'posts.chaneOwner.multiple',
+            'uses' => 'PostController@changeOwnerMultiple'
+        ]);
+
         Route::post('posts/trash/empty', [
             'as' => 'posts.trash.empty',
             'uses' => 'PostController@emptyTrash'
