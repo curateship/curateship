@@ -522,6 +522,33 @@ class PostController extends Controller
 
     }
 
+    public function changeOwnerMultiple(Request $request){
+        $selectedIDs = $request->input('selectedIDs');
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach($selectedIDs as $id){
+            $post = Post::find($id);
+            if (!$post) {
+                continue;
+            }
+
+            $post->user_id = $request->newOwnerId;
+            $post->save();
+        }
+
+
+        $alert = [
+            'message' => 'Owner has been changed!',
+            'class'   => '',
+        ];
+
+        return back()->with('alert', $alert);
+    }
+
     public function postMultiple(Request $request){
         $selectedIDs     = $request->input('selectedIDs');
 

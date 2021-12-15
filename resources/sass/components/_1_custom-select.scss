@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 File#: _1_custom-select
 Title: Custom Select
@@ -42,7 +42,7 @@ Usage: codyhouse.co/license
 
 .select__button[aria-expanded="true"] {
   // custom select control if dropdown = visible
-} 
+}
 
 .select__dropdown { // created in JS - custom select dropdown
   position: absolute;
@@ -84,12 +84,12 @@ Usage: codyhouse.co/license
   transition: visibility 0s, opacity .2s;
 }
 
-// custom <optgroup> list - include all <option>s if no <optgroup> available 
+// custom <optgroup> list - include all <option>s if no <optgroup> available
 .select__list {
   list-style: none !important;
 }
 
-.select__list:not(:first-of-type) { 
+.select__list:not(:first-of-type) {
   padding-top: var(--space-xxs);
 }
 
@@ -99,7 +99,6 @@ Usage: codyhouse.co/license
 }
 
 .select__item { // single item inside .select__list
-  display: block;
   padding: var(--space-xs) var(--space-lg) var(--space-xs) var(--space-md);
   color: var(--color-contrast-high);
   width: 100%;
@@ -108,6 +107,8 @@ Usage: codyhouse.co/license
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 
 .select__item--optgroup { // custom <optgroup> label

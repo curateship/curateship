@@ -155,7 +155,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             // Create random string
             $name = md5(uniqid()) . time() . '.jpg';
             File::copy($old_directory, $new_directory . '/' . $name);
-        }        
+        }
 
         return $name;
     }
@@ -187,6 +187,13 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function posts()
     {
         return $this->hasMany('Modules\Post\Entities\Post');
+    }
+
+    public static function getList($target){
+        return static::leftJoin('roles', 'roles.permission', '=', 'users.permission')
+            ->where('roles.key', $target)
+            ->select('users.id', 'users.name')
+            ->get();
     }
 
     public function getUserRole() {
@@ -221,7 +228,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $settings = Settings::getSiteSettings();
-        
+
         $data = [
             'token' => $token,
             'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : config('mail.from.address'),
@@ -239,7 +246,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $settings = Settings::getSiteSettings();
-        
+
         $data = [
             'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : config('mail.from.address'),
             'template' => !empty($settings['template_email_confirm']) ? $settings['template_email_confirm'] : '',

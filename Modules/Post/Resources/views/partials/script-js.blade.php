@@ -733,12 +733,20 @@ var videojs_template =
       }
     });
 
+    // Multiple post publish;
       $(document).on('click', '#btnPostMultiple', function(){
           if(confirm("Are you sure you want to post these posts?")){
               $('#form-bulk-post').submit();
           }
       });
 
+      // Multiple post owner change;
+      $(document).on('change', '#ownerChangeMultipleSelect', function(){
+          if(confirm("Are you sure you want to change these posts owner?")){
+              $('input[name="newOwnerId"]').val($(this).val())
+              $('#form-bulk-change-owner').submit();
+          }
+      });
 
     $(document).on('click', '#closeRejectModal', function(){
       $('#modal-reject-post').removeClass('modal--is-visible');
@@ -791,6 +799,7 @@ var videojs_template =
         $(document).find('#btnRefreshTable').removeClass('is-hidden');
         $(document).find('#btnDeleteMultiple').addClass('is-hidden');
         $(document).find('#btnPostMultiple').addClass('is-hidden');
+        $(document).find('#ownerChangeMultiple').addClass('is-hidden');
     })
 
     // Trash icon badge update
@@ -811,10 +820,15 @@ var videojs_template =
         if(currentFilter === 'draft'){
             $(document).find('#btnPostMultiple').removeClass('is-hidden');
         }
+
+        if(currentFilter === ''){
+            $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
+        }
       } else {
         $(document).find('#btnRefreshTable').removeClass('is-hidden');
         $(document).find('#btnDeleteMultiple').addClass('is-hidden');
           $(document).find('#btnPostMultiple').addClass('is-hidden');
+          $(document).find('#ownerChangeMultiple').addClass('is-hidden');
       }
 
       $('#deleteBadge').html(checkPostCount);
@@ -846,10 +860,14 @@ var videojs_template =
             if(currentFilter === 'draft'){
                 $(document).find('#btnPostMultiple').removeClass('is-hidden');
             }
+            if(currentFilter === ''){
+                $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
+            }
         } else {
             $(document).find('#btnRefreshTable').removeClass('is-hidden');
             $(document).find('#btnDeleteMultiple').addClass('is-hidden');
             $(document).find('#btnPostMultiple').addClass('is-hidden');
+            $(document).find('#ownerChangeMultiple').addClass('is-hidden');
         }
 
         $('#deleteBadge').html(checkPostCount);

@@ -19,28 +19,52 @@
   <!-- Menu Bar -->
   <div class="flex flex-wrap items-center justify-between margin-right-xxs">
     <div class="flex flex-wrap">
-      <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-article">
+        <div class="menu-bar__item is-hidden" id="ownerChangeMultiple">
+            <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
+                <h1 class="text-md color-contrast-high padding-y-xxxxs is-hidden margin-x-xs" for="ownerChangeMultipleSelect">Owners:</h1>
+                <select name="changeOwner" id="ownerChangeMultipleSelect">
+                    <optgroup label="Default">
+                        <option value="" selected>Assign Owner</option>
+                    </optgroup>
+
+                    <optgroup label="Admin">
+                        @foreach(\Modules\Users\Entities\User::getList('admin') as $user)
+                            <option value="{{$user->id}}" @if($user->hasAvatar()) data-avatar="{{$user->getAvatar()}}" @endif>{{$user->name}}</option>
+                        @endforeach
+                    </optgroup>
+
+                    <optgroup label="Editors">
+                        @foreach(\Modules\Users\Entities\User::getList('editor') as $user)
+                            <option value="{{$user->id}}" @if($user->hasAvatar()) data-avatar="{{$user->getAvatar()}}" @endif>{{$user->name}}</option>
+                        @endforeach
+                    </optgroup>
+                </select>
+                <svg class="icon icon--xxs margin-left-xxs" aria-hidden="true" viewBox="0 0 12 12"><path d="M10.947,3.276A.5.5,0,0,0,10.5,3h-9a.5.5,0,0,0-.4.8l4.5,6a.5.5,0,0,0,.8,0l4.5-6A.5.5,0,0,0,10.947,3.276Z"/></svg>
+            </div>
+        </div>
+
+      <div class="menu-bar__item js-menu-bar" aria-controls="modal-add-article">
       <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 20 20">
         <path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z"></path>
       </svg>
         <span class="menu-bar__label">Add Post</span>
-      </li>
+      </div>
 
-      <li class="menu-bar__item" aria-controls="modal-search">
+      <div class="menu-bar__item" aria-controls="modal-search">
         <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 20 20">
         <path d="M11.25 17.5c4.83 0 8.75-3.93 8.75-8.75s-3.93-8.75-8.75-8.75-8.75 3.93-8.75 8.75 3.93 8.75 8.75 8.75z m0-15c3.45 0 6.25 2.8 6.25 6.25s-2.8 6.25-6.25 6.25-6.25-2.8-6.25-6.25 2.8-6.25 6.25-6.25z"></path><path d="M0.36 17.86l3-2.99a10.02 10.02 0 0 0 1.76 1.77l-2.98 3a1.25 1.25 0 0 1-1.78 0 1.25 1.25 0 0 1 0-1.78z"></path>
         </svg>
         <span class="menu-bar__label">Search Posts</span>
-      </li>
+      </div>
 
-      <li class="menu-bar__item">
+      <div class="menu-bar__item">
         <a href="{{ url('admin/posts/settings') }}">
           <svg class="icon menu-bar__icon" viewBox="0 0 20 20">
           <path d="M18.92 8.48a2.5 2.5 0 0 1-1.54-3.71c0.4-0.67 0.28-1.25-0.12-1.65l-0.38-0.38c-0.4-0.4-0.98-0.52-1.65-0.12a2.5 2.5 0 0 1-3.71-1.54c-0.19-0.76-0.68-1.08-1.25-1.08h-0.54c-0.56 0-1.06 0.32-1.25 1.08a2.5 2.5 0 0 1-3.71 1.54c-0.67-0.4-1.25-0.28-1.65 0.12l-0.39 0.38c-0.4 0.4-0.52 0.98-0.11 1.65a2.5 2.5 0 0 1-1.54 3.71c-0.76 0.19-1.08 0.68-1.08 1.25v0.54c0 0.56 0.32 1.06 1.08 1.25a2.5 2.5 0 0 1 1.54 3.71c-0.4 0.67-0.28 1.25 0.12 1.65l0.38 0.38c0.4 0.4 0.98 0.52 1.65 0.12a2.5 2.5 0 0 1 3.71 1.54c0.19 0.76 0.68 1.08 1.25 1.08h0.54c0.56 0 1.06-0.32 1.25-1.08a2.5 2.5 0 0 1 3.71-1.54c0.67 0.4 1.25 0.28 1.65-0.12l0.38-0.38c0.4-0.4 0.52-0.98 0.12-1.65a2.5 2.5 0 0 1 1.54-3.71c0.76-0.19 1.08-0.68 1.08-1.25v-0.54c0-0.56-0.33-1.06-1.08-1.25z m-8.92 5.27a3.75 3.75 0 1 1 0-7.5 3.75 3.75 0 0 1 0 7.5z"></path>
         </svg>
         </a>
         <span class="menu-bar__label">Settings</span>
-      </li>
+      </div>
 
       <div class="int-table-actions" data-table-controls="table-1">
         <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">

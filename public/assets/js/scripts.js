@@ -2452,6 +2452,8 @@ function initAlertEvent(element) {
       if (select.options.length > 0)
         label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
 
+        console.log(select.label)
+
       var button = '<button type="button" class="js-select__button select__button'+customClasses+'" aria-label="'+label+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-select__label select__label">'+select.selectedOption+'</span>';
       if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {
         var clone = select.arrowIcon[0].cloneNode(true);
@@ -2502,10 +2504,16 @@ function initAlertEvent(element) {
       for(var i = 0; i < options.length; i++) {
         var selected = options[i].hasAttribute('selected') ? ' aria-selected="true"' : ' aria-selected="false"';
         var badge = '';
+        var img = '';
         if (options[i].hasAttribute('data-count')) {
           badge = '<span class="sidenav__counter">' + options[i].getAttribute('data-count') + '</span>';
         }
-        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'"><span class="select__text">'+options[i].text+'</span>'+badge+'</button></li>';
+
+        if(options[i].hasAttribute('data-avatar')){
+            img = '<span class="flex width-md height-md bg-black bg-opacity-50% radius-50% margin-right-xxs"><img alt="avatar" class="width-md height-md radius-50% object-cover" src="' + options[i].getAttribute('data-avatar') + '"></span>';
+        }
+
+        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'">'+img+'<span class="select__text">'+options[i].text+'</span>'+badge+'</button></li>';
         select.optionIndex = select.optionIndex + 1;
       };
       return list;
@@ -2528,10 +2536,13 @@ function initAlertEvent(element) {
 
     //initialize the CustomSelect objects
     var customSelect = document.getElementsByClassName('js-select');
+
     if( customSelect.length > 0 ) {
       var selectArray = [];
       for( var i = 0; i < customSelect.length; i++) {
-        (function(i){selectArray.push(new CustomSelect(customSelect[i]));})(i);
+        (function(i){
+            selectArray.push(new CustomSelect(customSelect[i]));
+        })(i);
       }
 
       // listen for key events
