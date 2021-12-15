@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Modules\Post\Entities\{ PostSetting };
 
 class MediaUploadController extends Controller
@@ -30,10 +31,14 @@ class MediaUploadController extends Controller
     }
 
     public function uploadMedia(Request $request, $type = 'post') {
-        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
-        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
-        Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
-        Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+        try {
+            Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
+            Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
+            Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
+            Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+        } catch (Exception $e) {
+            // something goes wrong?
+        }
 
         $request->validate([
             'media' => 'required',
@@ -119,17 +124,8 @@ class MediaUploadController extends Controller
             $height = $video_dimensions->getHeight();
 
             // Resize video
-            if($height < $width){
-                // For Landscape view;
-                $m_video_width = 480;
-                $m_video_height = ceil($height * (480/$width));
-                if($m_video_height % 2 == 1) $m_video_height++;
-            }   else{
-                // For Portrait view;
-                $m_video_height = 480;
-                $m_video_width = ceil($width * (480/$height));
-                if($m_video_width % 2 == 1) $m_video_width++;
-            }
+            $m_video_width = 480;
+            $m_video_height = ceil($height * (480/$width));
 
             $ffmpeg = FFMpeg::create();
             $m_video = $ffmpeg->open($video_path . '/original/' . $media_name);
