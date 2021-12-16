@@ -14,7 +14,7 @@
           </svg>
         </button>
       </header>
-  
+ 
       <div class="padding-y-sm padding-x-md">
         <div class="text-component">
           <p id="modal-description-1">Are you sure to want to delete *Article title*?</p>

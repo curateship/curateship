@@ -71,6 +71,8 @@
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/comment') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/comment' ? 'aria-current' : '' }}><span>Comment</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/scraper') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/scraper' ? 'aria-current' : '' }}><span>scrapers</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"

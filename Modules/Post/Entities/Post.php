@@ -32,8 +32,9 @@ class Post extends Model
 
     public function getThumbnail($type = 'original')
     {
+        $post = Post::find($this->id);
     	if($type == 'original' && $this->thumbnail) {
-    		return storage_path() . '/app/public/posts/original/' . $this->thumbnail;
+    		return asset('storage/posts/original') . '/' . $post->thumbnail;
     	}
 
     	if($type == 'medium' && $this->thumbnail_medium) {
@@ -430,4 +431,11 @@ class Post extends Model
         $this->seo_title   = $this->title . ' | [sitetitle]';
         $this->url = 'post/' . $this->slug;
     }
+
+    public function comment()
+    {
+    	return $this->hasMany(\Modules\Comment\Entities\Comment::class);
+    }
+
 }
+
