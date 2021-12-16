@@ -603,7 +603,19 @@ button:focus {
     }
 }
 
-button[menu-target="user-menu"]{
+.avatar-cross-fix{
+    display: inline-block;
+    color: inherit;
+    fill: currentColor;
+    stroke: currentColor;
+    height: 1em;
+    width: 1em;
+    line-height: 1;
+    flex-shrink: 0;
+    max-width: initial;
+}
+
+.anim-menu-btn--avatar{
     .icon{
         height: 22px;
         width: 22px;

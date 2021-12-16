@@ -28,8 +28,8 @@
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar">
               </div>
             </div>
-            <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
-              <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#efefef">
+            <svg class="icon switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
+              <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
                 <line x1="15" y1="5" x2="5" y2="15"></line>
                 <line x1="15" y1="15" x2="5" y2="5"></line>
               </g>
