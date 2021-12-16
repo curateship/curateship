@@ -29,7 +29,7 @@
               </div>
             </div>
             <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
-              <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#efefef">
+              <g class="avatar-cross-fix" fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
                 <line x1="15" y1="5" x2="5" y2="15"></line>
                 <line x1="15" y1="15" x2="5" y2="5"></line>
               </g>
@@ -55,9 +55,9 @@
           @endif
         @endauth
 
-        <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
-          <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
-        </button>
+            <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
+                <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
+            </button>
       </div>
 
       <nav id="main-menu" class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
@@ -71,6 +71,8 @@
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/comment') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/comment' ? 'aria-current' : '' }}><span>Comment</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/scraper') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/scraper' ? 'aria-current' : '' }}><span>scrapers</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
@@ -189,25 +191,3 @@
     </div>
   </div>
 </header>
-
-<script>
-    // Check save theme in local storage;
-    let selectedTheme = localStorage.getItem('selected-theme')
-    const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
-
-    // If we do not have any theme in storage, we must get in from default system settings;
-    if(selectedTheme == null){
-        selectedTheme = defaultTheme;
-    }
-
-    switch(selectedTheme){
-        case 'dark':
-            document.body.setAttribute('data-theme', 'dark')
-            document.getElementById('themeSwitch').checked = true
-            break
-        case 'white':
-            document.body.removeAttribute('data-theme')
-            document.getElementById('themeSwitch').checked = false
-            break
-    }
-</script>

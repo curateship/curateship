@@ -98,7 +98,7 @@ function animateZoomImage(imageZoom, bool) {
 
 
 
-function iniImagesZoom(){
+function initImagesZoom(){
     // init ImageZoom object
     var imageZoom = document.getElementsByClassName('js-image-zoom');
 
@@ -135,4 +135,4 @@ function iniImagesZoom(){
     }
 }
 
-iniImagesZoom()
+initImagesZoom()

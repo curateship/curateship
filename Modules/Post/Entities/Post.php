@@ -2,9 +2,12 @@
 
 namespace Modules\Post\Entities;
 
+use Carbon\Carbon;
 use File;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Comment\Entities\Comment;
+use Modules\Comment\Entities\Reply;
 use Modules\Post\Entities\{PostsMeta, PostsTag};
 use Modules\Tag\Entities\{Tag, TagCategory};
 
@@ -20,6 +23,7 @@ use Modules\Tag\Entities\{Tag, TagCategory};
  * @property mixed $postsTag
  * @property mixed $thumbnail
  * @property mixed $thumbnail_medium
+ * @property $comments
  */
 class Post extends Model
 {
@@ -32,8 +36,9 @@ class Post extends Model
 
     public function getThumbnail($type = 'original')
     {
+        $post = Post::find($this->id);
     	if($type == 'original' && $this->thumbnail) {
-    		return storage_path() . '/app/public/posts/original/' . $this->thumbnail;
+    		return asset('storage/posts/original') . '/' . $post->thumbnail;
     	}
 
     	if($type == 'medium' && $this->thumbnail_medium) {
@@ -430,4 +435,74 @@ class Post extends Model
         $this->seo_title   = $this->title . ' | [sitetitle]';
         $this->url = 'post/' . $this->slug;
     }
+
+    public function preparePostComments(){
+        $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
+            ->leftJoin('users_settings', 'comments.user_id', '=', 'users_settings.user_id')
+            ->select([
+                'comments.id as comment_id',
+                'comments.comment as comment',
+                'users.username as comment_user',
+                'users_settings.avatar as avatar',
+                'comments.status as comment_status',
+                'comments.created_at as comment_created_at'
+            ])
+            ->where(
+                [
+                    'comments.post_id' => $this->id,
+                ]
+            )->orderBy('comments.created_at', 'desc')->get();
+        foreach($comments as $comment) {
+            $from = new Carbon($comment->comment_created_at);
+            $diff_in_days = Carbon::now()->diffForHumans($from, true). ' ago';
+            $comment['comment_created_at'] = $diff_in_days;
+
+            $replies = Reply::leftJoin('users', 'comment_reply.user_id', '=', 'users.id')
+                ->leftJoin('users_settings', 'comment_reply.user_id', '=', 'users_settings.user_id')
+                ->select([
+                    'comment_reply.id as reply_id',
+                    'users.username as reply_user',
+                    'users_settings.avatar as reply_avatar',
+                    'comment_reply.content as reply_content',
+                    'comment_reply.created_at as reply_created_at',
+                    'comment_reply.status as $reply_status'
+                ])
+                ->where(
+                    [
+                        'comment_reply.comment_id' => $comment->comment_id,
+                        'comment_reply.status' => 'published'
+                    ]
+                )->orderBy('comment_reply.created_at', 'desc')->get();
+            $repliesCount = Reply::leftJoin('users', 'comment_reply.user_id', '=', 'users.id')
+                ->leftJoin('users_settings', 'comment_reply.user_id', '=', 'users_settings.user_id')
+                ->select([
+                    'comment_reply.id as reply_id',
+                    'users.username as reply_user',
+                    'users_settings.avatar as reply_avatar',
+                    'comment_reply.content as reply_content',
+                    'comment_reply.created_at as reply_created_at'
+                ])
+                ->where(
+                    [
+                        'comment_reply.comment_id' => $comment->comment_id,
+                        'comment_reply.status' => 'published'
+                    ]
+                )->count();
+            $comment['repliesCount'] = $repliesCount;
+            foreach($replies as $reply) {
+                $from = new Carbon($reply->reply_created_at);
+                $diff_in_days = Carbon::now()->diffForHumans($from, true) . ' ago';
+                $reply['reply_created_at'] = $diff_in_days;
+            }
+            $comment['replies'] = $replies;
+        }
+        $this->comments = $comments;
+    }
+
+    public function comment()
+    {
+    	return $this->hasMany(\Modules\Comment\Entities\Comment::class);
+    }
+
 }
+

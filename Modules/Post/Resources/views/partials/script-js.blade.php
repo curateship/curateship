@@ -57,6 +57,22 @@
     } else {
       localStorage.setItem("cs_admin_post_init_tab", ""); // clear
     }
+
+      // Interactive table checkbox toggle
+      $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
+      console.log('check');
+      var $checkBoxesChecked = $('.js-int-table__select-row:checked');
+      var $totalSelected = $('.table-total-selected');
+      // console.log($("#selected-id-template").html());
+      var $inputHiddenTemplate = $("#selected-id-template").html().trim();
+      $('.bulk-selected-ids').html('');
+      $checkBoxesChecked.each(function(){
+        var $this = $(this);
+        var $selectedID = $inputHiddenTemplate.replace(/@{{value}}/gi, $this.val());
+        $('.bulk-selected-ids').append($selectedID);
+      });
+      $totalSelected.text($checkBoxesChecked.length);
+    });
   })();
 </script>
 

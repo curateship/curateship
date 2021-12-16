@@ -253,4 +253,13 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         ];
         $this->notify(new VerifyEmail($data));
     }
+
+    public function comment()
+    {
+    	return $this->hasMany(\Modules\Users\Entities\Comment::class);
+    }
+    public function reply()
+    {
+    	return $this->hasMany(\Modules\Users\Entities\Reply::class);
+    }
 }
