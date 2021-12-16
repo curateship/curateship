@@ -242,7 +242,16 @@
       infiniteScroll.loading = false;
 
         // Init zoom images after every load;
-        iniImagesZoom()
+        initImagesZoom()
+
+        // Init post comments forms;
+        initPostCommentsForms()
+
+        // Init post modals;
+        initModals()
+
+        // Init read more;
+        initReadMoreItems()
     };
 
     function removeScrollEvents(infiniteScroll) {

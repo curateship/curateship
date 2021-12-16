@@ -1,8 +1,10 @@
 // File#: _1_modal-window
 // Usage: codyhouse.co/license
-(function() {
-    var Modal = function(element) {
+var focusableElString = '[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary';
+
+    var Modal = function(element, index) {
         this.element = element;
+        this.modalId = index;
         this.triggers = document.querySelectorAll(
             '[aria-controls="' + this.element.getAttribute("id") + '"]'
         );
@@ -16,6 +18,7 @@
             : null;
         this.selectedTrigger = null;
         this.showClass = "modal--is-visible";
+
         this.initModal();
     };
 
@@ -25,7 +28,7 @@
         if (this.triggers) {
             for (var i = 0; i < this.triggers.length; i++) {
                 this.triggers[i].addEventListener("click", function(event) {
-                    event.preventDefault();
+                    //event.preventDefault();
                     if (Util.hasClass(self.element, self.showClass)) {
                         self.closeModal();
                         return;
@@ -214,18 +217,39 @@
         );
     }
 
+function initModals(){
+        console.log('Modals initiated')
     //initialize the Modal objects
     var modals = document.getElementsByClassName("js-modal");
     // generic focusable elements string selector
-    var focusableElString =
-        '[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary';
+
     if (modals.length > 0) {
+        // Check, if we have zoomed images in local storage, we must remove light box;
+        var existModals = localStorage.getItem('exist-modals')
+        var skipArray = []
+        if(existModals !== null){
+            JSON.parse(existModals).forEach(function(modalId){
+                // Drop already exit light box;
+                var existModal = document.getElementById(modalId)
+                if(existModal !== null){
+                    //document.getElementById(zoomBox.lightBoxId).remove()
+                    skipArray.push(modalId)
+                }
+            })
+        }
+
         var modalArrays = [];
+        var addedModals = [];
         for (var i = 0; i < modals.length; i++) {
             (function(i) {
-                modalArrays.push(new Modal(modals[i]));
+                if(!skipArray.includes(modals[i].id )){
+                    modalArrays.push(new Modal(modals[i], modals[i].id));
+                    addedModals.push(modals[i].id);
+                }
             })(i);
         }
+
+        localStorage.setItem('exist-modals', JSON.stringify(addedModals.concat(skipArray)))
 
         window.addEventListener("keydown", function(event) {
             //close modal window on esc
@@ -239,4 +263,4 @@
             }
         });
     }
-})();
+}

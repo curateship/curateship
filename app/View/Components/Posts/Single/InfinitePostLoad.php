@@ -48,7 +48,7 @@ class InfinitePostLoad extends Component
             $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
             $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
             $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
-            
+
             $comments = Comment::leftJoin('users', 'comments.user_id', '=', 'users.id')
                                 ->leftJoin('users_settings', 'comments.user_id', '=', 'users_settings.user_id')
                                 ->select([
@@ -82,7 +82,7 @@ class InfinitePostLoad extends Component
                                 ->where(
                                     [
                                         'comment_reply.comment_id' => $comment->comment_id,
-                                        'comment_reply.status' => 'published'                                        
+                                        'comment_reply.status' => 'published'
                                     ]
                                 )->orderBy('comment_reply.created_at', 'desc')->get();
                 $repliesCount = Reply::leftJoin('users', 'comment_reply.user_id', '=', 'users.id')
@@ -115,7 +115,7 @@ class InfinitePostLoad extends Component
         } else {
             $this->post = null;
             $this->tag_pills = null;
-        } 
+        }
     }
 
     /**

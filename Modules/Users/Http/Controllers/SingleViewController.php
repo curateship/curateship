@@ -25,6 +25,7 @@ class SingleViewController extends Controller
     }
 
     $post->PrepareDataForShow();
+    $post->preparePostComments();
 
     $tag_pills = $post->getTagNames();
     $data['tag_pills'] = $tag_pills;
@@ -101,7 +102,7 @@ class SingleViewController extends Controller
   }
 
   public function reply($id)
-    { 
+    {
       $comment = Comment::where('id', $id)->first();
         return view('components.posts.edit-reply-form', compact('comment'))->withoutShortcodes();
     }

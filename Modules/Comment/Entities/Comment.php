@@ -5,6 +5,12 @@ namespace Modules\Comment\Entities;
 use Modules\Post\Entities\{Post, PostsTag, PostsMeta};
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed|string $status
+ * @property mixed $comment
+ * @property mixed $post_id
+ * @property mixed $user_id
+ */
 class Comment extends Model
 {
     protected $table = 'comments';

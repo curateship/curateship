@@ -61,19 +61,19 @@ Route::group([
     'as'   => 'theme.pages.post',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleViewbyTheme'
   ]);
+});
 
-  Route::get('post/comment/reply/{id}', [
+Route::get('post/comment/reply/{id}', [
     'as'   => 'post-comment-reply',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@reply'
-  ]);
-  
-  Route::post('post/comment/reply-save/{id}', [
+]);
+
+Route::post('post/comment/reply-save/{id}', [
     'as'   => 'post-comment-reply',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@saveReply'
-  ]);
-  
-  Route::post('post/comment/save', [
+]);
+
+Route::post('post/comment/save', [
     'as'   => 'post-comment-save',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@saveComment'
-  ]);
-});
+]);

@@ -3,6 +3,7 @@
 namespace Modules\Post\Http\Controllers;
 
 use Arr, Str, Image, Imagick, File, Thumbnail;
+use Carbon\Carbon;
 use FFMpeg\FFProbe;
 
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use Modules\Comment\Entities\Comment;
+use Modules\Comment\Entities\Reply;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
@@ -971,6 +974,8 @@ class PostController extends Controller
         $posts_count = count($posts_count->get());
 
         $tag_pills = $post ? $post->getTagNames() : [];
+
+        $post->preparePostComments();
 
         $data['total'] = $posts_count;
         $data['post'] = $post;

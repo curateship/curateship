@@ -5,6 +5,12 @@ namespace Modules\Comment\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed|string $status
+ * @property mixed $content
+ * @property mixed $comment_id
+ * @property mixed $user_id
+ */
 class Reply extends Model
 {
     use HasFactory;

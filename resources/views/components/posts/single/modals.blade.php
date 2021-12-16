@@ -1,7 +1,7 @@
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-comment-reply">
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-comment-reply-{{$post_id}}">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-comment-reply-title" aria-describedby="modal-description-4">
-    <form action="#" method="POST" id="modal-comment-reply-form" class="modal-form  flex flex-column height-100%" enctype="multipart/form-data">
+    <form action="#" method="POST" id="modal-comment-reply-form-{{$post_id}}" class="modal-form  flex flex-column height-100%" enctype="multipart/form-data">
       @csrf
       <!-- <input type="file" class="is-hidden" name="avatar" id="avatar" accept="image/*"> -->
       <header class="bg-contrast-lower padding-y-sm padding-x-xs flex items-center justify-between">
@@ -28,7 +28,7 @@
         <div class="js-tabs__panels">
           <section id="tab2Panel1" class="padding-top-md js-tabs__panel">
             <div class="text-component">
-              <div id="ajax-comment-reply-form">Loading...</div><!-- /#ajax-edit-user-form -->
+              <div id="ajax-comment-reply-form-{{$post->id}}">Loading...</div><!-- /#ajax-edit-user-form -->
             </div>
           </section>
 

@@ -1,5 +1,4 @@
 @if($post !== null)
-    @include('components.posts.single.modals')
     @if (session('responseMessage'))
         <div class="alert alert--is-visible js-alert margin-bottom-lg" role="alert">
             <div class="flex items-center justify-between">
@@ -32,6 +31,9 @@
 
     <div class="js-infinite-scroll__content" data-path="{{ url('/api/post/' . $post->id . '/page={n}') }}" data-current-page="{{ $nextpage }}">
     <article class="container single-post max-width-sm padding-y-md" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
+
+        @include('components.posts.single.modals', ['post_id' => $post->id])
+
         <div class="text-component text-left line-height-lg v-space-md margin-bottom-md text-sm">
             <h1>{{ $post->title }}</h1>
             <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
@@ -103,7 +105,7 @@
                       </a>
 
                       <div class="comments__content margin-top-xxxs">
-                        <div class="text-component text-sm text-space-y-xs line-height-sm read-more js-read-more" data-characters="150" data-btn-class="comments__readmore-btn js-tab-focus">
+                        <div class="text-component text-sm text-space-y-xs line-height-sm js-read-more" data-characters="150" data-btn-class="comments__readmore-btn js-tab-focus">
                           <p><a href="#0" class="comments__author-name" rel="author">{{$comment->comment_user}}</a></p>
                           <p>{{$comment->comment}}</p>
                         </div>
@@ -119,7 +121,7 @@
                             </button>
 
                             <span class="comments__inline-divider" aria-hidden="true"></span>
-                            <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
+                            <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply-{{$post->id}}" data-post-id="{{$post->id}}" role="button" class="comments__label-btn js-tab-focus comment-reply">Reply</a>
 
                             <span class="comments__inline-divider" aria-hidden="true"></span>
                             <div class="reset comments__label-btn js-tab-focus" aria-controls="popover-example">Report</div>
@@ -198,7 +200,7 @@
 
                                   <span class="comments__inline-divider" aria-hidden="true"></span>
 
-                                  <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
+                                  <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply-{{$post->id}}" data-post-id="{{$post->id}}" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
 
                                   <span class="comments__inline-divider" aria-hidden="true"></span>
 
@@ -242,7 +244,7 @@
                               </button>
 
                               <span class="comments__inline-divider" aria-hidden="true"></span>
-                              <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
+                              <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply-{{$post->id}}" data-post-id="{{$post->id}}" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
 
                               <span class="comments__inline-divider" aria-hidden="true"></span>
                               <div class="reset comments__label-btn js-tab-focus" aria-controls="popover-example">Report</div>
@@ -319,7 +321,7 @@
 
                                   <span class="comments__inline-divider" aria-hidden="true"></span>
 
-                                  <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
+                                  <a href="{{url('post/comment/reply/'.$comment->comment_id)}}" data-save-url="{{url('post/comment/reply-save/'.$comment->comment_id)}}" aria-controls="modal-comment-reply-{{$post->id}}" data-post-id="{{$post->id}}" role="button" class="reset comments__label-btn js-tab-focus comment-reply">Reply</a>
 
                                   <span class="comments__inline-divider" aria-hidden="true"></span>
 
@@ -338,19 +340,19 @@
               @endforeach
             </ul>
 
-            <form action="{{url('post/comment/save')}}" method="POST" encript="multipart/form-data">
-              @csrf
+            <form action="{{route('post-comment-save')}}" method="POST" encrypt="multipart/form-data">
               <fieldset>
+                  @csrf
                 <legend class="form-legend">Add a new comment</legend>
 
                 <div class="margin-bottom-xs">
                   <label class="sr-only" for="commentNewContent">Your comment</label>
                   <input type="hidden" name="postid" value="{{$post->id}}">
-                  <textarea class="form-control width-100%" name="commentNewContent" id="commentNewContent"></textarea>
+                  <textarea class="commentNewContent form-control width-100%" name="commentNewContent" data-post-id="{{$post->id}}"></textarea>
                 </div>
 
                 <div>
-                  <button id="postbtn" class="btn btn--primary" disabled>Post comment</button>
+                  <button data-post-id="{{$post->id}}" class="postbtn btn btn--primary" disabled>Post comment</button>
                 </div>
               </fieldset>
             </form>

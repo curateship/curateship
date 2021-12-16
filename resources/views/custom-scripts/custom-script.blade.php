@@ -116,25 +116,42 @@
       var $this = $(this);
       var url = $this.attr('href');
       var saveurl = $this.data('save-url');
+      var postId = $this.attr('data-post-id')
 
-      $('#modal-comment-reply-form').attr('action', saveurl);
-      var $element = $('#ajax-comment-reply-form');
+      $('#modal-comment-reply-form-' + postId).attr('action', saveurl);
+      var $element = $('#ajax-comment-reply-form-' + postId);
       $element.load(url, function(response, status, xhr) {
       })
   });
 
-  $('#commentNewContent').text()
-  $('#commentNewContent').bind('input propertychange', function() {
+  function initPostCommentsForms(){
+      // Comments post form;
+      $('.commentNewContent').each(function(){
+          $(this).text()
+          $(this).bind('input propertychange', function() {
+              const postBtn = $('.postbtn[data-post-id="' + $(this).attr('data-post-id') + '"]')
 
-      $("#postbtn").attr('disabled', true);
+              postBtn.attr('disabled', true);
 
-      if(this.value.length){
-          $("#postbtn").attr('disabled', false);
-      }
-  });
+              if(this.value.length){
+                  postBtn.attr('disabled', false);
+              }
+          });
+      })
+  }
 
   $(document).ready(function(){
-      console.log('Theme ready')
+      // Init post comment forms;
+      initPostCommentsForms()
+
+      // Init modals;
+      // Clean storage with modals;
+      localStorage.removeItem('exist-modals')
+      initModals();
+
+      // Init read more;
+      initReadMoreItems()
+
       // Check save theme in local storage;
       let selectedTheme = localStorage.getItem('selected-theme')
       const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
