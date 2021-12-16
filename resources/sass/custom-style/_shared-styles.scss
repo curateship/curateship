@@ -606,8 +606,8 @@ button:focus {
 .avatar-cross-fix{
     display: inline-block;
     color: inherit;
-    fill: currentColor;
-    stroke: currentColor;
+    fill: var(--color-contrast-lower);
+    stroke: var(--color-contrast-lower);
     height: 1em;
     width: 1em;
     line-height: 1;

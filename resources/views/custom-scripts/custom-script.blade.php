@@ -109,5 +109,37 @@
       $('#site-table-with-pagination-container').load(url);
     });
   })();
+
+  $(document).ready(function(){
+      console.log('Theme ready')
+      // Check save theme in local storage;
+      let selectedTheme = localStorage.getItem('selected-theme')
+      const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
+
+      // If we do not have any theme in storage, we must get in from default system settings;
+      if(selectedTheme == null){
+          selectedTheme = defaultTheme;
+      }
+
+      const switcher = document.getElementById('themeSwitch')
+
+      switch(selectedTheme){
+          case 'dark':
+              document.body.setAttribute('data-theme', 'dark')
+              if(switcher !== undefined) switcher.checked = true
+              break
+          case 'white':
+              document.body.removeAttribute('data-theme')
+              if(switcher !== undefined) switcher.checked = false
+              break
+      }
+
+      // Admin page does not have theme switcher - then we must reset cross style too;
+      // Fix for framework styles;
+      $('.anim-menu-btn__icon').addClass('cross-fix')
+      setTimeout(function(){
+          $('.anim-menu-btn__icon').removeClass('cross-fix')
+      }, 1)
+  })
 </script>
 @endauth

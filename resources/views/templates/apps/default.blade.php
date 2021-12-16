@@ -42,6 +42,7 @@
     <script src="{{ asset('assets/js/components/_2_image_zoom_FIXED.js') }}"></script>
 
     <!-- MODULE SCRIPTS -->
+    @include('custom-scripts.custom-script')
     @stack('module-scripts')
 
     @yield('before-end')
