@@ -54,3 +54,13 @@
 .controlbar--sticky .flex{
     align-items: center;
 }
+
+.align-items-center{
+    align-items: center;
+}
+
+@media (max-width: 80rem) {
+    .for-desktop{
+        display: none;
+    }
+}

@@ -154,15 +154,20 @@
 
       // Check save theme from DB;
       let theme = '{{\Illuminate\Support\Facades\Auth::user()->getTheme()}}'
-      const switcher = document.getElementById('themeSwitch')
+      var switchers = document.getElementsByClassName('themeSwitch')
 
-      switch(theme){
-          case 'dark':
-              if(switcher !== undefined) switcher.checked = true
-              break
-          case 'white':
-              if(switcher !== undefined) switcher.checked = false
-              break
+      for(var i = 0; i < switchers.length; i++) {
+          (function(index) {
+              if(theme === 'dark'){
+                  console.log(switchers[index])
+
+                  switchers[index].checked = true
+              }
+
+              if(theme === 'white'){
+                  switchers[index].checked = false
+              }
+          })(i);
       }
 
       // Admin page does not have theme switcher - then we must reset cross style too;
