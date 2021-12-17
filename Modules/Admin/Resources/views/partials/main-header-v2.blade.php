@@ -150,7 +150,7 @@
 
           <!-- Theme Switch -->
           <div class="margin-left-md switch">
-          <input class="switch__input" type="checkbox" id="themeSwitch">
+          <input class="switch__input" type="checkbox" id="themeSwitch" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
           <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
           <div class="switch__marker" aria-hidden="true"></div>
           </div>

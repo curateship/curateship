@@ -944,12 +944,25 @@ class UsersController extends Controller
     {
         $this->validate(request(), ['base64ImageAdd' => 'required']);
 
-        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64ImageAdd'), 'storage/app/public/users-images/cover'); 
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64ImageAdd'), 'storage/app/public/users-images/cover');
 
         return response()->json([
             'status' => true,
             'message' => 'Cover photo uploaded successfully.',
             'file_name' => $cover_photo->file_name
         ]);
+    }
+
+    public function postAjaxSaveTheme(Request $request){
+        $user_settings = UsersSetting::where('user_id', Auth::id())
+                            ->first();
+
+        if($user_settings == null) {
+            $user_settings = new UsersSetting();
+            $user_settings->user_id = Auth::id();
+        }
+
+        $user_settings->theme = $request->theme;
+        $user_settings->save();
     }
 }

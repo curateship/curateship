@@ -222,11 +222,13 @@
             </nav>
 
             <!-- Theme Switch -->
+            @auth
             <div class="margin-left-md switch">
-                <input class="switch__input" type="checkbox" id="themeSwitch">
+                <input class="switch__input" type="checkbox" id="themeSwitch" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
                 <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
                 <div class="switch__marker" aria-hidden="true"></div>
             </div>
+            @endauth
 
             <!-- Search Box -->
             <div id="search-menu" class="header-v2__nav header-v2__nav-search">
@@ -243,7 +245,4 @@
             </div>
         </div>
     </div>
-
-
-
 </header>

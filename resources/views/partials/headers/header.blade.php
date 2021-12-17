@@ -80,7 +80,7 @@
 
     <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
       <div class="mega-nav__nav-inner">
-        <?php 
+        <?php
           $shortcode = app('shortcode');
           echo $shortcode->compile('[menu name="Primary Menu"]');
 

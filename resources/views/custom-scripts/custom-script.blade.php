@@ -152,24 +152,15 @@
       // Init read more;
       initReadMoreItems()
 
-      // Check save theme in local storage;
-      let selectedTheme = localStorage.getItem('selected-theme')
-      const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
-
-      // If we do not have any theme in storage, we must get in from default system settings;
-      if(selectedTheme == null){
-          selectedTheme = defaultTheme;
-      }
-
+      // Check save theme from DB;
+      let theme = '{{\Illuminate\Support\Facades\Auth::user()->getTheme()}}'
       const switcher = document.getElementById('themeSwitch')
 
-      switch(selectedTheme){
+      switch(theme){
           case 'dark':
-              document.body.setAttribute('data-theme', 'dark')
               if(switcher !== undefined) switcher.checked = true
               break
           case 'white':
-              document.body.removeAttribute('data-theme')
               if(switcher !== undefined) switcher.checked = false
               break
       }

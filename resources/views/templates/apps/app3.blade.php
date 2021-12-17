@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta name="title" content="{{ !empty($settings_data['meta_title']) ? $settings_data['meta_title'] : '' }}">
-    
+
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
 
