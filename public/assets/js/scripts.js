@@ -1540,24 +1540,18 @@ function Util () {};
 	class manipulation functions
 */
 Util.hasClass = function(el, className) {
-	if (el.classList) return el.classList.contains(className);
-	else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+	return el.classList.contains(className);
 };
 
 Util.addClass = function(el, className) {
 	var classList = className.split(' ');
- 	if (el.classList) el.classList.add(classList[0]);
- 	else if (!Util.hasClass(el, classList[0])) el.className += " " + classList[0];
+ 	el.classList.add(classList[0]);
  	if (classList.length > 1) Util.addClass(el, classList.slice(1).join(' '));
 };
 
 Util.removeClass = function(el, className) {
 	var classList = className.split(' ');
-	if (el.classList) el.classList.remove(classList[0]);	
-	else if(Util.hasClass(el, classList[0])) {
-		var reg = new RegExp('(\\s|^)' + classList[0] + '(\\s|$)');
-		el.className=el.className.replace(reg, ' ');
-	}
+	el.classList.remove(classList[0]);	
 	if (classList.length > 1) Util.removeClass(el, classList.slice(1).join(' '));
 };
 
@@ -1578,8 +1572,8 @@ Util.setAttributes = function(el, attrs) {
 Util.getChildrenByClassName = function(el, className) {
   var children = el.children,
     childrenByClass = [];
-  for (var i = 0; i < el.children.length; i++) {
-    if (Util.hasClass(el.children[i], className)) childrenByClass.push(el.children[i]);
+  for (var i = 0; i < children.length; i++) {
+    if (Util.hasClass(children[i], className)) childrenByClass.push(children[i]);
   }
   return childrenByClass;
 };
@@ -1605,19 +1599,23 @@ Util.is = function(elem, selector) {
 /* 
 	Animate height of an element
 */
-Util.setHeight = function(start, to, element, duration, cb) {
+Util.setHeight = function(start, to, element, duration, cb, timeFunction) {
 	var change = to - start,
 	    currentTime = null;
 
   var animateHeight = function(timestamp){  
     if (!currentTime) currentTime = timestamp;         
     var progress = timestamp - currentTime;
+    if(progress > duration) progress = duration;
     var val = parseInt((progress/duration)*change + start);
+    if(timeFunction) {
+      val = Math[timeFunction](progress, start, to - start, duration);
+    }
     element.style.height = val+"px";
     if(progress < duration) {
         window.requestAnimationFrame(animateHeight);
     } else {
-    	cb();
+    	if(cb) cb();
     }
   };
   
@@ -1644,7 +1642,7 @@ Util.scrollTo = function(final, duration, cb, scrollEl) {
     var val = Math.easeInOutQuad(progress, start, final-start, duration);
     element.scrollTo(0, val);
     if(progress < duration) {
-        window.requestAnimationFrame(animateScroll);
+      window.requestAnimationFrame(animateScroll);
     } else {
       cb && cb();
     }
@@ -1803,32 +1801,55 @@ Math.easeOutElastic = function (t, b, c, d) {
 
 
 /* JS Utility Classes */
+
+// make focus ring visible only for keyboard navigation (i.e., tab key) 
 (function() {
-  // make focus ring visible only for keyboard navigation (i.e., tab key) 
-  var focusTab = document.getElementsByClassName('js-tab-focus');
+  var focusTab = document.getElementsByClassName('js-tab-focus'),
+    shouldInit = false,
+    outlineStyle = false,
+    eventDetected = false;
+
   function detectClick() {
     if(focusTab.length > 0) {
-      resetFocusTabs(false);
+      resetFocusStyle(false);
       window.addEventListener('keydown', detectTab);
     }
     window.removeEventListener('mousedown', detectClick);
+    outlineStyle = false;
+    eventDetected = true;
   };
 
   function detectTab(event) {
     if(event.keyCode !== 9) return;
-    resetFocusTabs(true);
+    resetFocusStyle(true);
     window.removeEventListener('keydown', detectTab);
     window.addEventListener('mousedown', detectClick);
+    outlineStyle = true;
   };
 
-  function resetFocusTabs(bool) {
+  function resetFocusStyle(bool) {
     var outlineStyle = bool ? '' : 'none';
     for(var i = 0; i < focusTab.length; i++) {
       focusTab[i].style.setProperty('outline', outlineStyle);
     }
   };
-  window.addEventListener('mousedown', detectClick);
+
+  function initFocusTabs() {
+    if(shouldInit) {
+      if(eventDetected) resetFocusStyle(outlineStyle);
+      return;
+    }
+    shouldInit = focusTab.length > 0;
+    window.addEventListener('mousedown', detectClick);
+  };
+
+  initFocusTabs();
+  window.addEventListener('initFocusTabs', initFocusTabs);
 }());
+
+function resetFocusTabsStyle() {
+  window.dispatchEvent(new CustomEvent('initFocusTabs'));
+};
 // File#: _1_accordion
 // Usage: codyhouse.co/license
 (function() {
@@ -3035,7 +3056,6 @@ function initAlertEvent(element) {
   }());
   
   
-
 // File#: _1_details
 // Usage: codyhouse.co/license
 (function() {
@@ -3862,7 +3882,6 @@ function initAlertEvent(element) {
 
         // Init read more;
         initReadMoreItems()
-
     };
 
     function removeScrollEvents(infiniteScroll) {
@@ -6238,6 +6257,7 @@ function initModals(){
 		}
 	}
 }());
+// When user have change theme, we must save it in local-storage, or these options reset after page be updated;
 document.getElementById('themeSwitch').addEventListener('change', function(event){
     (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme')
     localStorage.setItem('selected-theme', event.target.checked ? 'dark' : 'white')
@@ -6249,6 +6269,224 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
     }, 1)
 });
 
+// File#: _1_tooltip
+// Usage: codyhouse.co/license
+(function() {
+    var Tooltip = function(element) {
+      this.element = element;
+      this.tooltip = false;
+      this.tooltipIntervalId = false;
+      this.tooltipContent = this.element.getAttribute('title');
+      this.tooltipPosition = (this.element.getAttribute('data-tooltip-position')) ? this.element.getAttribute('data-tooltip-position') : 'top';
+      this.tooltipClasses = (this.element.getAttribute('data-tooltip-class')) ? this.element.getAttribute('data-tooltip-class') : false;
+      this.tooltipId = 'js-tooltip-element'; // id of the tooltip element -> trigger will have the same aria-describedby attr
+      // there are cases where you only need the aria-label -> SR do not need to read the tooltip content (e.g., footnotes)
+      this.tooltipDescription = (this.element.getAttribute('data-tooltip-describedby') && this.element.getAttribute('data-tooltip-describedby') == 'false') ? false : true; 
+  
+      this.tooltipDelay = 300; // show tooltip after a delay (in ms)
+      this.tooltipDelta = 10; // distance beetwen tooltip and trigger element (in px)
+      this.tooltipTriggerHover = false;
+      // tooltp sticky option
+      this.tooltipSticky = (this.tooltipClasses && this.tooltipClasses.indexOf('tooltip--sticky') > -1);
+      this.tooltipHover = false;
+      if(this.tooltipSticky) {
+        this.tooltipHoverInterval = false;
+      }
+      // tooltip triangle - css variable to control its position
+      this.tooltipTriangleVar = '--tooltip-triangle-translate';
+      resetTooltipContent(this);
+      initTooltip(this);
+    };
+  
+    function resetTooltipContent(tooltip) {
+      var htmlContent = tooltip.element.getAttribute('data-tooltip-title');
+      if(htmlContent) {
+        tooltip.tooltipContent = htmlContent;
+      }
+    };
+  
+    function initTooltip(tooltipObj) {
+      // reset trigger element
+      tooltipObj.element.removeAttribute('title');
+      tooltipObj.element.setAttribute('tabindex', '0');
+      // add event listeners
+      tooltipObj.element.addEventListener('mouseenter', handleEvent.bind(tooltipObj));
+      tooltipObj.element.addEventListener('focus', handleEvent.bind(tooltipObj));
+    };
+  
+    function removeTooltipEvents(tooltipObj) {
+      // remove event listeners
+      tooltipObj.element.removeEventListener('mouseleave',  handleEvent.bind(tooltipObj));
+      tooltipObj.element.removeEventListener('blur',  handleEvent.bind(tooltipObj));
+    };
+  
+    function handleEvent(event) {
+      // handle events
+      switch(event.type) {
+        case 'mouseenter':
+        case 'focus':
+          showTooltip(this, event);
+          break;
+        case 'mouseleave':
+        case 'blur':
+          checkTooltip(this);
+          break;
+        case 'newContent':
+          changeTooltipContent(this, event);
+          break;
+      }
+    };
+  
+    function showTooltip(tooltipObj, event) {
+      // tooltip has already been triggered
+      if(tooltipObj.tooltipIntervalId) return;
+      tooltipObj.tooltipTriggerHover = true;
+      // listen to close events
+      tooltipObj.element.addEventListener('mouseleave', handleEvent.bind(tooltipObj));
+      tooltipObj.element.addEventListener('blur', handleEvent.bind(tooltipObj));
+      // custom event to reset tooltip content
+      tooltipObj.element.addEventListener('newContent', handleEvent.bind(tooltipObj));
+  
+      // show tooltip with a delay
+      tooltipObj.tooltipIntervalId = setTimeout(function(){
+        createTooltip(tooltipObj);
+      }, tooltipObj.tooltipDelay);
+    };
+  
+    function createTooltip(tooltipObj) {
+      tooltipObj.tooltip = document.getElementById(tooltipObj.tooltipId);
+      
+      if( !tooltipObj.tooltip ) { // tooltip element does not yet exist
+        tooltipObj.tooltip = document.createElement('div');
+        document.body.appendChild(tooltipObj.tooltip);
+      } 
+  
+      // remove data-reset attribute that is used when updating tooltip content (newContent custom event)
+      tooltipObj.tooltip.removeAttribute('data-reset');
+      
+      // reset tooltip content/position
+      Util.setAttributes(tooltipObj.tooltip, {'id': tooltipObj.tooltipId, 'class': 'tooltip tooltip--is-hidden js-tooltip', 'role': 'tooltip'});
+      tooltipObj.tooltip.innerHTML = tooltipObj.tooltipContent;
+      if(tooltipObj.tooltipDescription) tooltipObj.element.setAttribute('aria-describedby', tooltipObj.tooltipId);
+      if(tooltipObj.tooltipClasses) Util.addClass(tooltipObj.tooltip, tooltipObj.tooltipClasses);
+      if(tooltipObj.tooltipSticky) Util.addClass(tooltipObj.tooltip, 'tooltip--sticky');
+      placeTooltip(tooltipObj);
+      Util.removeClass(tooltipObj.tooltip, 'tooltip--is-hidden');
+  
+      // if tooltip is sticky, listen to mouse events
+      if(!tooltipObj.tooltipSticky) return;
+      tooltipObj.tooltip.addEventListener('mouseenter', function cb(){
+        tooltipObj.tooltipHover = true;
+        if(tooltipObj.tooltipHoverInterval) {
+          clearInterval(tooltipObj.tooltipHoverInterval);
+          tooltipObj.tooltipHoverInterval = false;
+        }
+        tooltipObj.tooltip.removeEventListener('mouseenter', cb);
+        tooltipLeaveEvent(tooltipObj);
+      });
+    };
+  
+    function tooltipLeaveEvent(tooltipObj) {
+      tooltipObj.tooltip.addEventListener('mouseleave', function cb(){
+        tooltipObj.tooltipHover = false;
+        tooltipObj.tooltip.removeEventListener('mouseleave', cb);
+        hideTooltip(tooltipObj);
+      });
+    };
+  
+    function placeTooltip(tooltipObj) {
+      // set top and left position of the tooltip according to the data-tooltip-position attr of the trigger
+      var dimention = [tooltipObj.tooltip.offsetHeight, tooltipObj.tooltip.offsetWidth],
+        positionTrigger = tooltipObj.element.getBoundingClientRect(),
+        position = [],
+        scrollY = window.scrollY || window.pageYOffset;
+      
+      position['top'] = [ (positionTrigger.top - dimention[0] - tooltipObj.tooltipDelta + scrollY), (positionTrigger.right/2 + positionTrigger.left/2 - dimention[1]/2)];
+      position['bottom'] = [ (positionTrigger.bottom + tooltipObj.tooltipDelta + scrollY), (positionTrigger.right/2 + positionTrigger.left/2 - dimention[1]/2)];
+      position['left'] = [(positionTrigger.top/2 + positionTrigger.bottom/2 - dimention[0]/2 + scrollY), positionTrigger.left - dimention[1] - tooltipObj.tooltipDelta];
+      position['right'] = [(positionTrigger.top/2 + positionTrigger.bottom/2 - dimention[0]/2 + scrollY), positionTrigger.right + tooltipObj.tooltipDelta];
+      
+      var direction = tooltipObj.tooltipPosition;
+      if( direction == 'top' && position['top'][0] < scrollY) direction = 'bottom';
+      else if( direction == 'bottom' && position['bottom'][0] + tooltipObj.tooltipDelta + dimention[0] > scrollY + window.innerHeight) direction = 'top';
+      else if( direction == 'left' && position['left'][1] < 0 )  direction = 'right';
+      else if( direction == 'right' && position['right'][1] + dimention[1] > window.innerWidth ) direction = 'left';
+  
+      // reset tooltip triangle translate value
+      tooltipObj.tooltip.style.setProperty(tooltipObj.tooltipTriangleVar, '0px');
+      
+      if(direction == 'top' || direction == 'bottom') {
+        var deltaMarg = 5;
+        if(position[direction][1] < 0 ) {
+          position[direction][1] = deltaMarg;
+          // make sure triangle is at the center of the tooltip trigger
+          tooltipObj.tooltip.style.setProperty(tooltipObj.tooltipTriangleVar, (positionTrigger.left + 0.5*positionTrigger.width - 0.5*dimention[1] - deltaMarg)+'px');
+        }
+        if(position[direction][1] + dimention[1] > window.innerWidth ) {
+          position[direction][1] = window.innerWidth - dimention[1] - deltaMarg;
+          // make sure triangle is at the center of the tooltip trigger
+          tooltipObj.tooltip.style.setProperty(tooltipObj.tooltipTriangleVar, (0.5*dimention[1] - (window.innerWidth - positionTrigger.right) - 0.5*positionTrigger.width + deltaMarg)+'px');
+        }
+      }
+      tooltipObj.tooltip.style.top = position[direction][0]+'px';
+      tooltipObj.tooltip.style.left = position[direction][1]+'px';
+      Util.addClass(tooltipObj.tooltip, 'tooltip--'+direction);
+    };
+  
+    function checkTooltip(tooltipObj) {
+      tooltipObj.tooltipTriggerHover = false;
+      if(!tooltipObj.tooltipSticky) hideTooltip(tooltipObj);
+      else {
+        if(tooltipObj.tooltipHover) return;
+        if(tooltipObj.tooltipHoverInterval) return;
+        tooltipObj.tooltipHoverInterval = setTimeout(function(){
+          hideTooltip(tooltipObj); 
+          tooltipObj.tooltipHoverInterval = false;
+        }, 300);
+      }
+    };
+  
+    function hideTooltip(tooltipObj) {
+      if(tooltipObj.tooltipHover || tooltipObj.tooltipTriggerHover) return;
+      clearInterval(tooltipObj.tooltipIntervalId);
+      if(tooltipObj.tooltipHoverInterval) {
+        clearInterval(tooltipObj.tooltipHoverInterval);
+        tooltipObj.tooltipHoverInterval = false;
+      }
+      tooltipObj.tooltipIntervalId = false;
+      if(!tooltipObj.tooltip) return;
+      // hide tooltip
+      removeTooltip(tooltipObj);
+      // remove events
+      removeTooltipEvents(tooltipObj);
+    };
+  
+    function removeTooltip(tooltipObj) {
+      if(tooltipObj.tooltipContent == tooltipObj.tooltip.innerHTML || tooltipObj.tooltip.getAttribute('data-reset') == 'on') {
+        Util.addClass(tooltipObj.tooltip, 'tooltip--is-hidden');
+        tooltipObj.tooltip.removeAttribute('data-reset');
+      }
+      if(tooltipObj.tooltipDescription) tooltipObj.element.removeAttribute('aria-describedby');
+    };
+  
+    function changeTooltipContent(tooltipObj, event) {
+      if(tooltipObj.tooltip && tooltipObj.tooltipTriggerHover && event.detail) {
+        tooltipObj.tooltip.innerHTML = event.detail;
+        tooltipObj.tooltip.setAttribute('data-reset', 'on');
+        placeTooltip(tooltipObj);
+      }
+    };
+  
+    window.Tooltip = Tooltip;
+  
+    //initialize the Tooltip objects
+    var tooltips = document.getElementsByClassName('js-tooltip-trigger');
+    if( tooltips.length > 0 ) {
+      for( var i = 0; i < tooltips.length; i++) {
+        (function(i){new Tooltip(tooltips[i]);})(i);
+      }
+    }
+  }());
 // File#: _2_adv-custom-select
 // Usage: codyhouse.co/license
 (function() {
@@ -6811,6 +7049,65 @@ document.getElementById('themeSwitch').addEventListener('change', function(event
         (function(i){initVote(voteCounting[i]);})(i);
       }
     }
+  }());
+// File#: _2_copy-to-clip
+// Usage: codyhouse.co/license
+(function() {
+    var CopyClipboard = function() {
+      this.copyTargetClass = 'js-copy-to-clip';
+      this.copyStatusClass = 'copy-to-clip--copied';
+      this.resetDelay = 2000; // delay for removing the copy-to-clip--copied class
+      initCopyToClipboard(this);
+    };
+  
+    function initCopyToClipboard(element) {
+      document.addEventListener('click', function(event) {
+        var target = event.target.closest('.'+element.copyTargetClass);
+        if(!target) return;
+        copyContentToClipboard(element, target);
+      });
+    };
+  
+    function copyContentToClipboard(element, target) {
+      // copy to clipboard
+      navigator.clipboard.writeText(getContentToCopy(target)).then(function() { // content successfully copied
+        // add success class to target
+        Util.addClass(target, element.copyStatusClass);
+  
+        setTimeout(function(){ // remove success class from target
+          Util.removeClass(target, element.copyStatusClass);
+        }, element.resetDelay);
+        
+        // change tooltip content
+        var newTitle = target.getAttribute('data-success-title');
+        if(newTitle && newTitle != '') target.dispatchEvent(new CustomEvent("newContent", {detail: newTitle}));
+        
+        // dispatch success event
+        target.dispatchEvent(new CustomEvent("contentCopied"));
+      }, function() { // error while copying the code
+        // dispatch error event
+        target.dispatchEvent(new CustomEvent("contentNotCopied"));
+      });
+    };
+  
+    function getContentToCopy(target) {
+      var content = target.innerText;
+      var ariaControls = document.getElementById(target.getAttribute('aria-controls')),
+        defaultText = target.getAttribute('data-clipboard-content');
+      if(ariaControls) {
+        content = ariaControls.innerText;
+      } else if(defaultText && defaultText != '') {
+        content = defaultText;
+      }
+      return content;
+    };
+  
+    window.CopyClipboard = CopyClipboard;
+  
+    var copyToClipboard = document.getElementsByClassName('js-copy-to-clip');
+    if(copyToClipboard.length > 0) {
+      new CopyClipboard();
+    } 
   }());
 // File#: _2_drag-drop-file
 // Usage: codyhouse.co/license
