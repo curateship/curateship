@@ -66,4 +66,35 @@ class TagCategoryController extends Controller
 
         return view('tag::archive.category-archive', $data);
     }
+
+    public function searchTagsInCategory(Request $request){
+        $search = $request->search;
+        $category_id = $request->categoryId;
+        $post_id = $request->postId;
+
+        $tags = TagCategory::leftJoin('tags', 'tags.tag_category_id', '=', 'tag_categories.id')
+            ->where('tag_category_id', $category_id)
+            ->where('tags.name', 'like', $search.'%')
+            ->select('tags.id', 'tags.name')
+            ->get();
+
+        $post = Post::find($post_id);
+        $post_tags = $post->getTagNames();
+
+        $tags_array = [];
+        foreach($tags as $tag){
+            if(in_array($tag->name, $post_tags)){
+                continue;
+            }
+
+            $tags_array[] = [
+                'id' => $tag->id,
+                'text' => $tag->name
+            ];
+        }
+
+        return [
+            'results' => $tags_array
+        ];
+    }
 }

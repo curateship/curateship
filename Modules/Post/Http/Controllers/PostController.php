@@ -306,26 +306,36 @@ class PostController extends Controller
         $all_tags_per_category = [];
 
         foreach ($tag_categories as $key => $tag_category) {
-            $tags_per_category = '';
+            $tags_per_category = [];
 
             foreach ($posts_tags as $post_tags_key => $posts_tag) {
                 $tag = Tag::find($posts_tag->tag_id);
 
                 // If they belong to the current tag category -> append
                 if ($tag->tag_category_id == $tag_category->id) {
-                    $tags_per_category .= $tag->name . ',';
+                    $tags_per_category[] = [
+                        'id' => $tag->id,
+                        'name' => $tag->name
+                    ];
                 }
             }
 
-            $tags_per_category = rtrim($tags_per_category, ',');
+            //$tags_per_category = rtrim($tags_per_category, ',');
+            $tags_html_array = [];
+            foreach($tags_per_category as $tag){
+                $tags_html_array[] = '<option value="'.$tag['id'].'" selected>'.$tag['name'].'</option>';
+            }
 
+            $tags_html = implode(',', $tags_html_array);
+
+            /*
             $tags_html = ($tags_per_category) ?
-                        '<option selected>' .
+                        '<option value="" selected>' .
                             implode('</option><option selected>',
                                 explode(',', $tags_per_category)
                             ) .
                         '</option>' : '';
-
+            */
             array_push(
                 $all_tags_per_category,
                 [
@@ -407,7 +417,7 @@ class PostController extends Controller
         $tag_categories = TagCategory::all();
 
         // Delete all previous tags on `posts_tags` table with this post
-        $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
+        PostsTag::where('post_id', $post->id)->delete();
 
         foreach ($tag_categories as $key => $tag_category) {
             if (request()->has('tag_category_' . $tag_category->id)) {
@@ -417,7 +427,7 @@ class PostController extends Controller
                 foreach ($tags_input as $key => $tag_input) {
                     $tag = Tag::where(
                         [
-                            'name'            => $tag_input,
+                            'id'            => $tag_input,
                             'tag_category_id' => $tag_category->id
                         ]
                     )->first();

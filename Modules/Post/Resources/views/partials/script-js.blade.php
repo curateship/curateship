@@ -392,8 +392,6 @@ var videojs_template =
     return true;
   }
 
-  var tags_by_category = {!! $tags_by_category !!};
-
   function matchCustom(params, data) {
     // If there are no search terms, return null to prevent show all tags
     if ($.trim(params.term) === '') {
@@ -420,27 +418,39 @@ var videojs_template =
   }
 
   function select2ForTags(selector){
-    $(selector).select2({
-      tags: true,
-      hideAdded: true,
-      data: tags_by_category[$(selector).attr("data-id")],
-      tokenSeparators: [","],
-      matcher: matchCustom,
-      minimumInputLength: 2
-    }).on('select2:opening', function(e){
-      var $searchfield = $(selector).parent().find('.select2-search__field');
+      const categoryId = $(selector).attr("data-id")
+      const postId = $(selector).attr('data-post-id')
 
-      if ($searchfield.val() == '')
-        return false;
-      else
-        return true;
-    }).on('select2:open', function(e){
-      // $('.select2-container--open .select2-dropdown--below').css('display','none');
-    }).on('select2:select', function(e) {
-      validateCustomSelect(selector);
-    }).on('select2:unselect', function(e) {
-      validateCustomSelect(selector);
-    });
+      $(selector).select2({
+          ajax: {
+              url: '/tags/searchTagsInCategory',
+              delay: 250,
+              data: function (params) {
+                  return {
+                      search: params.term,
+                      categoryId: categoryId,
+                      postId: postId
+                  }
+              }
+          },
+          tags: true,
+          tokenSeparators: [","],
+          matcher: matchCustom,
+          minimumInputLength: 2
+      }).on('select2:opening', function(e){
+          var $searchfield = $(selector).parent().find('.select2-search__field');
+
+          if ($searchfield.val() == '')
+              return false;
+          else
+              return true;
+      }).on('select2:open', function(e){
+          // $('.select2-container--open .select2-dropdown--below').css('display','none');
+      }).on('select2:select', function(e) {
+          validateCustomSelect(selector);
+      }).on('select2:unselect', function(e) {
+          validateCustomSelect(selector);
+      });
   }
 
   $(function(){
@@ -615,12 +625,22 @@ var videojs_template =
         dataType: 'json',
         type: 'get',
         success: function(response){
+            console.log(response);
+
+
+
           var allTagsPerCategory = JSON.parse(response.tags);
 
           for (let i = 0; i < allTagsPerCategory.length; i++) {
             const tagCategory = allTagsPerCategory[i];
+
             $('#edit_tag_category_'+tagCategory.tag_category_id).html(tagCategory.tags);
           }
+
+            $('#editTitle').val(response.title);
+            $('#editTitleElem').html(response.title);
+            $('#editSlug').val(response.slug);
+            $('#editDescription').val(response.description);
 
           if (response.description) {
             var editorData = JSON.parse(response.description);
@@ -630,11 +650,7 @@ var videojs_template =
             }
           }
 
-          $('#editTitle').val(response.title);
-          $('#editTitleElem').html(response.title);
-          $('#editSlug').val(response.slug);
-          $('#editDescription').val(response.description);
-          if ( response.video != '') {
+          if ( response.video !== '') {
             $('#media-player').find('source').attr('src', response.video).attr('type', response.video_type);
             $('#media-player').attr('poster', response.thumbnail).show();
             videojs('#media-player', {
@@ -649,11 +665,14 @@ var videojs_template =
             $('#thumbnailPreview').attr('src', response.thumbnail).show();
             $('#edit-media-player').hide();
           }
+
           $('#editPageTitle').val(response.page_title);
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
           $('#post_date').val(response.post_date);
+
+
 
           if(response.status == 'published') {
             $(document).find('.publish-post-link').addClass('is-hidden');
@@ -682,7 +701,9 @@ var videojs_template =
           }
 
           // select2ForTags('#editTags');
+
           $('.site-tag-pills').each(function(){
+              $(this).attr('data-post-id', postId)
             select2ForTags(this);
           });
         }
