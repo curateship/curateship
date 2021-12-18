@@ -177,20 +177,21 @@
           $('.anim-menu-btn__icon').removeClass('cross-fix')
       }, 1)
   })
-
-  var $grid = $('.grid').masonry({
-      gutter: 20
-  });
-
-  function AppendContentInMasonry(content){
-      var $content = $( content );
-      // add jQuery object
-      $grid.append( $content ).masonry( 'appended', $content );
-      setTimeout(function(){
-          $grid.masonry()
-      }, 20)
-      //$grid.masonry( 'appended', $(elements) )
-  }
-
 </script>
 @endauth
+
+<script>
+    var $grid = $('.grid').masonry({
+        gutter: 20
+    });
+
+    function AppendContentInMasonry(content){
+        var $content = $( content );
+        // add jQuery object
+        $grid.append( $content ).masonry( 'appended', $content );
+        setTimeout(function(){
+            $grid.masonry()
+        }, 20)
+        //$grid.masonry( 'appended', $(elements) )
+    }
+</script>

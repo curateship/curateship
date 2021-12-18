@@ -59,7 +59,7 @@
     align-items: center;
 }
 
-@include max-breakpoint(md){
+@include max-breakpoint(lg){
     .for-desktop{
         display: none;
     }

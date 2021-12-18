@@ -1,5 +1,5 @@
 .grid-item {
-    width: 300px;
+    width: 320px;
     margin-bottom: 20px;
 }
 
@@ -8,5 +8,12 @@
         right: 0;
         width: auto;
         margin: auto auto 20px;
+    }
+}
+
+@include breakpoint(md){
+    .grid-item{
+        width: 280px;
+        margin-bottom: 20px;
     }
 }
