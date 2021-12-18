@@ -1,10 +1,10 @@
 @if($nextpage > 0)
-<ul class="js-infinite-scroll__content" data-path="{{ url('/api/' . $api_route . '/page={n}') }}" data-current-page="{{ $nextpage }}">
+<div class="js-infinite-scroll__content" data-path="{{ url('/api/' . $api_route . '/page={n}') }}" data-type="masonry" data-current-page="{{ $nextpage }}">
 @else
-<ul class="js-infinite-scroll__content">
+<div class="js-infinite-scroll__content" data-type="masonry">
 @endif
   @foreach($posts as $post)
-    <li class="masonry__item js-masonry__item post">
+    <div class="grid-item">
     @if($post->thumbnail)
       <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
         <figure class="card-v2">
@@ -23,6 +23,6 @@
       <div class="user-cell">
           <h3 class="text-xs padding-xs@md text-md@md"><a class="color-contrast-low" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h3>
       </div>
-    </li>
+    </div>
   @endforeach
-</ul>
+</div>
