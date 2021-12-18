@@ -77,3 +77,7 @@ Route::post('post/comment/save', [
     'as'   => 'post-comment-save',
     'uses' => '\Modules\Users\Http\Controllers\SingleViewController@saveComment'
 ]);
+
+Route::get('/admin/component-editor',function(){
+  return view('admin::component-editor.index');
+});
