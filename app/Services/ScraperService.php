@@ -618,6 +618,7 @@ class ScraperService {
           }
 
           $format
+              ->setPasses(0)
               ->setKiloBitrate(704)
               ->setAudioChannels(2)
               ->setAudioKiloBitrate(256);
