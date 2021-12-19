@@ -1540,18 +1540,24 @@ function Util () {};
 	class manipulation functions
 */
 Util.hasClass = function(el, className) {
-	return el.classList.contains(className);
+	if (el.classList) return el.classList.contains(className);
+	else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
 };
 
 Util.addClass = function(el, className) {
 	var classList = className.split(' ');
- 	el.classList.add(classList[0]);
+ 	if (el.classList) el.classList.add(classList[0]);
+ 	else if (!Util.hasClass(el, classList[0])) el.className += " " + classList[0];
  	if (classList.length > 1) Util.addClass(el, classList.slice(1).join(' '));
 };
 
 Util.removeClass = function(el, className) {
 	var classList = className.split(' ');
-	el.classList.remove(classList[0]);	
+	if (el.classList) el.classList.remove(classList[0]);	
+	else if(Util.hasClass(el, classList[0])) {
+		var reg = new RegExp('(\\s|^)' + classList[0] + '(\\s|$)');
+		el.className=el.className.replace(reg, ' ');
+	}
 	if (classList.length > 1) Util.removeClass(el, classList.slice(1).join(' '));
 };
 
@@ -1572,8 +1578,8 @@ Util.setAttributes = function(el, attrs) {
 Util.getChildrenByClassName = function(el, className) {
   var children = el.children,
     childrenByClass = [];
-  for (var i = 0; i < children.length; i++) {
-    if (Util.hasClass(children[i], className)) childrenByClass.push(children[i]);
+  for (var i = 0; i < el.children.length; i++) {
+    if (Util.hasClass(el.children[i], className)) childrenByClass.push(el.children[i]);
   }
   return childrenByClass;
 };
@@ -1599,23 +1605,19 @@ Util.is = function(elem, selector) {
 /* 
 	Animate height of an element
 */
-Util.setHeight = function(start, to, element, duration, cb, timeFunction) {
+Util.setHeight = function(start, to, element, duration, cb) {
 	var change = to - start,
 	    currentTime = null;
 
   var animateHeight = function(timestamp){  
     if (!currentTime) currentTime = timestamp;         
     var progress = timestamp - currentTime;
-    if(progress > duration) progress = duration;
     var val = parseInt((progress/duration)*change + start);
-    if(timeFunction) {
-      val = Math[timeFunction](progress, start, to - start, duration);
-    }
     element.style.height = val+"px";
     if(progress < duration) {
         window.requestAnimationFrame(animateHeight);
     } else {
-    	if(cb) cb();
+    	cb();
     }
   };
   
@@ -1642,7 +1644,7 @@ Util.scrollTo = function(final, duration, cb, scrollEl) {
     var val = Math.easeInOutQuad(progress, start, final-start, duration);
     element.scrollTo(0, val);
     if(progress < duration) {
-      window.requestAnimationFrame(animateScroll);
+        window.requestAnimationFrame(animateScroll);
     } else {
       cb && cb();
     }
@@ -1801,55 +1803,32 @@ Math.easeOutElastic = function (t, b, c, d) {
 
 
 /* JS Utility Classes */
-
-// make focus ring visible only for keyboard navigation (i.e., tab key) 
 (function() {
-  var focusTab = document.getElementsByClassName('js-tab-focus'),
-    shouldInit = false,
-    outlineStyle = false,
-    eventDetected = false;
-
+  // make focus ring visible only for keyboard navigation (i.e., tab key) 
+  var focusTab = document.getElementsByClassName('js-tab-focus');
   function detectClick() {
     if(focusTab.length > 0) {
-      resetFocusStyle(false);
+      resetFocusTabs(false);
       window.addEventListener('keydown', detectTab);
     }
     window.removeEventListener('mousedown', detectClick);
-    outlineStyle = false;
-    eventDetected = true;
   };
 
   function detectTab(event) {
     if(event.keyCode !== 9) return;
-    resetFocusStyle(true);
+    resetFocusTabs(true);
     window.removeEventListener('keydown', detectTab);
     window.addEventListener('mousedown', detectClick);
-    outlineStyle = true;
   };
 
-  function resetFocusStyle(bool) {
+  function resetFocusTabs(bool) {
     var outlineStyle = bool ? '' : 'none';
     for(var i = 0; i < focusTab.length; i++) {
       focusTab[i].style.setProperty('outline', outlineStyle);
     }
   };
-
-  function initFocusTabs() {
-    if(shouldInit) {
-      if(eventDetected) resetFocusStyle(outlineStyle);
-      return;
-    }
-    shouldInit = focusTab.length > 0;
-    window.addEventListener('mousedown', detectClick);
-  };
-
-  initFocusTabs();
-  window.addEventListener('initFocusTabs', initFocusTabs);
+  window.addEventListener('mousedown', detectClick);
 }());
-
-function resetFocusTabsStyle() {
-  window.dispatchEvent(new CustomEvent('initFocusTabs'));
-};
 // File#: _1_accordion
 // Usage: codyhouse.co/license
 (function() {
@@ -6311,6 +6290,7 @@ function changeAllSwitchers(state){
     }
 }
 
+
 // File#: _1_tooltip
 // Usage: codyhouse.co/license
 (function() {
@@ -10238,6 +10218,13 @@ function changeAllSwitchers(state){
     })(i);}
   }
 }());
+/*!
+ * imagesLoaded PACKAGED v4.1.4
+ * JavaScript is all like "You images are done yet or what?"
+ * MIT License
+ */
+
+!function(e,t){"function"==typeof define&&define.amd?define("ev-emitter/ev-emitter",t):"object"==typeof module&&module.exports?module.exports=t():e.EvEmitter=t()}("undefined"!=typeof window?window:this,function(){function e(){}var t=e.prototype;return t.on=function(e,t){if(e&&t){var i=this._events=this._events||{},n=i[e]=i[e]||[];return n.indexOf(t)==-1&&n.push(t),this}},t.once=function(e,t){if(e&&t){this.on(e,t);var i=this._onceEvents=this._onceEvents||{},n=i[e]=i[e]||{};return n[t]=!0,this}},t.off=function(e,t){var i=this._events&&this._events[e];if(i&&i.length){var n=i.indexOf(t);return n!=-1&&i.splice(n,1),this}},t.emitEvent=function(e,t){var i=this._events&&this._events[e];if(i&&i.length){i=i.slice(0),t=t||[];for(var n=this._onceEvents&&this._onceEvents[e],o=0;o<i.length;o++){var r=i[o],s=n&&n[r];s&&(this.off(e,r),delete n[r]),r.apply(this,t)}return this}},t.allOff=function(){delete this._events,delete this._onceEvents},e}),function(e,t){"use strict";"function"==typeof define&&define.amd?define(["ev-emitter/ev-emitter"],function(i){return t(e,i)}):"object"==typeof module&&module.exports?module.exports=t(e,require("ev-emitter")):e.imagesLoaded=t(e,e.EvEmitter)}("undefined"!=typeof window?window:this,function(e,t){function i(e,t){for(var i in t)e[i]=t[i];return e}function n(e){if(Array.isArray(e))return e;var t="object"==typeof e&&"number"==typeof e.length;return t?d.call(e):[e]}function o(e,t,r){if(!(this instanceof o))return new o(e,t,r);var s=e;return"string"==typeof e&&(s=document.querySelectorAll(e)),s?(this.elements=n(s),this.options=i({},this.options),"function"==typeof t?r=t:i(this.options,t),r&&this.on("always",r),this.getImages(),h&&(this.jqDeferred=new h.Deferred),void setTimeout(this.check.bind(this))):void a.error("Bad element for imagesLoaded "+(s||e))}function r(e){this.img=e}function s(e,t){this.url=e,this.element=t,this.img=new Image}var h=e.jQuery,a=e.console,d=Array.prototype.slice;o.prototype=Object.create(t.prototype),o.prototype.options={},o.prototype.getImages=function(){this.images=[],this.elements.forEach(this.addElementImages,this)},o.prototype.addElementImages=function(e){"IMG"==e.nodeName&&this.addImage(e),this.options.background===!0&&this.addElementBackgroundImages(e);var t=e.nodeType;if(t&&u[t]){for(var i=e.querySelectorAll("img"),n=0;n<i.length;n++){var o=i[n];this.addImage(o)}if("string"==typeof this.options.background){var r=e.querySelectorAll(this.options.background);for(n=0;n<r.length;n++){var s=r[n];this.addElementBackgroundImages(s)}}}};var u={1:!0,9:!0,11:!0};return o.prototype.addElementBackgroundImages=function(e){var t=getComputedStyle(e);if(t)for(var i=/url\((['"])?(.*?)\1\)/gi,n=i.exec(t.backgroundImage);null!==n;){var o=n&&n[2];o&&this.addBackground(o,e),n=i.exec(t.backgroundImage)}},o.prototype.addImage=function(e){var t=new r(e);this.images.push(t)},o.prototype.addBackground=function(e,t){var i=new s(e,t);this.images.push(i)},o.prototype.check=function(){function e(e,i,n){setTimeout(function(){t.progress(e,i,n)})}var t=this;return this.progressedCount=0,this.hasAnyBroken=!1,this.images.length?void this.images.forEach(function(t){t.once("progress",e),t.check()}):void this.complete()},o.prototype.progress=function(e,t,i){this.progressedCount++,this.hasAnyBroken=this.hasAnyBroken||!e.isLoaded,this.emitEvent("progress",[this,e,t]),this.jqDeferred&&this.jqDeferred.notify&&this.jqDeferred.notify(this,e),this.progressedCount==this.images.length&&this.complete(),this.options.debug&&a&&a.log("progress: "+i,e,t)},o.prototype.complete=function(){var e=this.hasAnyBroken?"fail":"done";if(this.isComplete=!0,this.emitEvent(e,[this]),this.emitEvent("always",[this]),this.jqDeferred){var t=this.hasAnyBroken?"reject":"resolve";this.jqDeferred[t](this)}},r.prototype=Object.create(t.prototype),r.prototype.check=function(){var e=this.getIsImageComplete();return e?void this.confirm(0!==this.img.naturalWidth,"naturalWidth"):(this.proxyImage=new Image,this.proxyImage.addEventListener("load",this),this.proxyImage.addEventListener("error",this),this.img.addEventListener("load",this),this.img.addEventListener("error",this),void(this.proxyImage.src=this.img.src))},r.prototype.getIsImageComplete=function(){return this.img.complete&&this.img.naturalWidth},r.prototype.confirm=function(e,t){this.isLoaded=e,this.emitEvent("progress",[this,this.img,t])},r.prototype.handleEvent=function(e){var t="on"+e.type;this[t]&&this[t](e)},r.prototype.onload=function(){this.confirm(!0,"onload"),this.unbindEvents()},r.prototype.onerror=function(){this.confirm(!1,"onerror"),this.unbindEvents()},r.prototype.unbindEvents=function(){this.proxyImage.removeEventListener("load",this),this.proxyImage.removeEventListener("error",this),this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype=Object.create(r.prototype),s.prototype.check=function(){this.img.addEventListener("load",this),this.img.addEventListener("error",this),this.img.src=this.url;var e=this.getIsImageComplete();e&&(this.confirm(0!==this.img.naturalWidth,"naturalWidth"),this.unbindEvents())},s.prototype.unbindEvents=function(){this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype.confirm=function(e,t){this.isLoaded=e,this.emitEvent("progress",[this,this.element,t])},o.makeJQueryPlugin=function(t){t=t||e.jQuery,t&&(h=t,h.fn.imagesLoaded=function(e,t){var i=new o(this,e,t);return i.jqDeferred.promise(h(this))})},o.makeJQueryPlugin(),o});
 /*!
  * Masonry PACKAGED v4.2.2
  * Cascading grid layout library
