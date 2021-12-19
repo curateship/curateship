@@ -59,8 +59,12 @@
     align-items: center;
 }
 
-@include max-breakpoint(lg){
+@include max-breakpoint(xl){
     .for-desktop{
         display: none;
     }
+}
+
+.login-icon{
+    stroke: var(--color-contrast-lower);
 }
