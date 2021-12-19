@@ -84,3 +84,12 @@
     animation-name: reveal;
     animation-direction: reverse;
 }
+
+.preload-box{
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: -5px;
+    z-index: 1;
+    background-color:  var(--color-bg, #fff);
+}
