@@ -821,6 +821,52 @@ class PostController extends Controller
         return view('post::templates.post-masonry-load', $data);
     }
 
+    public function ajaxShowPostsV2($page_num)
+    {
+        // This return all post type, so no need to filter for 'post' only.
+        $perpage = 20;
+        $offset = ($page_num - 1) * $perpage;
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+            ->select(DB::raw(
+                'posts.id,
+                title,
+                slug,
+                posts.created_at as created_at,
+                thumbnail,
+                thumbnail_medium,
+                IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video,
+                users.name,
+                users.username,
+                users_settings.avatar as avatar'
+            ))->where(
+                [
+                    'posts.status' => 'published'
+                ]
+            )
+            ->orderBy('created_at', 'desc')
+            ->offset($offset)
+            ->limit($perpage);
+
+        $posts = $posts->get();
+
+        $posts_count = Post::where([
+            'status' => 'published'
+        ])->count();
+
+        $data['total'] = $posts_count;
+        $data['posts'] = $posts;
+        $data['api_route'] = 'posts';
+        $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+
+        if(count($posts) == 0){
+            abort(204);
+        }
+
+        return view('post::templates.post-masonry-load-v2', $data);
+    }
+
     public function ajaxShowPostsByUser($user_id, $page_num)
     {
         // This return all post type, so no need to filter for 'post' only.

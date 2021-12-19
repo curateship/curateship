@@ -127,37 +127,53 @@
 @endauth
 
 <script>
-    const masonryBox = $('.masonry-grid');
+    const masonryBox = document.querySelector('.masonry-grid')
 
-    // init Masonry;
-    var $grid = masonryBox.masonry({
-        gutter: 20,
-        percentPosition: true,
-        isFitWidth: true,
-        transitionDuration: 0
-    });
+    if(masonryBox !== null){
+        // init Masonry;
+        var $grid = new Masonry(masonryBox, {
+            gutter: 20,
+            percentPosition: true,
+            isFitWidth: true,
+            //transitionDuration: 0
+        });
 
-    // Layout Masonry after ALL images will be loaded;
-    $grid.imagesLoaded().done( function() {
-        masonryBox.removeClass('is-hidden')
-        $('.preload-box').addClass('is-hidden')
-        $grid.masonry('layout');
-    });
+        $('.masonry-grid').imagesLoaded().done( function() {
+            $('.masonry-grid').removeClass('opacity-0')
+            $('.preload-box').addClass('is-hidden')
 
-    $('.js-infinite-scroll__loader').hide()
+            var infScroll = new InfiniteScroll('.masonry-grid', {
+                // options
+                path: 'posts/page/@{{#}}',
+                append: '.grid-item',
+                history: false,
+                outlayer: $grid,
+                appendCallback: true,
+                status: '.loader-ellips'
+            });
+        });
 
+        $('.masonry-grid').on( 'last.infiniteScroll', function( event, body, path ) {
+            $('.loader-ellips').hide()
+        });
+
+
+        $('.js-infinite-scroll__loader').hide()
+    }
+
+/*
     function AppendContentInMasonry(content){
-        var $content = $( content );
+        var $content = $( content )
 
         // Append content in masonry;
-        $grid.append( $content ).masonry( 'appended', $content );
+        $grid.append( $content ).masonry( 'appended', $content )
 
         // Layout Masonry after each image loaded;
         $grid.imagesLoaded().progress( function() {
-            $grid.masonry('layout');
+            $grid.masonry('layout')
         });
     }
-
+*/
     function initPostCommentsForms(){
         // Comments post form;
         $('.commentNewContent').each(function(){

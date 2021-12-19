@@ -113,6 +113,8 @@ Route::prefix('pages')->group(function(){
     ]);
 });
 
+Route::get('posts/page/{id}', 'PostController@ajaxShowPostsV2');
+
 $middleware1 = ['web', 'auth'];
 if (config('settings.need_verify_email') === true) {
   $middleware1 = ['web', 'auth', 'verified'];

@@ -182,21 +182,17 @@
       }
 
 
-      if(wrapper.getAttribute('data-type') === 'masonry'){
-          AppendContentInMasonry(content)
-      } else{
-          var lastItem = false;
+        var lastItem = false;
 
-            if(moveFocus) lastItem = getLastChild(infiniteScroll);
-            if(infiniteScroll.container) {
-              infiniteScroll.container.insertAdjacentHTML('beforeend', content);
-            } else {
-              (infiniteScroll.loader.length > 0)
+        if(moveFocus) lastItem = getLastChild(infiniteScroll);
+        if(infiniteScroll.container) {
+            infiniteScroll.container.insertAdjacentHTML('beforeend', content);
+        } else {
+            (infiniteScroll.loader.length > 0)
                 ? infiniteScroll.loader[0].insertAdjacentHTML('beforebegin', content)
                 : infiniteScroll.element.insertAdjacentHTML('beforeend', content);
-            }
-            if(moveFocus && lastItem) Util.moveFocus(lastItem);
-      }
+        }
+        if(moveFocus && lastItem) Util.moveFocus(lastItem);
 
       return next;
     };
