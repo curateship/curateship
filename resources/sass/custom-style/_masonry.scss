@@ -1,19 +1,28 @@
+/* Desktop */
 .grid-item {
     width: 320px;
     margin-bottom: 20px;
 }
 
-@include max-breakpoint(sm){
-    .grid-item{
-        right: 0;
-        width: auto;
-        margin: auto auto 20px;
-    }
-}
-
+/* Notebooks or tablet */
 @include breakpoint(md){
     .grid-item{
         width: 280px;
         margin-bottom: 20px;
+    }
+}
+
+/* Mobile */
+@include max-breakpoint(sm) {
+    .grid,
+    .wrapper {
+        max-width: 30.9375em;
+        padding: 0;
+    }
+
+    .grid-item {
+        width: 47%;
+        &.w2 { width: 100%; }
+        &.w3 { width: 100%; }
     }
 }

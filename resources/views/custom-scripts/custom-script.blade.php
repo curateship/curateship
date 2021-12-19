@@ -123,75 +123,86 @@
       $element.load(url, function(response, status, xhr) {
       })
   });
-
-  function initPostCommentsForms(){
-      // Comments post form;
-      $('.commentNewContent').each(function(){
-          $(this).text()
-          $(this).bind('input propertychange', function() {
-              const postBtn = $('.postbtn[data-post-id="' + $(this).attr('data-post-id') + '"]')
-
-              postBtn.attr('disabled', true);
-
-              if(this.value.length){
-                  postBtn.attr('disabled', false);
-              }
-          });
-      })
-  }
-
-  $(document).ready(function(){
-      // Init post comment forms;
-      initPostCommentsForms()
-
-      // Init modals;
-      // Clean storage with modals;
-      localStorage.removeItem('exist-modals')
-      initModals();
-
-      // Init read more;
-      initReadMoreItems()
-
-      // Check save theme from DB;
-      let theme = '{{\Illuminate\Support\Facades\Auth::user()->getTheme()}}'
-      var switchers = document.getElementsByClassName('themeSwitch')
-
-      for(var i = 0; i < switchers.length; i++) {
-          (function(index) {
-              if(theme === 'dark'){
-                  console.log(switchers[index])
-
-                  switchers[index].checked = true
-              }
-
-              if(theme === 'white'){
-                  switchers[index].checked = false
-              }
-          })(i);
-      }
-
-      // Admin page does not have theme switcher - then we must reset cross style too;
-      // Fix for framework styles;
-      $('.anim-menu-btn__icon').addClass('cross-fix')
-      setTimeout(function(){
-          $('.anim-menu-btn__icon').removeClass('cross-fix')
-      }, 1)
-  })
 </script>
 @endauth
 
 <script>
+    // init Masonry;
     var $grid = $('.grid').masonry({
-        gutter: 20
+        gutter: 20,
+        percentPosition: true
+    });
+
+    // Layout Masonry after each image loaded;
+    $grid.imagesLoaded().progress( function() {
+        $grid.masonry('layout');
     });
 
     function AppendContentInMasonry(content){
         var $content = $( content );
-        // add jQuery object
+
+        // Append content in masonry;
         $grid.append( $content ).masonry( 'appended', $content );
-        setTimeout(function(){
-            $grid.masonry()
-        }, 20)
-        //$grid.masonry( 'appended', $(elements) )
+
+        // Layout Masonry after each image loaded;
+        $grid.imagesLoaded().progress( function() {
+            $grid.masonry('layout');
+        });
     }
+
+    function initPostCommentsForms(){
+        // Comments post form;
+        $('.commentNewContent').each(function(){
+            $(this).text()
+            $(this).bind('input propertychange', function() {
+                const postBtn = $('.postbtn[data-post-id="' + $(this).attr('data-post-id') + '"]')
+
+                postBtn.attr('disabled', true);
+
+                if(this.value.length){
+                    postBtn.attr('disabled', false);
+                }
+            });
+        })
+    }
+
+    $(document).ready(function(){
+        // Init post comment forms;
+        initPostCommentsForms()
+
+        // Init modals;
+        // Clean storage with modals;
+        localStorage.removeItem('exist-modals')
+        initModals();
+
+        // Init read more;
+        initReadMoreItems()
+
+        @auth
+        // Check save theme from DB;
+        let theme = '{{\Illuminate\Support\Facades\Auth::user()->getTheme()}}'
+        var switchers = document.getElementsByClassName('themeSwitch')
+
+        for(var i = 0; i < switchers.length; i++) {
+            (function(index) {
+                if(theme === 'dark'){
+                    console.log(switchers[index])
+
+                    switchers[index].checked = true
+                }
+
+                if(theme === 'white'){
+                    switchers[index].checked = false
+                }
+            })(i);
+        }
+        @endauth
+
+        // Admin page does not have theme switcher - then we must reset cross style too;
+        // Fix for framework styles;
+        $('.anim-menu-btn__icon').addClass('cross-fix')
+        setTimeout(function(){
+            $('.anim-menu-btn__icon').removeClass('cross-fix')
+        }, 1)
+    })
 </script>
