@@ -950,7 +950,7 @@ class ScraperService {
    */
   public function chunked_copy($source_url, $destination) {
     // No time limits for loading real big files;
-    set_time_limit(0);
+    set_time_limit(-1);
 
     // 1 mega byte at a time.
     $buffer_size = 1048576;
