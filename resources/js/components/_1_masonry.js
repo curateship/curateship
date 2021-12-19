@@ -19,12 +19,12 @@
       setGridLayout(this); // set grid params (width of elements)
       initMasonryLayout(this); // init gallery layout
     };
-  
+
     function checkFlexSupported(item) {
       var itemStyle = window.getComputedStyle(item);
       return itemStyle.getPropertyValue('flex-basis') != 'auto';
     };
-  
+
     function getGridLayout(grid) { // this is used to get initial grid details (width/grid gap)
       var itemStyle = window.getComputedStyle(grid.items[0]);
       if( grid.colStartWidth == 0) {
@@ -32,7 +32,7 @@
       }
       grid.colGap = parseFloat(itemStyle.getPropertyValue('margin-right'));
     };
-  
+
     function setGridLayout(grid) { // set width of items in the grid
       var containerWidth = parseFloat(window.getComputedStyle(grid.element).getPropertyValue('width'));
       grid.activeColumns = parseInt((containerWidth + grid.colGap)/(grid.colStartWidth+grid.colGap));
@@ -44,36 +44,36 @@
         grid.items[i].style.display = 'inline-block'; // reset items width
       }
     };
-  
+
     function initMasonryLayout(grid) {
       if(grid.flexSupported) {
         checkImgLoaded(grid); // reset layout when images are loaded
       } else {
         Util.addClass(grid.element, 'masonry--loaded'); // make sure the gallery is visible
       }
-  
+
       grid.element.addEventListener('masonry-resize', function(){ // window has been resized -> reset masonry layout
         getGridLayout(grid);
         setGridLayout(grid);
-        if(grid.flexSupported) layItems(grid); 
+        if(grid.flexSupported) layItems(grid);
       });
-  
+
       grid.element.addEventListener('masonry-reset', function(event){ // reset layout (e.g., new items added to the gallery)
-        if(grid.flexSupported) checkImgLoaded(grid); 
+        if(grid.flexSupported) checkImgLoaded(grid);
       });
     };
-  
+
     function layItems(grid) {
       Util.addClass(grid.element, 'masonry--loaded'); // make sure the gallery is visible
       grid.colHeights = [];
       grid.colItems = [];
-  
+
       // grid layout has already been set -> update container height and order of items
       for(var j = 0; j < grid.activeColumns; j++) {
         grid.colHeights.push(0); // reset col heights
         grid.colItems[j] = []; // reset items order
       }
-      
+
       for(var i = 0; i < grid.items.length; i++) {
         var minHeight = Math.min.apply( Math, grid.colHeights ),
           index = grid.colHeights.indexOf(minHeight);
@@ -82,11 +82,11 @@
         var itemHeight = grid.items[i].getBoundingClientRect().height || grid.items[i].offsetHeight || 1;
         grid.colHeights[index] = grid.colHeights[index] + grid.colGap + itemHeight;
       }
-  
+
       // reset height of container
       var masonryHeight = Math.max.apply( Math, grid.colHeights ) + 5;
       grid.list.style.cssText = 'height: '+ masonryHeight + 'px;';
-  
+
       // go through elements and set flex order
       var order = 0;
       for(var i = 0; i < grid.colItems.length; i++) {
@@ -100,14 +100,14 @@
           lastItemCol.style.flexBasis = masonryHeight - grid.colHeights[i] + lastItemCol.getBoundingClientRect().height - 5 + 'px';
         }
       }
-  
+
       // emit custom event when grid has been reset
       grid.element.dispatchEvent(new CustomEvent('masonry-laid'));
     };
-  
+
     function checkImgLoaded(grid) {
       var imgs = grid.list.getElementsByTagName('img');
-  
+
       function countLoaded() {
         var setTimeoutOn = false;
         for(var i = 0; i < imgs.length; i++) {
@@ -119,7 +119,7 @@
             break;
           }
         }
-  
+
         if(!setTimeoutOn) {
           layItems(grid);
         } else {
@@ -128,19 +128,19 @@
           }, 100);
         }
       };
-  
+
       if(imgs.length == 0) {
         layItems(grid); // no need to wait -> no img available
       } else {
         countLoaded();
       }
     };
-  
+
     //initialize the Masonry objects
-    var masonries = document.getElementsByClassName('js-masonry'), 
+    var masonries = document.getElementsByClassName('js-masonry'),
       flexSupported = Util.cssSupports('flex-basis', 'auto'),
       masonriesArray = [];
-  
+
     if( masonries.length > 0) {
       for( var i = 0; i < masonries.length; i++) {
         var maronry_items = masonries[i].getElementsByClassName('js-masonry__item');
@@ -152,18 +152,18 @@
           }
         }
       }
-  
+
       if(!flexSupported) return;
-  
+
       // listen to window resize -> reorganize items in gallery
       var resizingId = false,
         customEvent = new CustomEvent('masonry-resize');
-        
+
       window.addEventListener('resize', function() {
         clearTimeout(resizingId);
         resizingId = setTimeout(doneResizing, 500);
       });
-  
+
       function doneResizing() {
         for( var i = 0; i < masonriesArray.length; i++) {
           (function(i){masonriesArray[i].element.dispatchEvent(customEvent)})(i);

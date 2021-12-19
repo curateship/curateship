@@ -262,4 +262,21 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
     	return $this->hasMany(\Modules\Users\Entities\Reply::class);
     }
+
+    public function getTheme(){
+        $settings = UsersSetting::where('user_id', $this->id)
+            ->first();
+
+        $theme = null;
+        if($settings != null){
+            $theme = $settings->theme;
+        }
+
+        if($theme == null){
+            $theme = Settings::where('key', 'theme')
+                ->first()->value;
+        }
+
+        return $theme;
+    }
 }

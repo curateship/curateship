@@ -214,19 +214,31 @@
                     <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                     <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
                     <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
-
-                    <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
+                    @auth
+                    <!-- Theme Switch -->
+                        <li class="header-v2__nav-item">
+                            <div class="flex align-items-center justify-between">
+                                Switch theme
+                                <div class="margin-left-md switch">
+                                    <input class="switch__input themeSwitch" type="checkbox" id="themeSwitchMobile" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
+                                    <label class="switch__label" for="themeSwitchMobile" aria-hidden="true">Theme switcher</label>
+                                    <div class="switch__marker" aria-hidden="true"></div>
+                                </div>
+                            </div>
+                        </li>
+                    @endauth
                 </ul>
             </nav>
 
+
+            @auth
             <!-- Theme Switch -->
-            <div class="margin-left-md switch">
-                <input class="switch__input" type="checkbox" id="themeSwitch">
-                <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
+            <div class="margin-left-md switch for-desktop">
+                <input class="switch__input themeSwitch" type="checkbox" id="themeSwitchDesktop" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
+                <label class="switch__label" for="themeSwitchDesktop" aria-hidden="true">Theme switcher</label>
                 <div class="switch__marker" aria-hidden="true"></div>
             </div>
+            @endauth
 
             <!-- Search Box -->
             <div id="search-menu" class="header-v2__nav header-v2__nav-search">
@@ -243,7 +255,4 @@
             </div>
         </div>
     </div>
-
-
-
 </header>

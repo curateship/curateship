@@ -14,6 +14,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         // Laravel does not return correct CSRF tokens for "dynamic" pages, so we need to exclude these two comments routes from checking;
         '/post/comment/save',
-        '/post/comment/reply-save/'
+        '/post/comment/reply-save/',
+
+        // Saving theme run from external script and does not have CSRF token;
+        '/users/settings/saveTheme/ajax'
     ];
 }

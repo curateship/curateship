@@ -54,3 +54,13 @@
 .controlbar--sticky .flex{
     align-items: center;
 }
+
+.align-items-center{
+    align-items: center;
+}
+
+@include max-breakpoint(lg){
+    .for-desktop{
+        display: none;
+    }
+}

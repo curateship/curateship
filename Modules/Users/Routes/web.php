@@ -93,6 +93,13 @@ Route::middleware($user_middleware)->group(function(){
   ]);
 });
 
+Route::middleware(['auth'])->group(function(){
+    Route::post('users/settings/saveTheme/ajax', [
+        'as' => 'theme.save.ajax',
+        'uses' => 'UsersController@postAjaxSaveTheme'
+    ]);
+});
+
 /*Route::get('/dashboard',function(){
   return view('users::dashboard\index');
 });*/

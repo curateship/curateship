@@ -152,26 +152,22 @@
       // Init read more;
       initReadMoreItems()
 
-      // Check save theme in local storage;
-      let selectedTheme = localStorage.getItem('selected-theme')
-      const defaultTheme = '{{\Modules\Admin\Entities\Settings::where('key', 'theme')->first()->value}}'
+      // Check save theme from DB;
+      let theme = '{{\Illuminate\Support\Facades\Auth::user()->getTheme()}}'
+      var switchers = document.getElementsByClassName('themeSwitch')
 
-      // If we do not have any theme in storage, we must get in from default system settings;
-      if(selectedTheme == null){
-          selectedTheme = defaultTheme;
-      }
+      for(var i = 0; i < switchers.length; i++) {
+          (function(index) {
+              if(theme === 'dark'){
+                  console.log(switchers[index])
 
-      const switcher = document.getElementById('themeSwitch')
+                  switchers[index].checked = true
+              }
 
-      switch(selectedTheme){
-          case 'dark':
-              document.body.setAttribute('data-theme', 'dark')
-              if(switcher !== undefined) switcher.checked = true
-              break
-          case 'white':
-              document.body.removeAttribute('data-theme')
-              if(switcher !== undefined) switcher.checked = false
-              break
+              if(theme === 'white'){
+                  switchers[index].checked = false
+              }
+          })(i);
       }
 
       // Admin page does not have theme switcher - then we must reset cross style too;
@@ -183,3 +179,19 @@
   })
 </script>
 @endauth
+
+<script>
+    var $grid = $('.grid').masonry({
+        gutter: 20
+    });
+
+    function AppendContentInMasonry(content){
+        var $content = $( content );
+        // add jQuery object
+        $grid.append( $content ).masonry( 'appended', $content );
+        setTimeout(function(){
+            $grid.masonry()
+        }, 20)
+        //$grid.masonry( 'appended', $(elements) )
+    }
+</script>

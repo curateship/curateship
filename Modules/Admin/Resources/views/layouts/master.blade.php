@@ -32,7 +32,7 @@
   @include('partials.external-fonts-v1')
 
 </head>
-<body>
+<body @include('components.pages.set-body-theme')>
 
   @include('admin::partials.main-header-v2')
   @yield('content')

@@ -86,7 +86,7 @@ class MediaUploadController extends Controller
 
         if ($media_type === 'image') {
             $thumbnail = $media_name;
-            if ($mime_type == 'image/gif') {                
+            if ($mime_type == 'image/gif') {
                 // Save thumbnail (medium) image to file system
                 $thumbnail_medium = new Imagick($media_path . '/original/' . $thumbnail);
                 $thumbnail_medium = $thumbnail_medium->coalesceImages();
@@ -145,12 +145,12 @@ class MediaUploadController extends Controller
             } else {
                 $format = new X264();
             }
-            
+
             $format
                 ->setKiloBitrate(704)
                 ->setAudioChannels(2)
                 ->setAudioKiloBitrate(256);
-        
+
             $m_video->save($format, $video_path . '/mobile/' . $media_name);
 
             $height = ceil($height * (1024/$width));
