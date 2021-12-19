@@ -128,7 +128,7 @@
 
 <script>
     // init Masonry;
-    var $grid = $('.grid').masonry({
+    var $grid = $('.masonry-grid').masonry({
         gutter: 20,
         percentPosition: true,
         isFitWidth: true
@@ -136,6 +136,8 @@
 
     // Layout Masonry after each image loaded;
     $grid.imagesLoaded().progress( function() {
+        $('.masonry-grid').removeClass('is-hidden')
+        $('.preload-box').addClass('is-hidden')
         $grid.masonry('layout');
     });
 
