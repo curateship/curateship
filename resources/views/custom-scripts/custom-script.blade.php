@@ -130,7 +130,8 @@
     // init Masonry;
     var $grid = $('.grid').masonry({
         gutter: 20,
-        percentPosition: true
+        percentPosition: true,
+        isFitWidth: true
     });
 
     // Layout Masonry after each image loaded;

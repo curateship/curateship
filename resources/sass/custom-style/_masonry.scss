@@ -1,11 +1,15 @@
+.grid{
+    margin: 0 auto;
+}
+
 /* Desktop */
 .grid-item {
-    width: 320px;
+    width: 300px;
     margin-bottom: 20px;
 }
 
 /* Notebooks or tablet */
-@include breakpoint(md){
+@include max-breakpoint(md){
     .grid-item{
         width: 280px;
         margin-bottom: 20px;
