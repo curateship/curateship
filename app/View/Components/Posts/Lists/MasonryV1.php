@@ -20,6 +20,7 @@ class MasonryV1 extends Component
      */
     public function __construct($type = 'all', $userid = null, $tag = null, $limit = 20)
     {
+
         if ( $type == 'tag' ) {
             if( $tag == null ) {
                 $this->posts = [];
@@ -35,7 +36,7 @@ class MasonryV1 extends Component
                         [
                             'tags.name' => $tag,
                             'posts.status'    => 'published'
-                        ]    
+                        ]
                     )->groupBy('posts.id')
                     ->orderBy('relevance', 'desc')
                     ->orderBy('posts.updated_at', 'desc')
@@ -43,7 +44,7 @@ class MasonryV1 extends Component
                     ->limit($limit);
 
                 $posts = $posts->get();
-                
+
                 $post_ids = [];
                 foreach($posts as $post) {
                     $post_ids[] = $post->id;
@@ -83,13 +84,13 @@ class MasonryV1 extends Component
                 ))->where(
                     [
                         'posts.status' => 'published'
-                    ]    
+                    ]
                 );
 
             if ( $userid != null ) {
                 $posts->where('posts.user_id', $userid);
             }
-            $posts->orderBy('created_at', 'desc')
+            $posts->orderBy('title', 'desc')
                 ->limit($limit)
                 ->offset(0);
 
@@ -111,6 +112,6 @@ class MasonryV1 extends Component
      */
     public function render()
     {
-        return view('components.posts.lists.masonry-v1');
+        return view('components.posts.lists.masonry-v3');
     }
 }
