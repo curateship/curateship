@@ -127,19 +127,24 @@
 @endauth
 
 <script>
+    const masonryBox = $('.masonry-grid');
+
     // init Masonry;
-    var $grid = $('.masonry-grid').masonry({
+    var $grid = masonryBox.masonry({
         gutter: 20,
         percentPosition: true,
-        isFitWidth: true
+        isFitWidth: true,
+        transitionDuration: 0
     });
 
-    // Layout Masonry after each image loaded;
-    $grid.imagesLoaded().progress( function() {
-        $('.masonry-grid').removeClass('is-hidden')
+    // Layout Masonry after ALL images will be loaded;
+    $grid.imagesLoaded().done( function() {
+        masonryBox.removeClass('is-hidden')
         $('.preload-box').addClass('is-hidden')
         $grid.masonry('layout');
     });
+
+    $('.js-infinite-scroll__loader').hide()
 
     function AppendContentInMasonry(content){
         var $content = $( content );
