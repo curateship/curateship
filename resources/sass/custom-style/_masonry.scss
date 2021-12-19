@@ -1,4 +1,4 @@
-.grid{
+.masonry-grid{
     margin: 0 auto;
 }
 
@@ -18,7 +18,7 @@
 
 /* Mobile */
 @include max-breakpoint(sm) {
-    .grid,
+    .masonry-grid,
     .wrapper {
         max-width: 30.9375em;
         padding: 0;
@@ -29,4 +29,8 @@
         &.w2 { width: 100%; }
         &.w3 { width: 100%; }
     }
+}
+
+.preload-grid{
+    justify-content: space-between;
 }
