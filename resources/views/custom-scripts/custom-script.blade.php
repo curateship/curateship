@@ -138,27 +138,36 @@
             //transitionDuration: 0
         });
 
-        $('.masonry-grid').imagesLoaded().done( function() {
-            $('.masonry-grid').removeClass('opacity-0')
-            $('.preload-box').addClass('is-hidden')
 
-            var infScroll = new InfiniteScroll('.masonry-grid', {
-                // options
-                path: 'posts/page/@{{#}}',
-                append: '.grid-item',
-                history: false,
-                outlayer: $grid,
-                appendCallback: true,
-                status: '.loader-ellips'
-            });
+        $('.masonry-grid').imagesLoaded().done( function() {
+
+            setTimeout(function(){
+
+            }, 50)
         });
+
+        var infScroll = new InfiniteScroll('.masonry-grid', {
+            // options
+            path: 'posts/page/@{{#}}',
+            append: '.grid-item',
+            history: false,
+            outlayer: $grid,
+            appendCallback: true,
+            status: '.loader-ellips'
+        });
+
+        infScroll.pageIndex = 0
+        infScroll.loadNextPage()
 
         $('.masonry-grid').on( 'last.infiniteScroll', function( event, body, path ) {
             $('.loader-ellips').hide()
         });
 
+        $('.masonry-grid').on( 'append.infiniteScroll', function( event, body, path, items, response ) {
+            $grid.layout();
 
-        $('.js-infinite-scroll__loader').hide()
+            $('.preload-box').fadeOut()
+        });
     }
 
 /*
