@@ -127,19 +127,7 @@
                   <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                   <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
                   <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
-                    <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
-
-                    <li class="header-v2__nav-item">
-                        <div class="flex align-items-center justify-between">
-                            Switch theme
-                            <div class="margin-left-md switch">
-                                <input class="switch__input themeSwitch" type="checkbox" id="themeSwitchMobile" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
-                                <label class="switch__label" for="themeSwitchMobile" aria-hidden="true">Theme switcher</label>
-                                <div class="switch__marker" aria-hidden="true"></div>
-                            </div>
-                        </div>
-                    </li>
-
+                  <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                   <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
                   <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
                   <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
@@ -198,6 +186,16 @@
           <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
           <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
           <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
+            <li class="header-v2__nav-item">
+                <div class="flex align-items-center justify-between">
+                    Switch theme
+                    <div class="margin-left-md switch">
+                        <input class="switch__input themeSwitch" type="checkbox" id="themeSwitchMobile" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
+                        <label class="switch__label" for="themeSwitchMobile" aria-hidden="true">Theme switcher</label>
+                        <div class="switch__marker" aria-hidden="true"></div>
+                    </div>
+                </div>
+            </li>
         </ul>
       </nav>
     </div>
