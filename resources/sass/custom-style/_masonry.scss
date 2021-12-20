@@ -9,28 +9,34 @@
 /* Desktop */
 @include breakpoint(xl){
     .grid-item {
-        width: 300px;
+        width: 250px;
+        h3{
+            font-size: 13px;
+        }
+    }
+
+    .preload-item{
+        max-width: 250px;
     }
 }
 
-/* Notebook */
 @include max-breakpoint(l1440){
     .grid-item{
-        width: 200px;
+        width: 300px;
+    }
+
+    .preload-item{
+        max-width: 300px;
     }
 }
 
-/* Big tablets */
-@include max-breakpoint(w1375){
-    .grid-item{
-        width: 250px;
-    }
-}
-
-/* Tablets */
 @include max-breakpoint(lg){
-    .grid-item{
+    .grid-item {
         width: 260px;
+    }
+
+    .preload-item{
+        max-width: 260px;
     }
 }
 
@@ -39,31 +45,105 @@
     .grid-item{
         width: 175px;
     }
-}
 
-/* Phone */
-@include max-breakpoint(sm){
-    .grid-item{
-        width: 155px;
+    .preload-item{
+        max-width: 175px;
     }
 }
 
-/* Small phone */
-@include max-breakpoint(xs) {
+@include max-breakpoint(sm){
     .grid-item {
-        width: 120px;
+        width: 175px;
+    }
 
-        a{
-            font-size: 9px;
+    .preload-item{
+        max-width: 175px;
+    }
+}
+
+@include max-breakpoint(w420) {
+    .grid-item {
+        width: 155px;
+
+        h3{
+            font-size: 10px;
         }
     }
+
+    .preload-item{
+        max-width: 145px;
+    }
+}
+
+@include max-breakpoint(w360) {
+    .grid-item {
+        width: 150px;
+
+        h3{
+            font-size: 10px;
+        }
+    }
+
+    .preload-item{
+        max-width: 140px;
+    }
+}
+
+@include max-breakpoint(w340) {
+    .grid-item {
+        width: 135px;
+
+        h3{
+            font-size: 10px;
+        }
+    }
+
+    .preload-item{
+        max-width: 125px;
+    }
+}
+
+@include max-breakpoint(w320) {
+    .grid-item {
+        width: 130px;
+
+        h3{
+            font-size: 10px;
+        }
+    }
+
+    .preload-item{
+        max-width: 120px;
+    }
+}
+
+@include max-breakpoint(w280) {
+    .grid-item {
+        width: 110px;
+
+        h3{
+            font-size: 8px;
+        }
+    }
+
+    .preload-item{
+        max-width: 100px;
+    }
 }
 
 
+.preload-item{
+    margin: 0;
+
+    div{
+        margin-bottom: 0;
+    }
+}
 
 
 .preload-grid{
-    justify-content: space-between;
+    justify-content: center;
+    gap: 20px;
 }
 
 .loader-ellips {
@@ -123,4 +203,5 @@
     top: -5px;
     z-index: 1;
     background-color:  var(--color-bg, #fff);
+    min-height: 500px;
 }
