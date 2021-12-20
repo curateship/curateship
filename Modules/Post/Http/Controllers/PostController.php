@@ -845,7 +845,7 @@ class PostController extends Controller
                     'posts.status' => 'published'
                 ]
             )
-            ->orderBy('created_at', 'desc')
+            ->orderBy('title', 'desc')
             ->offset($offset)
             ->limit($perpage);
 

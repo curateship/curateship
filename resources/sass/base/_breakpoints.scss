@@ -17,10 +17,27 @@ $breakpoints: (
   }
 }
 
-@mixin max-breakpoint($breakpoint, $logic: false) {
-    @if( $logic ) {
-        @media #{$logic} and (max-width: map-get($map: $breakpoints, $key: $breakpoint)) { @content; }
-    } @else {
-        @media (max-width: map-get($map: $breakpoints, $key: $breakpoint)) { @content; }
+/* My breakpoints and function*/
+
+$myBreakpoints: (
+    w1375: 1375px,
+    lg: 1024px,
+    xl: 1240px,
+    smm: 620px,
+    sm: 768px,
+    smx: 340px,
+    xs: 340px,
+    i5s: 350px,
+    xss: 390px,
+    w461: 461px,
+    w420: 420px,
+    l1440: 1440px,
+    md: 989px,
+    xs414: 414px,
+);
+
+@mixin max-breakpoint($breakpoint) {
+    @media screen and (max-width: map-get($myBreakpoints, $breakpoint)) {
+        @content;
     }
 }
