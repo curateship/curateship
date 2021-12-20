@@ -135,7 +135,7 @@
             gutter: 20,
             //percentPosition: true,
             isFitWidth: true,
-            //transitionDuration: 0
+            //transitionDuration: 0,
         });
 
         var infScroll = new InfiniteScroll('.masonry-grid', {
@@ -162,19 +162,6 @@
         });
     }
 
-/*
-    function AppendContentInMasonry(content){
-        var $content = $( content )
-
-        // Append content in masonry;
-        $grid.append( $content ).masonry( 'appended', $content )
-
-        // Layout Masonry after each image loaded;
-        $grid.imagesLoaded().progress( function() {
-            $grid.masonry('layout')
-        });
-    }
-*/
     function initPostCommentsForms(){
         // Comments post form;
         $('.commentNewContent').each(function(){

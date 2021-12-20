@@ -16,8 +16,13 @@
     }
 }
 
+
 /* Mobile */
 @include max-breakpoint(sm) {
+    .grid-item {
+        width: 150px;
+    }
+    /*
     .masonry-grid,
     .wrapper {
         max-width: 30.9375em;
@@ -29,7 +34,35 @@
         &.w2 { width: 100%; }
         &.w3 { width: 100%; }
     }
+
+     */
 }
+
+@include max-breakpoint(xs) {
+    .grid-item {
+        width: 130px;
+
+        a{
+            font-size: 10px;
+        }
+    }
+    /*
+    .masonry-grid,
+    .wrapper {
+        max-width: 30.9375em;
+        padding: 0;
+    }
+
+    .grid-item {
+        width: 47%;
+        &.w2 { width: 100%; }
+        &.w3 { width: 100%; }
+    }
+
+     */
+}
+
+
 
 .preload-grid{
     justify-content: space-between;
