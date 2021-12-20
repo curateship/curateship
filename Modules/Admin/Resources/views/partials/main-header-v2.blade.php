@@ -149,8 +149,8 @@
           <li class="header-v2__nav-item padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Log out</a></li>
 
           <!-- Theme Switch -->
-          <div class="margin-left-md switch for-desktop themeSwitch">
-          <input class="switch__input" type="checkbox" id="themeSwitchDesktop" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
+          <div class="margin-left-md switch for-desktop">
+          <input class="switch__input themeSwitch" type="checkbox" id="themeSwitchDesktop" {{\Illuminate\Support\Facades\Auth::user()->getTheme() == 'dark' ? 'checked' : ''}}>
           <label class="switch__label" for="themeSwitchDesktop" aria-hidden="true">Theme switcher</label>
           <div class="switch__marker" aria-hidden="true"></div>
           </div>

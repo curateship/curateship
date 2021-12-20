@@ -133,17 +133,9 @@
         // init Masonry;
         var $grid = new Masonry(masonryBox, {
             gutter: 20,
-            percentPosition: true,
+            //percentPosition: true,
             isFitWidth: true,
             //transitionDuration: 0
-        });
-
-
-        $('.masonry-grid').imagesLoaded().done( function() {
-
-            setTimeout(function(){
-
-            }, 50)
         });
 
         var infScroll = new InfiniteScroll('.masonry-grid', {
