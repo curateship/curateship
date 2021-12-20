@@ -5,11 +5,35 @@
 .grid-item {
     margin-bottom: 20px;
 }
-
-/* Desktop */
-@include breakpoint(xl){
+@include c-breakpoint(w1920){
     .grid-item {
-        width: 250px;
+        width: 300px;
+        h3{
+            font-size: 13px;
+        }
+    }
+
+    .preload-item{
+        max-width: 290px;
+    }
+}
+
+@include c-breakpoint(w1280){
+    .grid-item {
+        width: 300px;
+        h3{
+            font-size: 13px;
+        }
+    }
+
+    .preload-item{
+        max-width: 290px;
+    }
+}
+
+@include max-breakpoint(w1280){
+    .grid-item {
+        width: 260px;
         h3{
             font-size: 13px;
         }
@@ -20,17 +44,7 @@
     }
 }
 
-@include max-breakpoint(l1440){
-    .grid-item{
-        width: 300px;
-    }
-
-    .preload-item{
-        max-width: 300px;
-    }
-}
-
-@include max-breakpoint(lg){
+@include max-breakpoint(w1024){
     .grid-item {
         width: 260px;
     }
@@ -40,24 +54,33 @@
     }
 }
 
-/* Big phone */
 @include max-breakpoint(md){
     .grid-item{
-        width: 175px;
+        width: 230px;
     }
 
     .preload-item{
-        max-width: 175px;
+        max-width: 220px;
     }
 }
 
 @include max-breakpoint(sm){
     .grid-item {
-        width: 175px;
+        width: 220px;
     }
 
     .preload-item{
-        max-width: 175px;
+        max-width: 210px;
+    }
+}
+
+@include max-breakpoint(w540){
+    .grid-item {
+        width: 220px;
+    }
+
+    .preload-item{
+        max-width: 210px;
     }
 }
 

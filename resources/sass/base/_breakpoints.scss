@@ -16,30 +16,3 @@ $breakpoints: (
     @media (min-width: map-get($map: $breakpoints, $key: $breakpoint)) { @content; }
   }
 }
-
-/* My breakpoints and function*/
-$myBreakpoints: (
-    w1375: 1375px,
-    w461: 461px,
-    w420: 420px,
-    w360: 360px,
-    w340: 340px,
-    w320: 320px,
-    w280: 280px,
-
-    l1440: 1440px,
-    xl: 1240px,
-    lg: 1024px,
-    md: 989px,
-    sm: 768px,
-    smm: 620px,
-    xs414: 414px,
-    xss: 390px,
-    i5s: 350px,
-);
-
-@mixin max-breakpoint($breakpoint) {
-    @media screen and (max-width: map-get($myBreakpoints, $breakpoint)) {
-        @content;
-    }
-}
