@@ -11,7 +11,6 @@
 
   <!--<ul class="masonry__list js-masonry__list js-infinite-scroll__content">-->
   <div class="masonry-grid">
-
   </div>
 
     <div class="loader-ellips">
