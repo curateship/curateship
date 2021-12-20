@@ -2,7 +2,7 @@
     <div class="preload-box" aria-hidden="true">
         <ul class="grid preload-grid gap-sm">
             @for($i = 1 ; $i <= 12 ; $i++)
-                <li class="col-6 col-4@md">
+                <li class="preload-item">
                     <div class="ske ske--rect-16:9 margin-bottom-sm"></div>
                 </li>
             @endfor
