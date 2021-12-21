@@ -13,7 +13,7 @@
 <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
 
 <script>
-var videojs_template = 
+var videojs_template =
   `<video id="media-player" class="video-js video-small vjs-big-play-centered" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' width="320" height="150" style="display:none">
     <source src="" type="" />
     <p class="vjs-no-js">
@@ -134,7 +134,7 @@ var videojs_template =
           $('#edit-media-player').hide();
         }
 
-        // Enable Save Buttons 
+        // Enable Save Buttons
         $('#btnSave, #btnPublish, #btnEditSaveDraft, #btnEditSave, #btnEditSavePublish, .restore-post-link').removeClass('btn--disabled');
       },
       error: function() {
@@ -149,7 +149,7 @@ var videojs_template =
     });
 
     return false;
-  }  
+  }
   $(document).on('change', '#editMedia', uploadMedia);
   $(document).on('change', '#upload-file', uploadMedia);
 }());

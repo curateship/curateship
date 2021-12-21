@@ -42,7 +42,7 @@ class SettingsController extends Controller {
   /**
    * Store a newly created resource in storage.
    * @param Request $request
-   * @return Renderable
+   * @return \Illuminate\Http\JsonResponse
    */
   public function store(Request $request) {
     $setting_keys = [
@@ -73,12 +73,15 @@ class SettingsController extends Controller {
       'tag_template',
       'profile_template',
       'socials',
-      'theme'
+      'theme',
+      'title_required',
+      'title_template'
     ];
 
     $checkbox_keys = [
       'reg_en_fullname',
-      'reg_en_verify_email'
+      'reg_en_verify_email',
+      'title_required'
     ];
 
     $validator = Validator::make($request->all(), [
@@ -95,17 +98,24 @@ class SettingsController extends Controller {
         'favicon' => 'required',
         'font_logo' => 'required',
         'font_primary' => 'required',
-        'font_secondary' => 'required'
+        'font_secondary' => 'required',
+        'title_template' => 'json'
     ],
     $messages = [
       'required' => 'The :attribute field is required.',
       'max' => 'The :attribute field is too long!.',
+      'json' => 'Them :attribute field must JSON'
     ]);
 
     if ($validator->fails()) {
+        $errors = [];
+        foreach($validator->errors()->messages() as $messages){
+            $errors[] = implode('<br>', $messages);
+        }
+
       return response()->json([
         'status' => false,
-        'message' => 'Setting Data has been saved!',
+        'message' => implode('<br>', $errors),
         'errors' => $validator->errors()
       ]);
     }

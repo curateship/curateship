@@ -32,6 +32,10 @@
       $('.' + dest_name).addClass('alert--is-visible');
     }
 
+      $(document).on('change', '#titleRequired', function(e) {
+          $('#titleTemplate').prop('disabled', $(this).prop('checked'))
+      });
+
     $(document).on('click', '#btnSave', function(e){
       e.preventDefault();
 

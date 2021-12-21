@@ -84,6 +84,8 @@ class MediaUploadController extends Controller
             $media = request()->file('media')->store("public/videos/original");
         $media_name = Arr::last(explode('/', $media));
 
+        $original_filename = request()->file('media')->getClientOriginalName();
+
         if ($media_type === 'image') {
             $thumbnail = $media_name;
             if ($mime_type == 'image/gif') {
@@ -182,6 +184,9 @@ class MediaUploadController extends Controller
             }
         }
 
+        $ext = pathinfo($original_filename, PATHINFO_EXTENSION);
+        $filename = str_replace('.'.$ext, '',$original_filename);
+
         return [
                 'status' => $status,
                 'message' => $message,
@@ -190,7 +195,8 @@ class MediaUploadController extends Controller
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
                 'thumbnail_url' => asset("storage/{$subpath}/original/{$thumbnail}"),
-                'thumbnail_medium' => $thumbnail_medium_name
+                'thumbnail_medium' => $thumbnail_medium_name,
+                'original_filename' => $filename
         ];
     }
 }

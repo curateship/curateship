@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
+use Modules\Admin\Entities\Settings;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
@@ -253,15 +254,54 @@ class DashboardPostsController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store()
+    public function store(Request $request)
     {
+        $title = strip_tags(request('title'));
 
-        $this->validate(request(), [
-            'title' => 'required|max:255',
-        ]);
+        if(Settings::where('key', 'title_required')->first()->value == 'on'){
+            $this->validate(request(), [
+                'title' => 'required|max:255',
+            ]);
+        }
+
+        if(Settings::where('key', 'title_required')->first()->value == 'off' && $title == ''){
+            // Get title template;
+            $template = json_decode(Settings::where('key', 'title_template')->first()->value, true);
+            // Render title from tags;
+            $title_array = [];
+            $str_block_count = 0;
+            foreach ($template as $template_item) {
+                if (!isset($template_item['category_id'])) {
+                    $title_array[] = implode($template_item);
+                    $str_block_count++;
+                    continue;
+                }
+
+                $cat_request_name = 'tag_category_' . $template_item['category_id'];
+                if ($request->has($cat_request_name)) {
+                    $cat_in_request = $request->input($cat_request_name);
+                    $rand_array = [];
+                    for ($i = 0; $i < $template_item['limit']; $i++) {
+                        $rand_array[] = $cat_in_request[$i];
+                    }
+                    if (count($rand_array) > 0) {
+                        $title_array[] = implode(' ', $rand_array);
+                    }
+                }
+            }
+
+            $title = implode($title_array);
+
+            if (count($title_array) == $str_block_count) {
+                // No tags? Get filename;
+                $title = $request->original_filename;
+            }
+
+            $title = strip_tags($title);
+        }
 
         // Generate slug
-        $slug                = Str::slug(strip_tags(request('title')), '-');
+        $slug                = Str::slug($title, '-');
         $post_with_same_slug = Post::firstWhere('slug', $slug);
 
         if ($post_with_same_slug) {
@@ -276,7 +316,7 @@ class DashboardPostsController extends Controller
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
-            'title'            => strip_tags(request('title')),
+            'title'            => $title,
             'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : NULL,
