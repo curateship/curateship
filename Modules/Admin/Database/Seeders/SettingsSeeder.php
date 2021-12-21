@@ -137,7 +137,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key'           => 'title_template',
-                'value'         => '[{"category":"origins","limit":"2"},[" by "],{"category":"artists","limit":"1"}]'
+                'value'         => '[{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}]'
             ],
         ];
 
