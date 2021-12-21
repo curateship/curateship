@@ -522,7 +522,8 @@ class Post extends Model
             if ($request->has($cat_request_name)) {
                 $cat_in_request = $request->input($cat_request_name);
                 $rand_array = [];
-                for ($i = 0; $i < $template_item['limit']; $i++) {
+                $limit = min($template_item['limit'], count($cat_in_request));
+                for ($i = 0; $i < $limit ; $i++) {
                     if(is_numeric($cat_in_request[$i])){
                         $tag = Tag::find($cat_in_request[$i]);
                         if($tag !== null) $rand_array[] = $tag->name;
