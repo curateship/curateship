@@ -340,8 +340,12 @@ class DashboardPostsController extends Controller
 
                 $tags_input = request('tag_category_' . $tag_category->id);
 
-                foreach ($tags_input as $key => $tag_input) {
-                    $tag = Tag::firstWhere('name', $tag_input);
+                foreach ($tags_input as $tag_input) {
+                    if(is_numeric($tag_input)){
+                        $tag = Tag::firstWhere('id', $tag_input);
+                    }   else{
+                        $tag = Tag::firstWhere('name', $tag_input);
+                    }
 
                     // If tag doesn't exist yet, create it
                     if (!$tag) {
