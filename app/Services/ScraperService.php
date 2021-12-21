@@ -518,6 +518,14 @@ class ScraperService {
           break;
         }
 
+        // Check downloaded file;
+          if(!file_exists($destination)){
+              Log::error('>>> FAILED FILE DOWNLOAD <<<');
+              Log::info('>>> Source File: '.$source);
+              Log::info('>>> Destination File: ' . $destination);
+              continue;
+          }
+
         // $mime_type = Storage::mimeType($destination);
         $mime_type = mime_content_type($destination);
         // Log::debug('>>> Mime Type: ' . $mime_type);
