@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use File;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Admin\Entities\Settings;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Entities\Reply;
 use Modules\Post\Entities\{PostsMeta, PostsTag};
@@ -504,5 +505,45 @@ class Post extends Model
     	return $this->hasMany(\Modules\Comment\Entities\Comment::class);
     }
 
+    static public function autoTitle($request){
+        // Get title template;
+        $template = json_decode(Settings::where('key', 'title_template')->first()->value, true);
+        // Render title from tags;
+        $title_array = [];
+        $str_block_count = 0;
+        foreach ($template as $template_item) {
+            if (!isset($template_item['category_id'])) {
+                $title_array[] = implode($template_item);
+                $str_block_count++;
+                continue;
+            }
+
+            $cat_request_name = 'tag_category_' . $template_item['category_id'];
+            if ($request->has($cat_request_name)) {
+                $cat_in_request = $request->input($cat_request_name);
+                $rand_array = [];
+                for ($i = 0; $i < $template_item['limit']; $i++) {
+                    if(is_numeric($cat_in_request[$i])){
+                        $tag = Tag::find($cat_in_request[$i]);
+                        if($tag !== null) $rand_array[] = $tag->name;
+                    }   else{
+                        $rand_array[] = $cat_in_request[$i];
+                    }
+                }
+                if (count($rand_array) > 0) {
+                    $title_array[] = implode(' ', $rand_array);
+                }
+            }
+        }
+
+        $title = implode($title_array);
+
+        if (count($title_array) == $str_block_count) {
+            // No tags? Get filename;
+            $title = $request->original_filename;
+        }
+
+        return $title;
+    }
 }
 

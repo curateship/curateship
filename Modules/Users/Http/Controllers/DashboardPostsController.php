@@ -265,39 +265,7 @@ class DashboardPostsController extends Controller
         }
 
         if(Settings::where('key', 'title_required')->first()->value == 'off' && $title == ''){
-            // Get title template;
-            $template = json_decode(Settings::where('key', 'title_template')->first()->value, true);
-            // Render title from tags;
-            $title_array = [];
-            $str_block_count = 0;
-            foreach ($template as $template_item) {
-                if (!isset($template_item['category_id'])) {
-                    $title_array[] = implode($template_item);
-                    $str_block_count++;
-                    continue;
-                }
-
-                $cat_request_name = 'tag_category_' . $template_item['category_id'];
-                if ($request->has($cat_request_name)) {
-                    $cat_in_request = $request->input($cat_request_name);
-                    $rand_array = [];
-                    for ($i = 0; $i < $template_item['limit']; $i++) {
-                        $rand_array[] = $cat_in_request[$i];
-                    }
-                    if (count($rand_array) > 0) {
-                        $title_array[] = implode(' ', $rand_array);
-                    }
-                }
-            }
-
-            $title = implode($title_array);
-
-            if (count($title_array) == $str_block_count) {
-                // No tags? Get filename;
-                $title = $request->original_filename;
-            }
-
-            $title = strip_tags($title);
+            $title = Post::autoTitle($request);
         }
 
         // Generate slug
