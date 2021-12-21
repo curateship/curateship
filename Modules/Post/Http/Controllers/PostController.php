@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
+use Modules\Admin\Entities\Settings;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Entities\Reply;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
@@ -198,15 +199,22 @@ class PostController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store()
+    public function store(Request $request)
     {
+        $title = strip_tags(request('title'));
 
-        $this->validate(request(), [
-            'title' => 'required|max:255',
-        ]);
+        if(Settings::where('key', 'title_required')->first()->value == 'on'){
+            $this->validate(request(), [
+                'title' => 'required|max:255',
+            ]);
+        }
+
+        if(Settings::where('key', 'title_required')->first()->value == 'off' && $title == ''){
+            $title = Post::autoTitle($request);
+        }
 
         // Generate slug
-        $slug                = Str::slug(strip_tags(request('title')), '-');
+        $slug                = Str::slug($title, '-');
         $post_with_same_slug = Post::where('slug', $slug)->first();
 
         if ($post_with_same_slug) {
@@ -216,7 +224,7 @@ class PostController extends Controller
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
-            'title'            => strip_tags(request('title')),
+            'title'            => $title,
             'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : NULL,
@@ -240,8 +248,12 @@ class PostController extends Controller
 
                 $tags_input = request('tag_category_' . $tag_category->id);
 
-                foreach ($tags_input as $key => $tag_input) {
-                    $tag = Tag::firstWhere('name', $tag_input);
+                foreach ($tags_input as $tag_input) {
+                    if(is_numeric($tag_input)){
+                        $tag = Tag::firstWhere('id', $tag_input);
+                    }   else{
+                        $tag = Tag::firstWhere('name', $tag_input);
+                    }
 
                     // If tag doesn't exist yet, create it
                     if (!$tag) {

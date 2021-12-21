@@ -218,6 +218,7 @@ var videojs_template =
         $form.find('input[name="video"]').val(xhr.responseJSON.video);
         $form.find('input[name="thumbnail"]').val(xhr.responseJSON.thumbnail);
         $form.find('input[name="thumbnail_medium"]').val(xhr.responseJSON.thumbnail_medium);
+          $form.find('input[name="original_filename"]').val(xhr.responseJSON.original_filename);
 
         // Should clear file upload input field. (Trick to clear data)
         $(e.target).attr('type', 'text');
