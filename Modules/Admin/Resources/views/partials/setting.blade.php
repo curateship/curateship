@@ -64,6 +64,36 @@
                                     </div>
 
                                     <div class="form-control-section">
+
+                                <h4>Automate Post Title</h4>
+
+                                <div class="margin-bottom-md margin-top-md">
+                                <div class="grid gap-xxs items-center@md">
+                            <div class="col-2@md">
+                            <div class="form-label">Status</div>
+                            </div>
+                    
+                            <div class="col-8@md">
+                            <ul class="flex flex-wrap gap-md">
+                                <li>
+                                <input class="radio" type="radio" name="radioButton" id="radio1" checked>
+                                <label for="radio1">Required</label>
+                                </li>
+                        
+                                <li>
+                                <input class="radio" type="radio" name="radioButton" id="radio2">
+                                <label for="radio2">Not Required</label>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                        </div>
+
+                                <p class="text-xs color-contrast-medium margin-top-sm">If title field is not required. Use parameter [tag_cat_title category="origins" limit="2"] [tag_cat_title category="artists" limit="1"]"</p>
+                                        <input class="form-control width-100% margin-bottom-md" type="text" name="logo_title" id="logo_title" placeholder="Enter Parameter" required>
+
+
+
                                         <h4>Font Setting</h4>
                                         <div class="floating-label margin-bottom-md margin-top-md">
                                             <span>Logo:</span>
