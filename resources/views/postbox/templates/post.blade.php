@@ -9,10 +9,10 @@
           <span class="flex items-center">
             <span class="margin-right-xxs file-upload__text file-upload__text--has-max-width">Add</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>img</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M3.32 1.66h14.94v16.6h-16.6v-16.6h1.66z"></path><path data-stroke="none" d="M15.73 13.51l-2.91-5.81a0.41 0.41 0 0 0-0.33-0.23 0.43 0.43 0 0 0-0.37 0.17l-3.42 4.56-1.74-2.09a0.41 0.41 0 0 0-0.67 0.05l-2.08 3.32a0.41 0.41 0 0 0 0.35 0.63h10.79a0.41 0.41 0 0 0 0.38-0.6z" fill="#000000"></path><path data-stroke="none" fill="#000000" d="M7.88 4.98a1.24 1.24 0 1 0 0 2.49 1.24 1.24 0 1 0 0-2.49z"></path></g></svg>
-            
-            
+
+
           </span>
-        </label> 
+        </label>
         <input type="file" class="file-upload__input" name="media" id="upload-file" accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm">
         <input type="hidden" name="video" value=""/>
         <input type="hidden" name="thumbnail" value="" required/>
@@ -28,10 +28,10 @@
   <div class="margin-top-md">
     <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
       <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
-    
+
       <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
       <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
-    
+
       <div class="progress-bar__bg " aria-hidden="true">
         <div class="progress-bar__fill " style="width: 0%;"></div>
       </div>
@@ -69,7 +69,7 @@
         </button>
       </div>
     </div><!-- /.alert -->
-  
+
   <div class="editorjs-fullwidth">
     <input type="hidden" name="type" value="post"/>
     <input type="hidden" name="status"/>
@@ -78,7 +78,7 @@
         <div class="flex-grow overflow-auto">
           <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" required></h1>
           <input type="hidden" id="title" name="title" value="">
-          
+
           <div class="grid">
             <div id="editorjs" data-target-input="#description" class="site-editor"></div>
             <input type="hidden" name="description" id="description"/>

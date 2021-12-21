@@ -33,7 +33,7 @@
               <div>
                 <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" required></h1>
                 <input type="hidden" id="title" name="title" value="">
-  
+
                 <div class="grid gap-sm editorjs-fullwidth">
                   <div id="editorjs" data-target-input="#description" class="site-editor"></div>
                   <input type="hidden" name="description" id="description"/>
@@ -97,10 +97,10 @@
               <div class="margin-top-md">
                 <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
                   <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
-                
+
                   <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
                   <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
-                
+
                   <div class="progress-bar__bg " aria-hidden="true">
                     <div class="progress-bar__fill " style="width: 0%;"></div>
                   </div>

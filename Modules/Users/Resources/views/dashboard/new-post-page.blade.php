@@ -14,9 +14,9 @@
 
                   <div class="padding-y-sm flex-grow overflow-auto">
 
-                      <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" required></h1>
+                      <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" {{\Modules\Admin\Entities\Settings::where('key', 'title_required')->first()->value == 'on' ? 'required' : ''}}></h1>
                       <input type="hidden" id="title" name="title" value="">
-                      
+
                       <div class="grid gap-sm">
                         <div id="editorjs" data-target-input="#description" class="site-editor"></div>
                         <input type="hidden" name="description" id="description"/>
@@ -33,30 +33,31 @@
                               <svg class="icon" viewBox="0 0 24 24"><title>Close alert</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="19" y1="5" x2="5" y2="19"></line><line fill="none" x1="19" y1="19" x2="5" y2="5"></line></g></svg>
                             </button>
                           </div>
-                        </div>                        
+                        </div>
                         <label for="upload-file" class="file-upload__label btn btn--primary">
                           <span class="flex items-center">
                             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
                             <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Media</span>
                           </span>
-                        </label> 
+                        </label>
 
                         <input type="file" class="file-upload__input" name="media" id="upload-file" accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm" required>
 
                         <input type="hidden" name="video" value=""/>
                         <input type="hidden" name="thumbnail" value=""/>
                         <input type="hidden" name="thumbnail_medium" value=""/>
+                        <input type="hidden" name="original_filename" value=""/>
 
-                      </div>                    
+                      </div>
 
                       <!-- Media upload progress loader -->
                       <div class="margin-top-md">
                         <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
                           <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
-                        
+
                           <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
                           <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
-                        
+
                           <div class="progress-bar__bg " aria-hidden="true">
                             <div class="progress-bar__fill " style="width: 0%;"></div>
                           </div>

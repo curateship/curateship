@@ -193,10 +193,12 @@ var videojs_template =
         js_percent.html(percentVal);
 
         console.log(xhr.responseJSON);
+        console.log('New post uploading completed')
         // Update form data based on response data.
         $form.find('input[name="video"]').val(xhr.responseJSON.video);
         $form.find('input[name="thumbnail"]').val(xhr.responseJSON.thumbnail);
         $form.find('input[name="thumbnail_medium"]').val(xhr.responseJSON.thumbnail_medium);
+          $form.find('input[name="original_filename"]').val(xhr.responseJSON.original_filename);
 
         // Should clear file upload input field. (Trick to clear data)
         $(e.target).attr('type', 'text');
@@ -390,8 +392,6 @@ var videojs_template =
     return true;
   }
 
-  var tags_by_category = {!! $tags_by_category !!};
-
   function matchCustom(params, data) {
     // If there are no search terms, return null to prevent show all tags
     if ($.trim(params.term) === '') {
@@ -418,13 +418,23 @@ var videojs_template =
   }
 
   function select2ForTags(selector){
-    $(selector).select2({
-      tags: true,
-      hideAdded: true,
-      data: tags_by_category[$(selector).attr("data-id")],
-      tokenSeparators: [","],
-      matcher: matchCustom,
-      minimumInputLength: 2
+      const categoryId = $(selector).attr("data-id")
+
+      $(selector).select2({
+          ajax: {
+              url: '/tags/searchTagsInCategory',
+              delay: 250,
+              data: function (params) {
+                  return {
+                      search: params.term,
+                      categoryId: categoryId
+                  }
+              }
+          },
+          tags: true,
+          tokenSeparators: [","],
+          matcher: matchCustom,
+          minimumInputLength: 2
     }).on('select2:opening', function(e){
       var $searchfield = $(selector).parent().find('.select2-search__field');
 

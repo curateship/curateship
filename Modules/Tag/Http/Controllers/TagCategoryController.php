@@ -70,7 +70,7 @@ class TagCategoryController extends Controller
     public function searchTagsInCategory(Request $request){
         $search = $request->search;
         $category_id = $request->categoryId;
-        $post_id = $request->postId;
+        $post_id = $request->has('postId') ? $request->postId : null;
 
         $tags = TagCategory::leftJoin('tags', 'tags.tag_category_id', '=', 'tag_categories.id')
             ->where('tag_category_id', $category_id)
@@ -78,12 +78,14 @@ class TagCategoryController extends Controller
             ->select('tags.id', 'tags.name')
             ->get();
 
-        $post = Post::find($post_id);
-        $post_tags = $post->getTagNames();
+        if($post_id != null){
+            $post = Post::find($post_id);
+            $post_tags = $post->getTagNames();
+        }
 
         $tags_array = [];
         foreach($tags as $tag){
-            if(in_array($tag->name, $post_tags)){
+            if($post_id != null && in_array($tag->name, $post_tags)){
                 continue;
             }
 
@@ -92,6 +94,7 @@ class TagCategoryController extends Controller
                 'text' => $tag->name
             ];
         }
+
 
         return [
             'results' => $tags_array

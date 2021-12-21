@@ -69,28 +69,24 @@
 
                                 <div class="margin-bottom-md margin-top-md">
                                 <div class="grid gap-xxs items-center@md">
-                            <div class="col-2@md">
-                            <div class="form-label">Status</div>
-                            </div>
-                    
-                            <div class="col-8@md">
-                            <ul class="flex flex-wrap gap-md">
-                                <li>
-                                <input class="radio" type="radio" name="radioButton" id="radio1" checked>
-                                <label for="radio1">Required</label>
-                                </li>
-                        
-                                <li>
-                                <input class="radio" type="radio" name="radioButton" id="radio2">
-                                <label for="radio2">Not Required</label>
-                                </li>
-                            </ul>
-                            </div>
-                        </div>
-                        </div>
 
-                                <p class="text-xs color-contrast-medium margin-top-sm">If title field is not required. Use parameter [tag_cat_title category="origins" limit="2"] [tag_cat_title category="artists" limit="1"]"</p>
-                                        <input class="form-control width-100% margin-bottom-md" type="text" name="logo_title" id="logo_title" placeholder="Enter Parameter" required>
+                                        <div class="col-8@md">
+                                        <ul class="flex flex-wrap gap-md">
+                                            <li>
+                                            <input class="checkbox" type="checkbox" name="title_required" id="titleRequired" {{$settings_data['title_required'] === 'on' ? 'checked' : ''}}>
+                                            <label for="titleRequired">Required</label>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs color-contrast-medium margin-top-sm">
+                                    If title field is not required. Use parameter in JSON.
+                                    <br>
+                                    Example: [{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}] (Model TagCategories: category_id = 3 - origins, category_id = 2 - artists)
+                                </p>
+                                        <input class="form-control width-100% margin-bottom-md" type="text" name="title_template" id="titleTemplate" placeholder="Enter Parameter" value="{{$settings_data['title_template']}}" {{$settings_data['title_required'] === 'on' ? 'disabled' : ''}} required>
 
 
 

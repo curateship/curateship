@@ -213,7 +213,7 @@ var videojs_template =
         percent.html(percentVal);
         js_percent.html(percentVal);
 
-        console.log(xhr.responseJSON);
+
         // Update form data based on response data.
         $form.find('input[name="video"]').val(xhr.responseJSON.video);
         $form.find('input[name="thumbnail"]').val(xhr.responseJSON.thumbnail);

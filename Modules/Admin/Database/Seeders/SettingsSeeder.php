@@ -131,6 +131,14 @@ class SettingsSeeder extends Seeder
                 'key'           => 'theme',
                 'value'         => 'white'
             ],
+            [
+                'key'           => 'title_required',
+                'value'         => 'on'
+            ],
+            [
+                'key'           => 'title_template',
+                'value'         => '[{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}]'
+            ],
         ];
 
 		foreach ($records as $record) {
