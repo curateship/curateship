@@ -45,6 +45,10 @@ class SettingsController extends Controller {
    * @return \Illuminate\Http\JsonResponse
    */
   public function store(Request $request) {
+      if($request->title_template == ''){
+          $request->merge(['title_template' => '[]']);
+      }
+
     $setting_keys = [
       'logo_title',
       'logo_svg',
@@ -104,7 +108,7 @@ class SettingsController extends Controller {
     $messages = [
       'required' => 'The :attribute field is required.',
       'max' => 'The :attribute field is too long!.',
-      'json' => 'Them :attribute field must JSON'
+      'json' => 'Them :attribute field is must JSON'
     ]);
 
     if ($validator->fails()) {

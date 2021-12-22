@@ -7,7 +7,10 @@
       </div><!-- /.container -->
     </section>
   @else
-  
+
+      @include('post::partials.modals')
+      @include('post::partials.edit-modals')
+      @include('post::partials.reject-modal')
     <section>
       <div class="container max-width-lg">
         <div class="grid">
@@ -19,8 +22,6 @@
           <div id="site-table-with-pagination-container" class="posts-wrp">
             @include('users::dashboard.table')
           </div><!-- /#site-table-with-pagination-container -->
-          @include('users::dashboard.add-post')
-          @include('users::dashboard.edit-post')
        </main><!-- .column -->
         </div><!-- /.grid -->
       </div><!-- /.container -->

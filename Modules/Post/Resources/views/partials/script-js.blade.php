@@ -569,7 +569,7 @@ var videojs_template =
       $('#formAddPost').get(0).reset();
     });
 
-    $(document).on('click', '#btnSave, #btnPublish', function(){
+    $(document).on('click', '#btnSave, #btnPublish', function(e){
         if ($(this).hasClass('btn--disabled'))
           return;
         if (!formDataValidation($('#formAddPost')))
@@ -594,7 +594,7 @@ var videojs_template =
           processData: false,
           data: formData,
           success: function(response){
-            location.reload();
+              location.reload();
           }
         });
     });
@@ -705,7 +705,7 @@ var videojs_template =
 
           $('.site-tag-pills').each(function(){
               $(this).attr('data-post-id', postId)
-            select2ForTags(this);
+                select2ForTags(this);
           });
         }
       });
