@@ -565,15 +565,47 @@ var videojs_template =
     });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
-      if ($(this).hasClass('btn--disabled'))
-        return;
+        console.log('!!!')
+      if ($(this).hasClass('btn--disabled')){
+          console.log('1')
+          return;
+      }
 
-      if (!formDataValidation($('#formAddPost')))
-        return;
+      if (!formDataValidation($('#formAddPost'))){
+          console.log('2')
+          return;
+      }
+
+        console.log('3')
 
       var status = ($(this).attr('id') != 'btnSave') ? 'published' : 'draft';
       $('#formAddPost').find('input[name="status"]').val(status);
-      $('#formAddPost').submit();
+
+      //$('#formAddPost').submit();
+        $(this).html('Please wait...');
+        var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
+        var formData = new FormData($('#formAddPost')[0]);
+        formData.append('is_published', isPublished);
+        formData.append('ajax', 'true');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            }
+        });
+
+        $.ajax({
+            url: "{{ route('dashboard.store') }}",
+            dataType: 'json',
+            type: 'post',
+            contentType: false,
+            processData: false,
+            data: formData,
+            complete: function(){
+                console.log('complete')
+                location.reload();
+            },
+        });
     });
 
     $(document).on('click', '#closeEditModal', function(){
@@ -583,12 +615,6 @@ var videojs_template =
     // add new post link
     $(document).on('click', '.btn-new-post', function() {
       clearError($('#formAddPost'));
-
-      $('.add-post-wrp').removeClass('hidden'); // show add post section
-      $('.posts-wrp').addClass('hidden'); // hide post list section
-      $('.edit-post-wrp').addClass('hidden'); // hide post edit section
-
-      $('.subnav a[aria-current]').attr('aria-current', '');
     });
 
     // cancel post add/edit link
@@ -694,14 +720,15 @@ var videojs_template =
 
           // select2ForTags('#editTags');
           $('.site-tag-pills').each(function(){
+            $(this).attr('data-post-id', postId)
             select2ForTags(this);
           });
 
           clearError($('#formEditPost'));
 
-          $('.add-post-wrp').addClass('hidden'); // hide add post section
-          $('.posts-wrp').addClass('hidden'); // hide post list section
-          $('.edit-post-wrp').removeClass('hidden'); // show post edit section
+          //$('.add-post-wrp').addClass('hidden'); // hide add post section
+          //$('.posts-wrp').addClass('hidden'); // hide post list section
+          //$('.edit-post-wrp').removeClass('hidden'); // show post edit section
 
           $('.subnav a[aria-current]').attr('aria-current', '');
         }

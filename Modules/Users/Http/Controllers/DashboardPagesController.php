@@ -79,13 +79,13 @@ class DashboardPagesController extends Controller
             $pages_draft_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
             $pages_pending_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
             $pages_deleted_count = Page::where('is_deleted', 1)->count();
-    
+
         } else {
             // get user specific pages count
             $pages_published_count = Page::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
             $pages_draft_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
             $pages_pending_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -138,7 +138,7 @@ class DashboardPagesController extends Controller
             $pages_published_count = Page::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
             $pages_draft_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
             $pages_pending_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
         }
 
         return view('users::pages.new-page', compact(
@@ -161,7 +161,7 @@ class DashboardPagesController extends Controller
             $pages_published_count = Page::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
             $pages_draft_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
             $pages_pending_count = Page::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $pages_deleted_count = Page::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
         }
 
         $pages_settings = PageSetting::first();
@@ -236,7 +236,7 @@ class DashboardPagesController extends Controller
                 'message' => 'Published page cannot be edited. Please email us if there is a mistake on your page',
                 'class'   => 'alert--error',
             ];
-    
+
             return json_encode($alert);
         }
 
@@ -260,8 +260,8 @@ class DashboardPagesController extends Controller
                 'message' => 'Page does not exists!',
                 'class'   => 'alert--error',
             ];
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         if (!auth()->user()->isAdmin() && $page->is_published && !$page->is_deleted) {
@@ -269,8 +269,8 @@ class DashboardPagesController extends Controller
                 'message' => 'You are not authorized to edit published page',
                 'class'   => 'alert--error',
             ];
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         $is_published = ($page->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
@@ -327,7 +327,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'Page does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -354,7 +354,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'You are not authorized to delete page permanently.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -364,7 +364,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'Page does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -418,7 +418,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'Page does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -433,7 +433,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'Page does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -448,7 +448,7 @@ class DashboardPagesController extends Controller
             $alert = [
                 'message' => 'Page does not exists.',
                 'class'   => 'alert--error',
-            ];            
+            ];
             return redirect()->back()->with('alert', $alert);
         }
 
@@ -457,7 +457,7 @@ class DashboardPagesController extends Controller
         } else {
             $page->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
         }
-        
+
         return redirect('pages');
     }
 
@@ -468,8 +468,8 @@ class DashboardPagesController extends Controller
                 'status' => false,
                 'message' => 'Page does not exists!'
             ]);
-    
-            return redirect()->back()->with('alert', $alert);    
+
+            return redirect()->back()->with('alert', $alert);
         }
 
         if (!auth()->user()->isAdmin() && ! $page->is_pending) {
@@ -477,12 +477,12 @@ class DashboardPagesController extends Controller
                 'status' => false,
                 'message' => 'You are not authorized to edit published page'
             ]);
-    
+
             return redirect()->back()->with('alert', $alert);
         }
 
         $page->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Page has been rejected.'

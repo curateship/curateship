@@ -166,8 +166,8 @@
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
             <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
-            <button type="button" id="btnSave" class="btn btn--primary site-editor" data-target-input="#description">Save</button>
-            <button type="button" id="btnPublish" class="btn btn--primary site-editor" data-target-input="#description">Publish</button>
+            <button type="button" id="btnSave" class="btn btn--primary" data-target-input="#description">Save</button>
+            <button type="button" id="btnPublish" class="btn btn--primary" data-target-input="#description">Publish</button>
           </div>
         </footer>
     </div><!-- /.modal__content -->
@@ -178,7 +178,7 @@
 
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
-    <form class="full-screen-search" action="{{ url('admin/posts') }}" method="GET">
+    <form class="full-screen-search" action="{{ !\Illuminate\Support\Facades\Auth::guest() && \Illuminate\Support\Facades\Auth::user()->isAdmin() ? url('admin/posts') : url('dashboard')}}" method="GET">
       <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
       <input class="reset full-screen-search__input" type="search" name="postsearch" id="search-input-x" placeholder="Search..." required>
       <button class="reset full-screen-search__btn">
