@@ -250,9 +250,13 @@ class PostController extends Controller
 
                 foreach ($tags_input as $tag_input) {
                     if(is_numeric($tag_input)){
-                        $tag = Tag::firstWhere('id', $tag_input);
+                        $tag = Tag::where('id', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
                     }   else{
-                        $tag = Tag::firstWhere('name', $tag_input);
+                        $tag = Tag::where('name', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
                     }
 
                     // If tag doesn't exist yet, create it
@@ -363,7 +367,7 @@ class PostController extends Controller
         return $data;
     }
 
-    public function ajaxUpdate()
+    public function ajaxUpdate(Request $request)
     {
         $post = Post::find(request('id'));
 
@@ -407,8 +411,10 @@ class PostController extends Controller
         $datetime_format = "%s/%s/%s %s:%s:%s";
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
+        $title = Post::autoTitle($request);
+
         $post->update([
-            'title'            => strip_tags(request('title')),
+            'title'            => $title,
             'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : $post->thumbnail,
@@ -436,13 +442,16 @@ class PostController extends Controller
 
                 $tags_input = request('tag_category_' . $tag_category->id);
 
-                foreach ($tags_input as $key => $tag_input) {
-                    $tag = Tag::where(
-                        [
-                            'id'            => $tag_input,
-                            'tag_category_id' => $tag_category->id
-                        ]
-                    )->first();
+                foreach ($tags_input as $tag_input) {
+                    if(is_numeric($tag_input)){
+                        $tag = Tag::where('id', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
+                    }   else{
+                        $tag = Tag::where('name', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
+                    }
 
                     // If tag doesn't exist yet, create it
                     if (!$tag) {
