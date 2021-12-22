@@ -31,7 +31,7 @@
           <div class="js-tabs__panels">
             <section id="tab1Panel1" class="padding-top-xs js-tabs__panel">
               <div>
-                <h1 id="editTitleElem" class="js-input custom-input custom-input__title" placeholder="Title" target="editTitle" required></h1>
+                <h1 id="editTitleElem" class="js-input custom-input custom-input__title" placeholder="Title" target="editTitle" {{\Modules\Admin\Entities\Settings::where('key', 'title_required')->first()->value == 'on' ? 'required' : ''}}></h1>
                 <input type="hidden" id="editTitle" name="title" value="">
 
                 <div class="grid gap-sm editorjs-fullwidth">
@@ -58,6 +58,7 @@
                 <input type="hidden" name="video" value=""/>
                 <input type="hidden" name="thumbnail" value=""/>
                 <input type="hidden" name="thumbnail_medium" value=""/>
+                <input type="hidden" name="original_filename" value=""/>
               </div>
 
               <!-- Media upload progress loader -->

@@ -303,17 +303,22 @@ class DashboardPostsController extends Controller
 
         $tag_categories = TagCategory::all();
 
-        foreach ($tag_categories as $key => $tag_category) {
+        foreach ($tag_categories as $tag_category) {
             if (request()->has('tag_category_' . $tag_category->id)) {
 
                 $tags_input = request('tag_category_' . $tag_category->id);
 
                 foreach ($tags_input as $tag_input) {
                     if(is_numeric($tag_input)){
-                        $tag = Tag::firstWhere('id', $tag_input);
+                        $tag = Tag::where('id', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
                     }   else{
-                        $tag = Tag::firstWhere('name', $tag_input);
+                        $tag = Tag::where('name', $tag_input)
+                            ->where('tag_category_id', $tag_category->id)
+                            ->first();
                     }
+
 
                     // If tag doesn't exist yet, create it
                     if (!$tag) {

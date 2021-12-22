@@ -544,7 +544,8 @@ class Post extends Model
             $title = $request->original_filename;
         }
 
-        return $title;
+
+        return strip_tags($title);
     }
 }
 
