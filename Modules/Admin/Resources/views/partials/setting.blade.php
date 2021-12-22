@@ -86,7 +86,7 @@
                                     <br>
                                     Example: [{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}] (Model TagCategories: category_id = 3 - origins, category_id = 2 - artists)
                                 </p>
-                                        <input class="form-control width-100% margin-bottom-md" type="text" name="title_template" id="titleTemplate" placeholder="Enter Parameter" value="{{$settings_data['title_template']}}" {{$settings_data['title_required'] === 'on' ? 'disabled' : ''}} required>
+                                        <input class="form-control width-100% margin-bottom-md" type="text" name="title_template" id="titleTemplate" placeholder="Enter Parameter" value="{{$settings_data['title_template']}}" {{$settings_data['title_required'] === 'on' ? 'readonly' : ''}} required>
 
 
 

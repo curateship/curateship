@@ -33,7 +33,7 @@
     }
 
       $(document).on('change', '#titleRequired', function(e) {
-          $('#titleTemplate').prop('disabled', $(this).prop('checked'))
+          $('#titleTemplate').prop('readonly', $(this).prop('checked'))
       });
 
     $(document).on('click', '#btnSave', function(e){
