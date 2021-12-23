@@ -383,6 +383,7 @@ class DashboardPostsController extends Controller
 
         $data['id']           = $post->id;
         $data['title']        = $post->title;
+        $data['slug']         = $post->slug;
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $video_file           = PostsMeta::getMetaData( $post->id, 'video' );
@@ -396,6 +397,7 @@ class DashboardPostsController extends Controller
         }
 
         $data['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        $data['page_title']   = PostsMeta::getMetaData( $post->id, 'seo_page_title' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['status']       = $post->status;
 
