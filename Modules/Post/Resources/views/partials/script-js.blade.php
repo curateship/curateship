@@ -895,9 +895,7 @@ var videojs_template =
             if(currentFilter === 'draft'){
                 $(document).find('#btnPostMultiple').removeClass('is-hidden');
             }
-            if(currentFilter === ''){
-                $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
-            }
+            $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
         } else {
             $(document).find('#btnRefreshTable').removeClass('is-hidden');
             $(document).find('#btnDeleteMultiple').addClass('is-hidden');
