@@ -506,6 +506,10 @@ class Post extends Model
     }
 
     static public function autoTitle($request){
+        if($request->title != ''){
+            return strip_tags($request->title);
+        }
+
         // Get title template;
         $template = json_decode(Settings::where('key', 'title_template')->first()->value, true);
         // Render title from tags;
@@ -544,8 +548,7 @@ class Post extends Model
             $title = $request->original_filename;
         }
 
-
-        return strip_tags($title);
+        return $title;
     }
 }
 
