@@ -855,12 +855,9 @@ var videojs_template =
       if($('.checkbox-delete:checked').length){
         $(document).find('#btnRefreshTable').addClass('is-hidden');
         $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
+          $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
         if(currentFilter === 'draft'){
             $(document).find('#btnPostMultiple').removeClass('is-hidden');
-        }
-
-        if(currentFilter === ''){
-            $(document).find('#ownerChangeMultiple').removeClass('is-hidden');
         }
       } else {
         $(document).find('#btnRefreshTable').removeClass('is-hidden');

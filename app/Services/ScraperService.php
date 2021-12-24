@@ -510,8 +510,14 @@ class ScraperService {
         else
             $destination = $video_path . '/original/' . $filename;
 
+          Log::info('>>> Try to download media file <<<');
+          Log::info('>>> Source File: '.$source);
+          Log::info('>>> Destination File: ' . $destination);
+
         $download_size = $this->chunked_copy($source, $destination);
         if (!$download_size) {
+          Log::error('>>> BAD DOWNLOAD SIZE <<<');
+
           // Log error
           $scrape_status = false;
           $this->logger->update_log_param('download', 0);
@@ -521,8 +527,6 @@ class ScraperService {
         // Check downloaded file;
           if(!file_exists($destination)){
               Log::error('>>> FAILED FILE DOWNLOAD <<<');
-              Log::info('>>> Source File: '.$source);
-              Log::info('>>> Destination File: ' . $destination);
               continue;
           }
 

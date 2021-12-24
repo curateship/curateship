@@ -672,7 +672,8 @@ var videojs_template =
           }
 
           $('#editTitle').val(response.title);
-          $('#editTitleElem').html(response.title);
+            $('#editTitleElem').html(response.title);
+            $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
           if ( response.video != '') {
             $('#media-player').find('source').attr('src', response.video).attr('type', response.video_type);
@@ -691,6 +692,8 @@ var videojs_template =
           }
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
+            $('#post_date').val(response.post_date);
+            $('#editPageTitle').val(response.page_title);
 
           if(response.status == 'published'){
             $(document).find('.publish-post-link').addClass('is-hidden');
