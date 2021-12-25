@@ -107,6 +107,8 @@ Route::prefix('pages')->group(function(){
       'uses' => 'PostController@posts'
     ]);
 
+    Route::get('/search/{q}/page/{page}', 'PostController@searchPostAjax');
+
     Route::get('/search-archive', [
       'as'   => 'pages.searches',
       'uses' => 'PostController@searches'

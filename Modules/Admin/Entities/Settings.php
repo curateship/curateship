@@ -12,14 +12,15 @@ class Settings extends Model
   public static $logo_font = AdminServiceProvider::LOGO_FONT;
   public static $primary_font = AdminServiceProvider::PRIMARY_FONT;
   public static $secondary_font = AdminServiceProvider::SECONDARY_FONT;
-  public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'tag_template', 'profile_template'];
+  public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'tag_template', 'profile_template', 'search_template'];
   public static $templates_subdir = [
-    'app_template' => 'apps', 
-    'blog_template' => 'home', 
+    'app_template' => 'apps',
+    'blog_template' => 'home',
     'post_template' => 'post',
     'page_template' => 'page',
     'tag_template' => 'tag',
-    'profile_template' => 'profile'
+    'profile_template' => 'profile',
+    'search_template' => 'search'
   ];
 
   public static function getSiteSettings()
@@ -93,7 +94,7 @@ class Settings extends Model
     if (!empty($setting_data[$font_type])) {
       $files = File::files(public_path() . '/assets/fonts/'.$setting_data[$font_type]);
 
-      if (count($files) > 0) { 
+      if (count($files) > 0) {
         // only when associated font files are exist
         $font_info['status'] = 'local'; // indicate to load fonts from local
         $font_info['font-family'] = $setting_data[$font_type];

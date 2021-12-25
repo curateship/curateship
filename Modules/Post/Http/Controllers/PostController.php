@@ -725,21 +725,57 @@ class PostController extends Controller
 
     public function posts(Request $request)
     {
+        $q = $request->input('q');
+
         $posts = Post::where(
             [
                 'status'    => 'published'
             ]
         )->orderBy('created_at', 'desc');
 
-        $posts = $posts->get();
+        if($request->has('q')) {
+            $posts->where('title', 'LIKE', '%' . $q . '%')
+                ->orWhere('description', 'LIKE', '%' . $q . '%');
+        }
+
+        $posts = $posts->limit(20)->get();
+
         $page_title = 'Posts';
+        $data['posts'] = $posts;
+        $data['ajaxRoute'] = '/pages/search/'.$request->q.'/page/';
 
         // Set view data
         $data['page_title'] = $page_title;
         $data['posts']      = $posts;
         $data['request']    = $request;
 
-        return view('post::archive.post-archive', $data);
+        return view('templates.layouts.search', [
+            'data' => $data
+        ]);
+    }
+
+    public function searchPostAjax($q, $page_num){
+        $posts = Post::where(
+            [
+                'status'    => 'published'
+            ]
+        )->orderBy('created_at', 'desc');
+
+        $posts->where('title', 'LIKE', '%' . $q . '%')
+            ->orWhere('description', 'LIKE', '%' . $q . '%');
+
+        $offset = ($page_num - 1) * 20;
+        $posts = $posts->offset($offset)
+            ->limit(20)
+            ->get();
+
+        if(count($posts) == 0){
+            abort(204);
+        }
+
+        return view('post::templates.post-masonry-load-v2', [
+            'posts' => $posts
+        ]);
     }
 
     public function searches(Request $request)

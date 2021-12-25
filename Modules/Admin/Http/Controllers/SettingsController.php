@@ -29,6 +29,7 @@ class SettingsController extends Controller {
     $page_templates = Settings::getTemplates('page_template', $settings_data['page_template']);
     $tag_templates = Settings::getTemplates('tag_template', $settings_data['tag_template']);
     $profile_templates = Settings::getTemplates('profile_template', $settings_data['profile_template']);
+    $search_templates = Settings::getTemplates('search_template', $settings_data['search_template']);
 
     // Get social icon info.
     if (isset($settings_data['socials'])) {
@@ -36,7 +37,7 @@ class SettingsController extends Controller {
     } else {
       $socials = [];
     }
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'page_templates', 'tag_templates', 'profile_templates', 'socials'))->withoutShortcodes();
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'page_templates', 'tag_templates', 'profile_templates', 'search_templates', 'socials'))->withoutShortcodes();
   }
 
   /**
@@ -79,7 +80,8 @@ class SettingsController extends Controller {
       'socials',
       'theme',
       'title_required',
-      'title_template'
+      'title_template',
+      'search_template'
     ];
 
     $checkbox_keys = [
