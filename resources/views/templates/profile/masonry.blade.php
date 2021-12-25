@@ -1,6 +1,6 @@
 @extends('templates.layouts.index')
 
-<?php 
+<?php
   $is_authorized = auth()->user() ? true : false;
   $username = $user ? $user->name : ($is_authorized ? auth()->user()->name : '');
   $page_title = ($is_authorized && $settings_data['profile_page_title']) ? $settings_data['profile_page_title'] : $username;
@@ -27,6 +27,6 @@
     </span>
 </div>
 
-<x-posts.lists.masonry-v1 userid='{{ $user->id }}'/>
+@include('components.posts.lists.masonry-v3')
 
 @endsection

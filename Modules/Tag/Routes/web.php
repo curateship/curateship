@@ -33,6 +33,8 @@ Route::middleware($middleware)->group(function(){
     });
 });
 
+Route::get('tag/{tag}/{id}', 'TagController@tagsAjax');
+
 Route::get('/tag/{tag}', [
   'as'   => 'pages.tags',
   'uses' => 'TagController@tags'

@@ -258,3 +258,5 @@ Route::get('/profile/{username}', [
   'as'   => 'pages.profile.user',
   'uses' => 'UsersController@getProfile'
 ]);
+
+Route::get('/profile/{username}/page/{page}', 'UsersController@getProfilePostsAjax');

@@ -139,6 +139,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'title_template',
                 'value'         => '[{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}]'
             ],
+            [
+                'key'           => 'search_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {

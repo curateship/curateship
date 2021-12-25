@@ -12,21 +12,11 @@
 @endisset
 
 @section('content')
-<section class="margin-top-md">
-  <div class="container max-width-adaptive-lg">
-    <div class="">
-      @if($thumbnail != false)
-      <a href="#0" class="author__img-wrapper">
-        <img src="{{ $thumbnail }}" alt="Author picture">
-      </a>
-      @endif
-      <div class="author__content text-component text-space-y-xxs">
-        <h4 class="text-xl margin-bottom-md">{{ $page_title }}</h4>
-        <p class="color-contrast-medium">{!! $description !!}</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="margin-top-md">
+        <div class="container max-width-adaptive-lg">
+            <p class="text-xl margin-bottom-md">{{ $page_title }}</p>
+        </div>
+    </section>
 
 @include('components.posts.lists.masonry-v3')
 

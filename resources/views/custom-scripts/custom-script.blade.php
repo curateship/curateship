@@ -140,8 +140,8 @@
         });
 
         var infScroll = new InfiniteScroll('.masonry-grid', {
-            // options
-            path: 'posts/page/@{{#}}',
+            //path: 'posts/page/@{{#}}',
+            path: $('.masonry-path').val() + '@{{#}}',
             append: '.grid-item',
             history: false,
             outlayer: $grid,

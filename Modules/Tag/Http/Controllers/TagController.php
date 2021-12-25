@@ -470,7 +470,7 @@ class TagController extends Controller
             abort(404);
         }
 
-        $posts = Post::getByTagNames([$tag_query]);
+        $posts = Post::getByTagNames([$tag_query], 20);
 
         $tag = Tag::firstWhere('name', $tag_query);
 
@@ -483,9 +483,27 @@ class TagController extends Controller
         $data['thumbnail']  = $tag && $tag->getThumbnail('medium') != false ? $tag->showThumbnail('medium') : false;
         $data['description'] = $tag ? Post::parseContent(TagsMeta::getMetaData($tag->id, 'description')) : '';
         $data['posts']      = $posts;
+        $data['ajaxRoute'] = '/tag/'.$tag_query.'/';
 
         return view('templates.layouts.tag', [
             'data' => $data
+        ]);
+    }
+
+    public function tagsAjax($tag_query, $page_num){
+        // If tag is not found -> return 404 | Not Found
+        if (!$tag_query) {
+            abort(404);
+        }
+
+        $posts = Post::getByTagNames([$tag_query], 20, $page_num);
+
+        if(count($posts) == 0){
+            abort(204);
+        }
+
+        return view('post::templates.post-masonry-load-v2', [
+            'posts' => $posts
         ]);
     }
 }
