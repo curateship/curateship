@@ -112,6 +112,6 @@ class MasonryV1 extends Component
      */
     public function render()
     {
-        return view('components.posts.lists.masonry-v3');
+        return view('components.posts.lists.masonry-v3', ['ajaxRoute' => '/posts/page/']);
     }
 }

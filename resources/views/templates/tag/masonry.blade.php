@@ -14,7 +14,7 @@
 @section('content')
 <section class="margin-top-md">
   <div class="container max-width-adaptive-lg">
-    <div class="author ">
+    <div class="">
       @if($thumbnail != false)
       <a href="#0" class="author__img-wrapper">
         <img src="{{ $thumbnail }}" alt="Author picture">
@@ -28,6 +28,6 @@
   </div>
 </section>
 
-<x-posts.lists.masonry-v1 type='tag' tag='{{ $page_title }}'/>
+@include('components.posts.lists.masonry-v3')
 
 @endsection

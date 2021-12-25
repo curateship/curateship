@@ -9,7 +9,8 @@
         </ul>
     </div>
 
-  <!--<ul class="masonry__list js-masonry__list js-infinite-scroll__content">-->
+  <input type="hidden" class="masonry-path" value="{{$ajaxRoute}}">
+
   <div class="masonry-grid">
   </div>
 

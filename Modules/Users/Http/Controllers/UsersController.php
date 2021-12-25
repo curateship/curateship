@@ -827,8 +827,29 @@ class UsersController extends Controller
 
         $data['user']  = $user;
         $data['posts'] = $posts;
+        $data['ajaxRoute'] = '/profile/'.($username ? $user->username : Auth::user()->username).'/page/';
 
         return view('templates.layouts.profile', $data);
+    }
+
+    public function getProfilePostsAjax($username, $page_num){
+        $user = ($username) ? User::where('username', $username)->first()
+            : auth()->user();
+
+        if (!$user) {
+            abort(403);
+        }
+
+        $offset = ($page_num - 1) * 20;
+        $posts = $user->posts()->where('status', 'published')->latest();
+
+        $posts = $posts->offset($offset)
+            ->limit(20)
+            ->get();
+
+        return view('post::templates.post-masonry-load-v2', [
+            'posts' => $posts
+        ]);
     }
 
 

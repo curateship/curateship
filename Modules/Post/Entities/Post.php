@@ -116,9 +116,10 @@ class Post extends Model
         return $posts;
     }
 
-    public static function getByTagNames($tags = [], $limit = 5)
+    public static function getByTagNames($tags = [], $limit = 5, $page_num = 1)
     {
 
+        $offset = ($page_num - 1) * $limit;
         $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
             ->leftJoin('tags', 'tags.id', '=', 'posts_tags.tag_id')
             ->selectRaw('posts.*')
@@ -161,7 +162,8 @@ class Post extends Model
 */
 
         if ($limit) {
-            $posts = $posts->limit($limit);
+            $posts = $posts->offset($offset)
+                ->limit($limit);
         }
 
         $posts = $posts->get();
