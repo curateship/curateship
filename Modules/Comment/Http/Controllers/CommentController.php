@@ -6,6 +6,8 @@ use DB, File, Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\Admin\Entities\Settings;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -24,9 +26,9 @@ class CommentController extends Controller
 
         $status = $request->input('Status') ? $request->input('Status') : 'published';
         $limit  = $request->input('limit') ? $request->input('limit') : 25;
-        
-        // $comments = DB::select(DB::raw("SELECT c.id as id, u.username as comment_user, c.comment as comment, c.status as comment_status, p.title as title, p.slug as slug, c.created_at as comment_created_at, r.comment_id, r.reply as reply , r.reply_user as reply_user, r.reply_status as reply_status, r.reply_created_at as reply_created_at 
-        //                         FROM comments c 
+
+        // $comments = DB::select(DB::raw("SELECT c.id as id, u.username as comment_user, c.comment as comment, c.status as comment_status, p.title as title, p.slug as slug, c.created_at as comment_created_at, r.comment_id, r.reply as reply , r.reply_user as reply_user, r.reply_status as reply_status, r.reply_created_at as reply_created_at
+        //                         FROM comments c
         //                         LEFT JOIN posts p ON c.post_id = p.id
         //                         LEFT JOIN users u ON c.user_id = u.id
         //                         LEFT JOIN (SELECT cr.comment_id as comment_id, cr.content as reply, u.username as reply_user, cr.status as reply_status, cr.created_at as reply_created_at FROM comment_reply cr LEFT JOIN users u ON cr.user_id = u.id) r ON c.id = r.comment_id
@@ -43,7 +45,7 @@ class CommentController extends Controller
                 if($comment->id == $reply->comment_id) {
                     array_push($temp, $reply);
                     $comment->replies = $temp;
-                } 
+                }
             }
         }
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -53,7 +55,7 @@ class CommentController extends Controller
         $comments_suspended_count = Comment::where('status', '=', 'draft')->count() + Reply::where('status', '=', 'draft')->count();
         $comments_trash_count = Comment::where('status', '=', 'deleted')->count() + Reply::where('status', '=', 'deleted')->count();
 
-        return view( 
+        return view(
             $bladeTemplate,
             compact('comments', 'limit', 'availableLimit', 'comments_all_count', 'comments_suspended_count', 'comments_trash_count', 'request', 'status')
         );
@@ -80,7 +82,7 @@ class CommentController extends Controller
 
         // get inputs
         $description = $request->input('description');
-        
+
         // save updated user
         $comments->comment = $description;
         $saved = $comments->save();
@@ -107,7 +109,7 @@ class CommentController extends Controller
 
             $responseMessage = 'Comment ' . $comments->id . ' has been suspended.';
             $responseMessage .= '</br>';
-            
+
         } else {
             $responseMessage .= 'Comment with ID: ' . $id . 'is not found.';
             $responseMessage .= '</br>';
@@ -130,7 +132,7 @@ class CommentController extends Controller
                 $reply->status = 'deleted';
                 $reply->save();
             }
-            
+
         } else {
             $responseMessage .= 'Comment with ID: ' . $id . 'is not found.';
             $responseMessage .= '</br>';
@@ -160,7 +162,7 @@ class CommentController extends Controller
 
         // get inputs
         $description = $request->input('description');
-        
+
         // save updated user
         $replies->content = $description;
         $saved = $replies->save();
@@ -187,7 +189,7 @@ class CommentController extends Controller
 
             $responseMessage = 'Comment reply ' . $replies->id . ' has been suspended.';
             $responseMessage .= '</br>';
-            
+
         } else {
             $responseMessage .= 'Comment reply with ID: ' . $id . 'is not found.';
             $responseMessage .= '</br>';
@@ -206,7 +208,7 @@ class CommentController extends Controller
 
             $responseMessage = 'Comment reply ' . $replies->id . ' has been deleted.';
             $responseMessage .= '</br>';
-            
+
         } else {
             $responseMessage .= 'Comment reply with ID: ' . $id . 'is not found.';
             $responseMessage .= '</br>';
@@ -239,7 +241,7 @@ class CommentController extends Controller
 
                 $responseMessage .= 'All Comments have been deleted.';
                 $responseMessage .= '</br>';
-                
+
             } else {
                 $responseMessage .= 'Comment is not found.';
                 $responseMessage .= '</br>';
@@ -247,13 +249,13 @@ class CommentController extends Controller
         }
 
         return back()->with('responseMessage', $responseMessage);
-    }   
-    
+    }
+
     public function emptyTrash()
     {
         // Get posts on trash
         $trashed_comments = Comment::where('status', 'deleted')->get();
-        
+
         foreach ($trashed_comments as $comment) {
             // $trashed_comment = DB::table('comments')->where('post_id', $post->id);
             // $trashed_posttag = PostsTag::where('post_id', $post->id);
@@ -263,7 +265,7 @@ class CommentController extends Controller
         }
 
         $trashed_replies = Reply::where('status', 'deleted')->get();
-        
+
         foreach ($trashed_replies as $reply) {
             // $trashed_comment = DB::table('comments')->where('post_id', $post->id);
             // $trashed_posttag = PostsTag::where('post_id', $post->id);
@@ -273,5 +275,92 @@ class CommentController extends Controller
         }
 
         return redirect('admin/comment');
+    }
+
+    // Moved method to correct Comment Controller;
+    public function reply(Request $request)
+    {
+        //$comment = Comment::where('id', $id)->first();
+        //return view('components.posts.edit-reply-form', compact('comment'))->withoutShortcodes();
+        return view('components.comments.form', ['title' => 'Reply on comment', 'item_id' => $request->replyId, 'type' => 'reply'])->render();
+    }
+
+    public function saveReply(Request $request)
+    {
+        $id = $request->itemId;
+        $replyComments = $request->input('commentNewContent');
+
+        // $post = DB::table('posts')->where('id', '=', $id)->first();
+        $replies = Reply::find($id);
+
+        $content = new Reply;
+        $content->user_id = Auth::user()->id;
+        $content->comment_id = $id;
+        $content->content = $replyComments;
+        $content->status = 'published';
+        $content->save();
+        $response = 'Reply successfully added!';
+
+        // return response()->json($response);
+        //return back()->with('responseMessage', $response);
+        // Get post comments list;
+        $parent_comment = Comment::find($id);
+        $post = Post::find($parent_comment->post_id);
+        $post->preparePostComments();
+        $comments_list = $post->comments;
+
+        // Prepare comments view;
+        $disable_comments = Settings::where('key', 'disable_comments')->first()->value;
+        $comments_view = view('components.comments.post-comments', ['post_id' => $post->id, 'comments' => $comments_list, 'disable_comments' => $disable_comments])->render();
+
+
+        return response()->json([
+            'result' => $response,
+            'comments' => $comments_view,
+            'post_id' => $parent_comment->post_id
+        ]);
+    }
+
+    public function saveComment(Request $request)
+    {
+        $id = $request->input('itemId');
+        $comment = $request->input('commentNewContent');
+        $user_id = Auth::user()->id;
+        $error = false;
+
+        $exist = Comment::where('post_id', $id)
+            ->where('user_id', $user_id)
+            ->where('comment', $comment)
+            ->first();
+        if($exist) {
+            $response = 'Same comment already exist';
+            $error = true;
+        } else {
+            $content = new Comment;
+            $content->user_id = $user_id;
+            $content->post_id = $id;
+            $content->comment = $comment;
+            $content->status = 'published';
+            $content->save();
+            $response = 'Comment successfully added!';
+        }
+
+        // Get post comments list;
+        $post = Post::find($id);
+        $post->preparePostComments();
+        $comments_list = $post->comments;
+
+        // Prepare comments view;
+        $disable_comments = Settings::where('key', 'disable_comments')->first()->value;
+        $comments_view = view('components.comments.post-comments', ['post_id' => $post->id, 'comments' => $comments_list, 'disable_comments' => $disable_comments])->render();
+
+
+        return response()->json([
+            'error' => $error,
+            'result' => $response,
+            'comments' => $comments_view
+        ]);
+        // return response()->json($response);
+        //return back()->with('responseMessage', $response);
     }
 }

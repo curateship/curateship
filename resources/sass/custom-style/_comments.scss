@@ -6,3 +6,17 @@
 .popover--is-visible{
     background-color: var(--color-contrast-lower);
 }
+
+.reply-box{
+    display: flex;
+    justify-content: center;
+}
+
+.reply-form{
+    flex: 0.9;
+    margin-bottom: 40px;
+}
+
+.post-comments > .reply-box{
+    margin-top: -20px;
+}

@@ -65,6 +65,22 @@
 
                                     <div class="form-control-section">
 
+                                <h4>Comments</h4>
+
+                                <div class="margin-bottom-md margin-top-md">
+                                    <div class="grid gap-xxs items-center@md">
+
+                                        <div class="col-8@md">
+                                            <ul class="flex flex-wrap gap-md">
+                                                <li>
+                                                    <input class="checkbox" type="checkbox" name="disable_comments" id="disableComments" {{$settings_data['disable_comments'] === 'on' ? 'checked' : ''}}>
+                                                    <label for="disableComments">Disable comments addition</label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <h4>Automate Post Title</h4>
 
                                 <div class="margin-bottom-md margin-top-md">

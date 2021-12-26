@@ -139,3 +139,5 @@ Route::middleware($user_middleware)->group(function(){
       'uses' => '\Modules\Admin\Http\Controllers\MediaUploadController@uploadPostMedia'
     ]);
 });
+
+Route::get('/api/post/{post_id}/{pagenum}', 'PostController@ajaxInfiniteLoadPost');
