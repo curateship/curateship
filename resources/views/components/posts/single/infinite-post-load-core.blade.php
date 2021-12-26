@@ -82,7 +82,7 @@
 
             <!-- Start of comments -->
             <section class="comments margin-top-xl">
-                @if($disable_comments != 'on')
+                @if($disable_comments != 'on' || count($post->comments) > 0)
                 <div class="margin-bottom-lg">
                   <div class="flex gap-sm flex-column flex-row@md justify-between items-center@md">
                     <div>
