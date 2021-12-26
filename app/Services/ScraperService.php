@@ -552,16 +552,22 @@ class ScraperService {
 
 
             if ($mime_type == 'image/gif') {
+              // Some GIF files can have "broken" frame in the end, and this frame not counted in file header. This file - cannot be used with Imagick;
               // Save thumbnail (medium) image to file system
-              $thumbnail_medium = new Imagick($destination);
-              $thumbnail_medium = $thumbnail_medium->coalesceImages();
-              do {
-                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-              } while ( $thumbnail_medium->nextImage());
+              try{
+                  $thumbnail_medium = new Imagick($destination);
+                  $thumbnail_medium = $thumbnail_medium->coalesceImages();
+                  do {
+                      $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+                  } while ( $thumbnail_medium->nextImage());
 
-              $thumbnail_medium = $thumbnail_medium->deconstructImages();
-              $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
-              $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
+                  $thumbnail_medium = $thumbnail_medium->deconstructImages();
+                  $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
+                  $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
+              }  catch(Exception $e){
+                  Log::error('>>> BROKEN GIF FILE <<<');
+                  $scrape_status = false;
+              }
 
             } else {
               $thumbnail_medium = Image::make($destination);
