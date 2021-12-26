@@ -1094,6 +1094,7 @@ class PostController extends Controller
         $data['post'] = $post;
         $data['tag_pills'] = $tag_pills;
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+        $data['disable_comments'] = Settings::where('key', 'disable_comments')->first()->value;
 
         return view('components.posts.single.infinite-post-load-core', $data);
     }

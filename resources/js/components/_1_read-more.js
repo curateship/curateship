@@ -131,6 +131,11 @@
       var readMore = document.getElementsByClassName('js-read-more');
       if( readMore.length > 0 ) {
           for( var i = 0; i < readMore.length; i++) {
+              // Skip already included components;
+              if(readMore[i].className.split(/\s+/).indexOf("read-more--loaded") !== -1){
+                continue;
+              }
+
               (function(i){new ReadMore(readMore[i]);})(i);
           }
       };

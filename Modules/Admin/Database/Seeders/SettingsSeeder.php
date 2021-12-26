@@ -143,6 +143,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'search_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'disable_comments',
+                'value'         => 'on'
+            ],
         ];
 
 		foreach ($records as $record) {

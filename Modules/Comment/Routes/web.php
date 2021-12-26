@@ -21,14 +21,33 @@ Route::prefix('admin')->group(function() {
     Route::get('reply-comment/draft/{id}', 'CommentController@replyDraft');
     Route::get('reply-comment/delete/{id}', 'CommentController@replyDelete');
     Route::post('reply-comment/update/{id}', 'CommentController@replyUpdate');
-        
+
     Route::put('/comment/update', [
     'as' => 'admin.comment.update',
     'uses' => 'CommentController@update'
     ]);
-    
+
     Route::post('/comment/trash/empty', 'CommentController@emptyTrash');
 
     Route::post('comment/bulk-delete', 'CommentController@multiDelete');
-      
 });
+
+Route::get('post/comment/get/{post_id}', [
+    'as'   => 'post-comment-get',
+    'uses' => 'CommentController@getPostComments'
+]);
+
+Route::get('post/comment/reply/', [
+    'as'   => 'post-comment-reply',
+    'uses' => 'CommentController@reply'
+]);
+
+Route::post('post/comment/reply-save/', [
+    'as'   => 'post-comment-reply-save',
+    'uses' => 'CommentController@saveReply'
+]);
+
+Route::post('post/comment/save', [
+    'as'   => 'post-comment-save',
+    'uses' => 'CommentController@saveComment'
+]);

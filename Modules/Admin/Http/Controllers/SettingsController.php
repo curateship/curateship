@@ -81,7 +81,8 @@ class SettingsController extends Controller {
       'theme',
       'title_required',
       'title_template',
-      'search_template'
+      'search_template',
+      'disable_comments'
     ];
 
     $checkbox_keys = [

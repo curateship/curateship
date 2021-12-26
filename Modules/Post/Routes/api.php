@@ -19,4 +19,3 @@ Route::middleware('auth:api')->get('/post', function (Request $request) {
 
 Route::get('posts/user/{user_id}/page/{id}', 'PostController@ajaxShowPostsByUser');
 Route::get('posts/tag/{tag}/page/{id}', 'PostController@ajaxShowPostsByTag');
-Route::get('post/{post_id}/{pagenum}', 'PostController@ajaxInfiniteLoadPost');
