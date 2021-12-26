@@ -82,6 +82,7 @@
 
             <!-- Start of comments -->
             <section class="comments margin-top-xl">
+                @if($disable_comments != 'on' || count($post->comments) > 0)
                 <div class="margin-bottom-lg">
                   <div class="flex gap-sm flex-column flex-row@md justify-between items-center@md">
                     <div>
@@ -89,6 +90,7 @@
                     </div>
                   </div>
                 </div>
+                @endif
 
                 <ul class="list post-comments" data-post-id="{{$post->id}}">
                   @include('components.comments.post-comments', ['post_id' => $post->id, 'comments' => $post->comments, 'disable_comments' => $disable_comments])
