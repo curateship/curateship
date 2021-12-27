@@ -20,13 +20,10 @@
     <div class="flex flex-wrap">
 
       <li class="menu-bar__item" aria-controls="modal-search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M1.66 18.26l3.32-3.32"></path><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M11.62 1.66a6.64 6.64 0 1 1 0 13.28 6.64 6.64 0 1 1 0-13.28z"></path><path d="M14.94 8.3a3.32 3.32 0 0 0-3.32-3.32" fill="none" stroke="#000000" stroke-miterlimit="10"></path></g></svg>
+      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 20 20">
+        <path d="M11.25 17.5c4.83 0 8.75-3.93 8.75-8.75s-3.93-8.75-8.75-8.75-8.75 3.93-8.75 8.75 3.93 8.75 8.75 8.75z m0-15c3.45 0 6.25 2.8 6.25 6.25s-2.8 6.25-6.25 6.25-6.25-2.8-6.25-6.25 2.8-6.25 6.25-6.25z"></path><path d="M0.36 17.86l3-2.99a10.02 10.02 0 0 0 1.76 1.77l-2.98 3a1.25 1.25 0 0 1-1.78 0 1.25 1.25 0 0 1 0-1.78z"></path>
+        </svg>
         <span class="menu-bar__label">Search Comments</span>
-      </li>
-
-      <li class="menu-bar__item" aria-controls="settings-modal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g fill="#000000"><path d="M19.3 8.35l-2.48-0.28a7.05 7.05 0 0 0-0.62-1.49l1.56-1.95a0.83 0.83 0 0 0-0.06-1.11l-1.19-1.18a0.83 0.83 0 0 0-1.11-0.06l-1.95 1.56a7.05 7.05 0 0 0-1.49-0.62l-0.27-2.48a0.83 0.83 0 0 0-0.83-0.74h-1.67a0.83 0.83 0 0 0-0.84 0.74l-0.27 2.48a7.05 7.05 0 0 0-1.49 0.62l-1.95-1.56a0.83 0.83 0 0 0-1.11 0.06l-1.19 1.19a0.83 0.83 0 0 0-0.06 1.11l1.56 1.95a7.05 7.05 0 0 0-0.62 1.49l-2.48 0.27a0.83 0.83 0 0 0-0.74 0.83v1.67a0.83 0.83 0 0 0 0.74 0.84l2.48 0.28a7.05 7.05 0 0 0 0.62 1.49l-1.56 1.94a0.83 0.83 0 0 0 0.06 1.11l1.19 1.19a0.83 0.83 0 0 0 1.11 0.06l1.95-1.56a7.05 7.05 0 0 0 1.49 0.62l0.27 2.48a0.83 0.83 0 0 0 0.84 0.74h1.67a0.83 0.83 0 0 0 0.83-0.74l0.28-2.48a7.05 7.05 0 0 0 1.49-0.62l1.95 1.56a0.83 0.83 0 0 0 1.11-0.06l1.18-1.19a0.83 0.83 0 0 0 0.06-1.11l-1.56-1.95a7.05 7.05 0 0 0 0.62-1.49l2.48-0.27a0.83 0.83 0 0 0 0.74-0.83v-1.67a0.83 0.83 0 0 0-0.74-0.84z m-9.28 5.01a3.34 3.34 0 1 1 3.34-3.34 3.34 3.34 0 0 1-3.34 3.34z" fill="#000000"></path></g></svg>
-        <span class="menu-bar__label">Settings</span>
       </li>
 
       <div class="int-table-actions" data-table-controls="table-1">
@@ -47,7 +44,9 @@
               <circle cx="14.5" cy="7.5" r="1.5" /></svg>
           </li>
           <li class="menu-bar__item" role="menuitem" data-control-form="#form-bulk-delete">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>bin</title><g fill="#000000"><path d="M2.49 6.64v10.79a2.49 2.49 0 0 0 2.49 2.49h9.96a2.49 2.49 0 0 0 2.49-2.49v-10.79z m4.98 9.13h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z" fill="#000000"></path><path d="M19.09 3.32h-4.98v-2.49a0.83 0.83 0 0 0-0.83-0.83h-6.64a0.83 0.83 0 0 0-0.83 0.83v2.49h-4.98a0.83 0.83 0 0 0 0 1.66h18.26a0.83 0.83 0 0 0 0-1.66z m-11.62-1.66h4.98v1.66h-4.98z"></path></g></svg>
+          <svg class="icon menu-bar__icon" viewBox="0 0 20 20">
+            <path d="M2.49 6.64v10.79a2.49 2.49 0 0 0 2.49 2.49h9.96a2.49 2.49 0 0 0 2.49-2.49v-10.79z m4.98 9.13h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z"></path><path d="M19.09 3.32h-4.98v-2.49a0.83 0.83 0 0 0-0.83-0.83h-6.64a0.83 0.83 0 0 0-0.83 0.83v2.49h-4.98a0.83 0.83 0 0 0 0 1.66h18.26a0.83 0.83 0 0 0 0-1.66z m-11.62-1.66h4.98v1.66h-4.98z"></path>
+          </svg>
             <span class="menu-bar__label">Delete</span>
             <span class="counter counter--critical counter--docked"><span class="table-total-selected">1</span> <i class="sr-only">Notifications</i></span>
           </li>
