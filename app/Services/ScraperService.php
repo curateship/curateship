@@ -487,8 +487,6 @@ class ScraperService {
             $settings_height = $posts_settings->medium_height;
         }
 
-        $broken_images_path = storage_path() . '/app/public/broken';
-
         $post_media_path = storage_path() . '/app/public/posts';
 
         // Ensure that original, and thumbnail folder exists
@@ -571,7 +569,9 @@ class ScraperService {
                   Log::error('>>> BROKEN GIF FILE <<<');
 
                   // Move broken Image in Special folder;
-                  Storage::move($destination, $broken_images_path.'/'.$filename);
+                  Storage::move('/public/posts/original/'.$filename, '/public/broken/'.$filename);
+
+                  $broken_images_path = storage_path() . '/app/public/broken';
 
                   // Write another log
                   file_put_contents($broken_images_path."/brokenFiles.log", date('Y-m-d H:i:s').': ScrapperService got broken GIF. URL: '.$source.' | Original path: '.$destination.' | New path :'.$broken_images_path.'/'.$filename."\r\n", FILE_APPEND);
