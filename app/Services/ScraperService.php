@@ -566,7 +566,7 @@ class ScraperService {
                   $thumbnail_medium = $thumbnail_medium->deconstructImages();
                   $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
                   $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
-              }  catch(Exception $e){
+              }  catch(\Exception $e){
                   // Write error to general log;
                   Log::error('>>> BROKEN GIF FILE <<<');
 
