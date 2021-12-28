@@ -126,7 +126,7 @@ class DashboardPostsController extends Controller
             }
         }
 
-        Cache::tags(['posts_ajax_masonry'])->flush();
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         // get rejected posts
         $rejected_posts = [];

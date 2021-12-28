@@ -116,7 +116,7 @@ class PostController extends Controller
             }
         }
 
-        Cache::tags(['posts_ajax_masonry'])->flush();
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         // get rejected posts
         $rejected_posts = [];
@@ -578,7 +578,7 @@ class PostController extends Controller
             $post->save();
         }
 
-        Cache::tags(['posts_ajax_masonry'])->flush();
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         $alert = [
             'message' => 'Owner has been changed!',
@@ -893,8 +893,8 @@ class PostController extends Controller
             'page_num' => $page_num
         ]);
 
-        if(Cache::tags(['posts_ajax_masonry'])->has($cache_key)){
-            $posts = Cache::tags(['posts_ajax_masonry'])->get($cache_key);
+        if(Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->has($cache_key)){
+            return Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->get($cache_key);
         }   else{
             // This return all post type, so no need to filter for 'post' only.
             $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
@@ -922,7 +922,7 @@ class PostController extends Controller
 
             $posts = $posts->get();
 
-            Cache::tags(['posts_ajax_masonry'])->put($cache_key, $posts);
+
         }
 
         $posts_count = Post::where([
@@ -938,7 +938,10 @@ class PostController extends Controller
             abort(204);
         }
 
-        return view('post::templates.post-masonry-load-v2', $data);
+        $data = view('post::templates.post-masonry-load-v2', $data)->render();
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->put($cache_key, $data);
+
+        return $data;
     }
 
     public function ajaxShowPostsByUser($user_id, $page_num)

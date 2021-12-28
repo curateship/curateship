@@ -58,6 +58,10 @@ Route::middleware($middleware)->group(function(){
             'as' => 'settings.flushCache',
             'uses' => 'SettingsController@flushCache'
         ]);
+        Route::get('settings/compressThumbnails', [
+            'as' => 'settings.compressThumbnails',
+            'uses' => 'SettingsController@compressThumbnails'
+        ]);
         Route::get('settings/clear-media', [
           'as' => 'settings.clear_media',
           'uses' => 'SettingsController@clearUnusedMediaFiles'
