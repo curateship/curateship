@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use FFMpeg\FFProbe;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -880,14 +882,23 @@ class PostController extends Controller
 
     public function ajaxShowPostsV2($page_num)
     {
-        // This return all post type, so no need to filter for 'post' only.
         $perpage = 20;
         $offset = ($page_num - 1) * $perpage;
-        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
-            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
-            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
-            ->select(DB::raw(
-                'posts.id,
+
+        // Research cache with exist posts for this request;
+        $cache_key = json_encode([
+            'page_num' => $page_num
+        ]);
+
+        if(Cache::tags(['posts_ajax_masonry'])->has($cache_key)){
+            $posts = Cache::tags(['posts_ajax_masonry'])->get($cache_key);
+        }   else{
+            // This return all post type, so no need to filter for 'post' only.
+            $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+                ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
+                ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+                ->select(DB::raw(
+                    'posts.id,
                 title,
                 slug,
                 posts.created_at as created_at,
@@ -897,16 +908,19 @@ class PostController extends Controller
                 users.name,
                 users.username,
                 users_settings.avatar as avatar'
-            ))->where(
-                [
-                    'posts.status' => 'published'
-                ]
-            )
-            ->orderBy('created_at', 'desc')
-            ->offset($offset)
-            ->limit($perpage);
+                ))->where(
+                    [
+                        'posts.status' => 'published'
+                    ]
+                )
+                ->orderBy('created_at', 'desc')
+                ->offset($offset)
+                ->limit($perpage);
 
-        $posts = $posts->get();
+            $posts = $posts->get();
+
+            Cache::tags(['posts_ajax_masonry'])->put($cache_key, $posts);
+        }
 
         $posts_count = Post::where([
             'status' => 'published'
