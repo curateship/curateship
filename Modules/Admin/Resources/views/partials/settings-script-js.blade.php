@@ -59,6 +59,29 @@
           });
       });
 
+      $(document).on('click', '#compressThumbnails', function(e){
+          const $this = $(this)
+          $this.html('Compressing...')
+
+          $.ajax({
+              url: "{{ route('settings.compressThumbnails') }}",
+              type: 'get',
+              contentType: false,
+              processData: false,
+              success: function(response){
+                  console.log(response);
+
+                  if (response.status == false) {
+                      showErrorMsg('alert-main', response.errors)
+                  } else {
+                      showSuccessMsg('alert-main', response.message)
+                  }
+
+                  $this.html('Compress')
+              }
+          });
+      });
+
     $(document).on('click', '#btnSave', function(e){
       e.preventDefault();
 

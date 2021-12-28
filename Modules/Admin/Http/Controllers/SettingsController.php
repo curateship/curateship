@@ -469,4 +469,40 @@ class SettingsController extends Controller {
           'message' => 'Cache successfully flushed!',
       ]);
   }
+
+  public function compressThumbnails(){
+      set_time_limit(-1);
+
+      $files = \Illuminate\Support\Facades\Storage::files('public/posts/thumbnail');
+      foreach($files as $file){
+          $file_extension = pathinfo($file, PATHINFO_EXTENSION);
+          if($file_extension == 'webp'){
+              $file_extension = pathinfo($file, PATHINFO_EXTENSION);
+              $file_name = basename($file, '.'.$file_extension);
+
+              // Update thumbnail in post;
+              Post::where('thumbnail_medium', 'like', $file_name.'%')
+                  ->update([
+                      'thumbnail_medium' => $file_name.'.webp'
+                  ]);
+
+              continue;
+          }
+
+          $image = Image::make(storage_path().'/app/'.$file);
+          $image->encode('webp');
+
+          $thumbnail_new_name = str_replace('.'.$file_extension, '.webp', $file);
+          $image->save(storage_path().'/app/'.$thumbnail_new_name);
+
+          Storage::delete($file);
+      }
+
+      Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
+
+      return response()->json([
+          'status' => true,
+          'message' => 'All thumbnails successfully compressed!',
+      ]);
+  }
 }
