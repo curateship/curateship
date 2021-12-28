@@ -4,6 +4,7 @@ namespace Modules\Users\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
@@ -124,6 +125,8 @@ class DashboardPostsController extends Controller
                 $post->save();
             }
         }
+
+        Cache::tags(['posts_ajax_masonry'])->flush();
 
         // get rejected posts
         $rejected_posts = [];
