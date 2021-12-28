@@ -4,6 +4,7 @@ namespace Modules\Admin\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
@@ -458,5 +459,14 @@ class SettingsController extends Controller {
       'message' => 'Setting Data has been saved!',
       'data' => $update_data
     ]);
+  }
+
+  public function flushCache(){
+      Cache::flush();
+
+      return response()->json([
+          'status' => true,
+          'message' => 'Cache successfully flushed!',
+      ]);
   }
 }

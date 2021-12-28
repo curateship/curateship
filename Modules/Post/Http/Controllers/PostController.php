@@ -116,6 +116,8 @@ class PostController extends Controller
             }
         }
 
+        Cache::tags(['posts_ajax_masonry'])->flush();
+
         // get rejected posts
         $rejected_posts = [];
         if ($status == 'pending') {
@@ -576,6 +578,7 @@ class PostController extends Controller
             $post->save();
         }
 
+        Cache::tags(['posts_ajax_masonry'])->flush();
 
         $alert = [
             'message' => 'Owner has been changed!',

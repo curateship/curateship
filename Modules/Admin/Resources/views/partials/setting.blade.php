@@ -22,7 +22,10 @@
                             </div>
 
                         </div>
-                        <button id="btnSave" class="btn btn--primary">Save</button>
+                        <div>
+                            <button type="button" id="flushCache" class="btn btn--accent">Flush cache</button>
+                            <button id="btnSave" class="btn btn--primary">Save</button>
+                        </div>
                     </div>
                 </div>
 

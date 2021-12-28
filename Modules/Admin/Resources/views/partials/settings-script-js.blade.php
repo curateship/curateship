@@ -36,6 +36,29 @@
           $('#titleTemplate').prop('readonly', $(this).prop('checked'))
       });
 
+      $(document).on('click', '#flushCache', function(e){
+          const $this = $(this)
+          $this.html('Flushing...')
+
+          $.ajax({
+              url: "{{ route('settings.flushCache') }}",
+              type: 'get',
+              contentType: false,
+              processData: false,
+              success: function(response){
+                  console.log(response);
+
+                  if (response.status == false) {
+                      showErrorMsg('alert-main', response.errors)
+                  } else {
+                      showSuccessMsg('alert-main', response.message)
+                  }
+
+                  $this.html('Flush cache')
+              }
+          });
+      });
+
     $(document).on('click', '#btnSave', function(e){
       e.preventDefault();
 

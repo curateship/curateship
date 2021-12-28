@@ -38,7 +38,7 @@ Route::middleware($middleware)->group(function(){
             $font_secondary = Settings::getSecondaryFontInfo();
             View::share('font_secondary', $font_secondary);
         }
-        
+
         Route::get('/', 'PostBoxController@index');
 
         // Post Box Module
@@ -54,6 +54,10 @@ Route::middleware($middleware)->group(function(){
             'as' => 'settings.store',
             'uses' => 'SettingsController@store'
         ]);
+        Route::get('settings/flushCache', [
+            'as' => 'settings.flushCache',
+            'uses' => 'SettingsController@flushCache'
+        ]);
         Route::get('settings/clear-media', [
           'as' => 'settings.clear_media',
           'uses' => 'SettingsController@clearUnusedMediaFiles'
@@ -61,13 +65,13 @@ Route::middleware($middleware)->group(function(){
 
         // Scraper pages
         Route::get('scraper', 'ScraperController@index');
-        
+
         Route::get('scraper/settings', 'SettingsController@scraperSetting');
         Route::post('scraper/store', [
           'as' => 'scraper.store',
           'uses' => 'SettingsController@storeScraperSetting'
         ]);
-        
+
         Route::get('scraper/scraper-v1', 'ScraperController@newScraper');
         Route::post('scraper/scraper-v1', [
           'as' => 'scraper.save_scraper',
