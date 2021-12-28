@@ -942,6 +942,12 @@ class PostController extends Controller
         // More compression for masonry;
         foreach($posts as $post){
             $thumbnail_filename = storage_path().'/app/public/posts/thumbnail/'.$post->thumbnail_medium;
+
+            if(!file_exists($thumbnail_filename)){
+                Log::info('Post thumbnail does not exist: '.$thumbnail_filename);
+                continue;
+            }
+
             $masonry_filename = storage_path().'/app/public/posts/thumbnail_masonry/'.$post->thumbnail_medium;
 
             if(file_exists($masonry_filename)){
