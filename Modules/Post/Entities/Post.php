@@ -58,6 +58,10 @@ class Post extends Model
     	if($type == 'medium'){
     		return asset('storage/posts/thumbnail') . '/' . $this->thumbnail_medium;
     	}
+
+        if($type == 'masonry'){
+            return asset('storage/posts/thumbnail_masonry') . '/' . $this->thumbnail_medium;
+        }
 	}
 
     public function showVideo($video_file)

@@ -282,6 +282,7 @@ class PostController extends Controller
             }
         }
 
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         return response()->json([
             'status' => true,
@@ -476,6 +477,8 @@ class PostController extends Controller
             }
         }
 
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
+
         return response()->json([
             'status' => true,
             'message' => 'Post has been updated!'
@@ -498,6 +501,8 @@ class PostController extends Controller
         PostsMeta::deleteMultipleMetaData( $post->id, 'rejected_reason' );
 
         $post->update( ['status' => 'deleted'] );
+
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         return redirect('admin/posts');
     }
@@ -537,6 +542,8 @@ class PostController extends Controller
 
         // Delete Meta.
         PostsMeta::emptyMetaData( $post->id );
+
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         // Finally, delete post
         return $post->delete();
@@ -614,6 +621,8 @@ class PostController extends Controller
             'class'   => '',
         ];
 
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
+
         return back()->with('alert', $alert);
     }
 
@@ -635,6 +644,9 @@ class PostController extends Controller
             'message' => 'Posts has been deleted!',
             'class'   => '',
         ];
+
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
+
         return back()->with('alert', $alert);
     }
 
@@ -668,6 +680,8 @@ class PostController extends Controller
         }
 
         $post->update(['status' => 'draft']);
+
+        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->flush();
 
         return redirect('admin/posts');
     }
@@ -923,6 +937,26 @@ class PostController extends Controller
             $posts = $posts->get();
 
 
+        }
+
+        // More compression for masonry;
+        foreach($posts as $post){
+            $thumbnail_filename = storage_path().'/app/public/posts/thumbnail/'.$post->thumbnail_medium;
+            $masonry_filename = storage_path().'/app/public/posts/thumbnail_masonry/'.$post->thumbnail_medium;
+
+            if(file_exists($masonry_filename)){
+                continue;
+            }
+
+            if(!file_exists(storage_path().'/app/public/posts/thumbnail_masonry')){
+                mkdir(storage_path().'/app/public/posts/thumbnail_masonry');
+            }
+
+            $masonry_thumb = Image::make($thumbnail_filename);
+            $masonry_thumb->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $masonry_thumb->save($masonry_filename, 80);
         }
 
         $posts_count = Post::where([

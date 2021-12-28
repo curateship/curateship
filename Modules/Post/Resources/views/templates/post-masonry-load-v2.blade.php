@@ -3,7 +3,7 @@
     @if($post->thumbnail)
     <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
         <figure class="card-v2">
-            <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+            <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('masonry') }}" alt="Image of {{ $post->title }}">
             <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-left">
 
             </figcaption>
