@@ -20,7 +20,7 @@ Route::get('/',function(){
 
 Route::get('/',function(){
   return view('templates.layouts.blog');
-});
+})->middleware('cache');
 
 Route::get('/site2/login',function(){
   return view('components.auth.login');

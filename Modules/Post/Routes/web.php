@@ -115,7 +115,7 @@ Route::prefix('pages')->group(function(){
     ]);
 });
 
-Route::get('posts/page/{id}', 'PostController@ajaxShowPostsV2');
+Route::get('posts/page/{id}', 'PostController@ajaxShowPostsV2')->middleware('cache');
 
 $middleware1 = ['web', 'auth'];
 if (config('settings.need_verify_email') === true) {
