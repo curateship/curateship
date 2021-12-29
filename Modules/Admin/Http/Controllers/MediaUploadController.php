@@ -105,8 +105,24 @@ class MediaUploadController extends Controller
                 $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                     $constraint->aspectRatio();
                 });
+
+                $file_extension = pathinfo($thumbnail, PATHINFO_EXTENSION);
+
                 $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->save($media_path . '/thumbnail/' . $thumbnail_medium_name);
+
+                $thumbnail_medium = Image::make(request()->file('media'));
+                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                    $constraint->aspectRatio();
+                });
+
+                // Encode thumbnail
+                $image = Image::make($media_path . '/thumbnail/' . $thumbnail_medium_name);
+                $image->encode('webp');
+
+                $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
+                $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
+                $image->save($webp_name);
             }
 
             $message = 'You have successfully upload file.';

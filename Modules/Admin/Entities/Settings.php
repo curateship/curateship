@@ -185,7 +185,7 @@ class Settings extends Model
       $font_src_template2 = "src: local('')," . implode(', ', $src_templates) . ';';
     }
 
-    $fontCSSTemplate = sprintf("@font-face { font-family: '%s'; font-style: normal; font-weight: %d; %s; %s} ", $fontFamily, intval($fontData['size']), $font_src_template1, $font_src_template2);
+    $fontCSSTemplate = sprintf("@font-face { font-family: '%s'; font-display: swap; font-style: normal; font-weight: %d; %s; %s} ", $fontFamily, intval($fontData['size']), $font_src_template1, $font_src_template2);
 
     return $fontCSSTemplate;
   }
