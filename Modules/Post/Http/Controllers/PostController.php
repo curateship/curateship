@@ -907,7 +907,9 @@ class PostController extends Controller
             'page_num' => $page_num
         ]);
 
-        if(Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->has($cache_key)){
+        $cache_enable = Settings::where('key', 'disable_cache')->first()->value != 'on';
+
+        if(Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->has($cache_key) && $cache_enable){
             return Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->get($cache_key);
         }   else{
             // This return all post type, so no need to filter for 'post' only.
@@ -979,7 +981,10 @@ class PostController extends Controller
         }
 
         $data = view('post::templates.post-masonry-load-v2', $data)->render();
-        Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->put($cache_key, $data);
+
+        if($cache_enable){
+            Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->put($cache_key, $data);
+        }
 
         return $data;
     }
@@ -1130,6 +1135,10 @@ class PostController extends Controller
             if ($post) {
                 $post->PrepareDataForShow();
             }
+        }
+
+        if($post == null){
+            return [];
         }
 
         $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')

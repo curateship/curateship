@@ -147,6 +147,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'disable_comments',
                 'value'         => 'on'
             ],
+            [
+                'key'           => 'disable_cache',
+                'value'         => ''
+            ],
         ];
 
 		foreach ($records as $record) {
