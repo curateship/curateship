@@ -1,7 +1,6 @@
 @extends('admin::layouts.master')
 @section('content')
 @include('comment::partials.modals')
-@include('comment::partials.settings-modal')
 @include('comment::partials.alert-modal')
   <div class="container max-width-lg">
     <div class="grid">
