@@ -84,14 +84,16 @@ class SettingsController extends Controller {
       'title_template',
       'search_template',
       'disable_comments',
-      'disable_cache'
+      'disable_cache',
+      'webp_conversion'
     ];
 
     $checkbox_keys = [
       'reg_en_fullname',
       'reg_en_verify_email',
       'title_required',
-      'disable_cache'
+      'disable_cache',
+      'webp_conversion'
     ];
 
     $validator = Validator::make($request->all(), [

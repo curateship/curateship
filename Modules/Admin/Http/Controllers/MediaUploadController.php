@@ -6,6 +6,7 @@ use Arr, Str, Image, Imagick, File, Thumbnail;
 use FFMpeg\FFProbe;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\Dimension;
+use Modules\Admin\Entities\Settings;
 use FFMpeg\Format\Video\{X264, Ogg, WebM, WMV, WMV3};
 
 use Illuminate\Http\Request;
@@ -116,13 +117,15 @@ class MediaUploadController extends Controller
                     $constraint->aspectRatio();
                 });
 
-                // Encode thumbnail
-                $image = Image::make($media_path . '/thumbnail/' . $thumbnail_medium_name);
-                $image->encode('webp');
+                if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
+                    // Encode thumbnail
+                    $image = Image::make($media_path . '/thumbnail/' . $thumbnail_medium_name);
+                    $image->encode('webp');
 
-                $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
-                $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
-                $image->save($webp_name);
+                    $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
+                    $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
+                    $image->save($webp_name);
+                }
             }
 
             $message = 'You have successfully upload file.';

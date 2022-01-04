@@ -588,13 +588,16 @@ class ScraperService {
               $thumbnail_medium_name = Str::random(27) . '.' . $file_extension;
               $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
 
-              // Encode thumbnail
-              $image = Image::make($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
-              $image->encode('webp');
+              if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
+                  // Encode thumbnail
+                  $image = Image::make($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+                  $image->encode('webp');
 
-              $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
-              $webp_name = $post_media_path . '/thumbnail/' . $thumbnail_medium_name;
-              $image->save($webp_name);
+                  $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
+                  $webp_name = $post_media_path . '/thumbnail/' . $thumbnail_medium_name;
+                  $image->save($webp_name);
+              }
+
             }
             // Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
           } catch (ImagickException $e) {

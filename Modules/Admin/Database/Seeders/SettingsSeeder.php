@@ -151,6 +151,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'disable_cache',
                 'value'         => ''
             ],
+            [
+                'key'           => 'webp_conversion',
+                'value'         => 'on'
+            ],
         ];
 
 		foreach ($records as $record) {
