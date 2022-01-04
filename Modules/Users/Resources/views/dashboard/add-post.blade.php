@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 @foreach($tag_categories as $key=> $tag_category)
-                <div class="grid gap-sm">
+                <div class="grid">
                     <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
                       Add {{ $tag_category->name }}
                     </label>
