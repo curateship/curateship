@@ -118,13 +118,16 @@ class MediaUploadController extends Controller
                 });
 
                 if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
+                    $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
+
                     // Encode thumbnail
-                    $image = Image::make($media_path . '/thumbnail/' . $thumbnail_medium_name);
-                    $image->encode('webp');
+                    $webp = new Imagick($media_path . '/thumbnail/' . $thumbnail_medium_name);
+                    $webp->setImageCompressionQuality($webp_compress_quality);
+                    $webp->setImageFormat("webp");
 
                     $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
                     $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
-                    $image->save($webp_name);
+                    $webp->writeImage($webp_name);
                 }
             }
 
@@ -213,7 +216,7 @@ class MediaUploadController extends Controller
                 'video_url' => ($media_type === 'video') ? asset("storage/videos/original/{$media_name}") : '',
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
-                'thumbnail_url' => asset("storage/{$subpath}/original/{$thumbnail}"),
+                'thumbnail_url' => asset("storage/{$subpath}/original/{$thumbnail_medium_name}"),
                 'thumbnail_medium' => $thumbnail_medium_name,
                 'original_filename' => $filename
         ];

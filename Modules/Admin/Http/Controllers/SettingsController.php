@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use Arr, Str, Image, File;
+use Arr, Str, Image, File, Imagick;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -85,7 +85,8 @@ class SettingsController extends Controller {
       'search_template',
       'disable_comments',
       'disable_cache',
-      'webp_conversion'
+      'webp_conversion',
+      'webp_quality'
     ];
 
     $checkbox_keys = [
@@ -477,6 +478,7 @@ class SettingsController extends Controller {
   public function compressThumbnails(){
       set_time_limit(-1);
 
+      $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
       $files = \Illuminate\Support\Facades\Storage::files('public/posts/thumbnail');
       foreach($files as $file){
           $file_extension = pathinfo($file, PATHINFO_EXTENSION);
@@ -493,11 +495,13 @@ class SettingsController extends Controller {
               continue;
           }
 
-          $image = Image::make(storage_path().'/app/'.$file);
-          $image->encode('webp');
+          // Encode thumbnail
+          $webp = new Imagick(storage_path().'/app/'.$file);
+          $webp->setImageCompressionQuality($webp_compress_quality);
+          $webp->setImageFormat("webp");
 
           $thumbnail_new_name = str_replace('.'.$file_extension, '.webp', $file);
-          $image->save(storage_path().'/app/'.$thumbnail_new_name);
+          $webp->writeImage(storage_path().'/app/'.$thumbnail_new_name);
 
           Storage::delete($file);
       }

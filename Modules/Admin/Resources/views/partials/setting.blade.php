@@ -660,7 +660,36 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" id="compressThumbnails" class="btn btn--accent">Compress  thumbnails to webp</button>
+
+                                        <div class="margin-bottom-md margin-top-md">
+                                            <div class="margin-bottom-xs text-bo">Compression quality</div>
+                                            <div class="grid gap-xxs items-center@md">
+                                                <div class="col-8@md">
+                                                    <ul class="flex flex-wrap gap-md">
+                                                        <li>
+                                                            <div class="slider js-slider">
+                                                                <div class="slider__range">
+                                                                    <label class="sr-only" for="webpQuality">Quality</label>
+                                                                    <input class="slider__input" type="range" id="webpQuality" name="webp_quality" min="10" max="100" step="1" value="{{$settings_data['webp_quality']}}">
+
+                                                                    <span class="margin-left-xs" aria-hidden="true">
+                                                                        <span class="slider__value">
+                                                                            <span class="js-slider__value">100</span>
+                                                                        </span>
+                                                                    </span>
+
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" id="compressThumbnails" class="btn btn--accent">Compress thumbnails to webp</button>
                                     </div>
                                 </div>
                     </div>
