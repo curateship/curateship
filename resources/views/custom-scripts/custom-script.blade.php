@@ -145,7 +145,7 @@
 
         var infScroll = new InfiniteScroll('.masonry-grid', {
             //path: 'posts/page/@{{#}}',
-            path: $('.masonry-path').val() + '@{{#}}',
+            path: $('.masonry-path').val() + '@{{#}}?time=' + Date.now(),
             append: '.grid-item',
             history: false,
             outlayer: $grid,

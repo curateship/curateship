@@ -155,6 +155,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'webp_conversion',
                 'value'         => 'on'
             ],
+            [
+                'key'           => 'webp_quality',
+                'value'         => '100'
+            ],
         ];
 
 		foreach ($records as $record) {

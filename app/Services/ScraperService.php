@@ -346,6 +346,8 @@ class ScraperService {
 
     Log::info('Scraping item detail page... (' . $url . ')');
 
+    $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
+
     $scrape_status = true;
 
     $titles = $this->filterItemInfo($crawler, $this->scraper->title, 'content');
@@ -590,12 +592,13 @@ class ScraperService {
 
               if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
                   // Encode thumbnail
-                  $image = Image::make($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
-                  $image->encode('webp');
+                  $webp = new Imagick($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+                  $webp->setImageCompressionQuality($webp_compress_quality);
+                  $webp->setImageFormat("webp");
 
                   $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
                   $webp_name = $post_media_path . '/thumbnail/' . $thumbnail_medium_name;
-                  $image->save($webp_name);
+                  $webp->writeImage($webp_name);
               }
 
             }
