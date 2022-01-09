@@ -11,7 +11,6 @@
               <input type="hidden" name="redirect" value="1"/>
               <div class="flex">
                 <div class="height-100% width-100% bg radius-md flex flex-column">
-
                   <div class="padding-y-sm flex-grow overflow-auto">
 
                       <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" {{\Modules\Admin\Entities\Settings::where('key', 'title_required')->first()->value == 'on' ? 'required' : ''}}></h1>

@@ -75,7 +75,7 @@
         <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
           <div class="margin-bottom-md">
             <img src="#" id="thumbnailPreview" class="width-40%" style="display:none">
-            <div id="edit-media-player" style="display:none">
+            <div class="edit-media-player" style="display:none">
             </div>
           </div>
 
