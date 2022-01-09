@@ -107,8 +107,6 @@ class MediaUploadController extends Controller
                     $constraint->aspectRatio();
                 });
 
-                $file_extension = pathinfo($thumbnail, PATHINFO_EXTENSION);
-
                 $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->save($media_path . '/thumbnail/' . $thumbnail_medium_name);
 
@@ -116,19 +114,6 @@ class MediaUploadController extends Controller
                 $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                     $constraint->aspectRatio();
                 });
-
-                if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
-                    $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
-
-                    // Encode thumbnail
-                    $webp = new Imagick($media_path . '/thumbnail/' . $thumbnail_medium_name);
-                    $webp->setImageCompressionQuality($webp_compress_quality);
-                    $webp->setImageFormat("webp");
-
-                    $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
-                    $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
-                    $webp->writeImage($webp_name);
-                }
             }
 
             $message = 'You have successfully upload file.';
@@ -199,11 +184,28 @@ class MediaUploadController extends Controller
                 });
                 $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->save($media_path . '/thumbnail/' . $thumbnail_medium_name);
+
+
             } else {
                 $status = false;
                 $message = "thumbnail generation has failed";
                 $thumbnail_medium_name = '';
             }
+        }
+
+        if(Settings::where('key', 'webp_conversion')->first()->value == 'on' && isset($thumbnail) && isset($thumbnail_medium_name) && $thumbnail_medium_name != ''){
+            $file_extension = pathinfo($thumbnail, PATHINFO_EXTENSION);
+
+            $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
+
+            // Encode thumbnail
+            $webp = new Imagick($media_path . '/thumbnail/' . $thumbnail_medium_name);
+            $webp->setImageCompressionQuality($webp_compress_quality);
+            $webp->setImageFormat("webp");
+
+            $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
+            $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;
+            $webp->writeImage($webp_name);
         }
 
         $ext = pathinfo($original_filename, PATHINFO_EXTENSION);
@@ -216,7 +218,7 @@ class MediaUploadController extends Controller
                 'video_url' => ($media_type === 'video') ? asset("storage/videos/original/{$media_name}") : '',
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
-                'thumbnail_url' => asset("storage/{$subpath}/original/{$thumbnail_medium_name}"),
+                'thumbnail_url' => asset("storage/{$subpath}/thumbnail/{$thumbnail_medium_name}"),
                 'thumbnail_medium' => $thumbnail_medium_name,
                 'original_filename' => $filename
         ];

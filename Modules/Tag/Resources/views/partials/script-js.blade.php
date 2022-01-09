@@ -116,7 +116,7 @@ var videojs_template =
         // Update media video & thumbnail
         if ( xhr.responseJSON.video_url != '') {
           console.log('update video')
-          $('#edit-media-player').html(videojs_template).show();
+          $('.edit-media-player').html(videojs_template).show();
 
           $('#media-player').find('source').attr('src', xhr.responseJSON.video_url).attr('type', xhr.responseJSON.video_type);
           $('#media-player').attr('poster', xhr.responseJSON.thumbnail_url).show();
@@ -131,7 +131,7 @@ var videojs_template =
         } else {
           console.log('update thumbnail')
           $('#thumbnailPreview').attr('src', xhr.responseJSON.thumbnail_url).show();
-          $('#edit-media-player').hide();
+          $('.edit-media-player').hide();
         }
 
         // Enable Save Buttons
@@ -366,7 +366,7 @@ var videojs_template =
 
       $('[name="tag_publish"]').hide();
 
-      $('#edit-media-player').html(videojs_template).hide();
+      $('.edit-media-player').html(videojs_template).hide();
       $('#thumbnailPreview').hide();
 
       $.ajax({
@@ -410,11 +410,11 @@ var videojs_template =
             fill: true,
             preload: 'auto'
           });
-          $('#edit-media-player').show();
+          $('.edit-media-player').show();
           $('#thumbnailPreview').hide();
         } else {
           $('#thumbnailPreview').attr('src', response.data.thumbnail).show();
-          $('#edit-media-player').hide();
+          $(.edit-media-player').hide();
         }
       })
       .fail(function(response, textStatus) {

@@ -214,22 +214,24 @@ var videojs_template =
         // Update media video & thumbnail
         if ( xhr.responseJSON.video_url != '') {
           console.log('update video')
-          $('#edit-media-player').html(videojs_template).show();
+          $('.edit-media-player').html(videojs_template).show();
 
           $('#media-player').find('source').attr('src', xhr.responseJSON.video_url).attr('type', xhr.responseJSON.video_type);
           $('#media-player').attr('poster', xhr.responseJSON.thumbnail_url).show();
 
-          videojs('#media-player', {
-            controls: true,
-            autoplay: false,
-            fill: true,
-            preload: 'auto'
-          });
-          $('#thumbnailPreview').hide();
+          if($('#media-player').length > 0){
+              videojs('#media-player', {
+                  controls: true,
+                  autoplay: false,
+                  fill: true,
+                  preload: 'auto'
+              });
+              $('#thumbnailPreview').hide();
+          }
         } else {
           console.log('update thumbnail')
           $('#thumbnailPreview').attr('src', xhr.responseJSON.thumbnail_url).show();
-          $('#edit-media-player').hide();
+          $('.edit-media-player').hide();
         }
 
         // Enable Save Buttons
@@ -643,7 +645,7 @@ var videojs_template =
       });
       editor2.clear(); // used editorjs for edit post form
 
-      $('#edit-media-player').html(videojs_template);
+      $('.edit-media-player').html(videojs_template);
       $('#thumbnailPreview').hide();
 
       $.ajax({
@@ -684,11 +686,11 @@ var videojs_template =
               fill: true,
               preload: 'auto'
             });
-            $('#edit-media-player').show();
+            $('.edit-media-player').show();
             $('#thumbnailPreview').hide();
           } else {
             $('#thumbnailPreview').attr('src', response.thumbnail).show();
-            $('#edit-media-player').hide();
+            $('.edit-media-player').hide();
           }
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
