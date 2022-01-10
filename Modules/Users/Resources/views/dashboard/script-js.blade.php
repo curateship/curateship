@@ -603,7 +603,7 @@ var videojs_template =
             contentType: false,
             processData: false,
             data: formData,
-            complete: function(){
+            success: function(){
                 console.log('complete')
                 location.reload();
             },
