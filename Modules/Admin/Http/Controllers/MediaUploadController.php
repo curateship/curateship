@@ -199,9 +199,15 @@ class MediaUploadController extends Controller
             $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
 
             // Encode thumbnail
-            $webp = new Imagick($media_path . '/thumbnail/' . $thumbnail_medium_name);
+            if($media_type === 'video'){
+                $webp = new Imagick($media_path . '/original/' . $thumbnail);
+            }   else{
+                $webp = new Imagick($media_path . '/original/' .$media_name);
+            }
+
             $webp->setImageCompressionQuality($webp_compress_quality);
             $webp->setImageFormat("webp");
+            $webp->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
 
             $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
             $webp_name = $media_path . '/thumbnail/' . $thumbnail_medium_name;

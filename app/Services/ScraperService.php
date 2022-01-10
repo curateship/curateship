@@ -592,15 +592,15 @@ class ScraperService {
 
               if(Settings::where('key', 'webp_conversion')->first()->value == 'on'){
                   // Encode thumbnail
-                  $webp = new Imagick($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+                  $webp = new Imagick($destination);
                   $webp->setImageCompressionQuality($webp_compress_quality);
                   $webp->setImageFormat("webp");
+                  $webp->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
 
                   $thumbnail_medium_name = str_replace('.'.$file_extension, '.webp', $thumbnail_medium_name);
                   $webp_name = $post_media_path . '/thumbnail/' . $thumbnail_medium_name;
                   $webp->writeImage($webp_name);
               }
-
             }
             // Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
           } catch (ImagickException $e) {
