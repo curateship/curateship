@@ -351,15 +351,23 @@ class DashboardPostsController extends Controller
             $alert['message'] = 'Your post will be reviewed soon.';
         }
 
+        /*
         if($request->has('ajax') && $request->ajax == 'true'){
             return response('Hello World', 200)
                 ->header('Content-Type', 'text/plain');
         }
 
+
         if (request()->has('redirect'))
             return redirect('dashboard')->with('alert', $alert);
         else
             return redirect()->back()->with('alert', $alert);
+
+        */
+
+        return response()->json([
+            'alert' => $alert
+        ]);
     }
 
     public function fetchDataAjax($id)
