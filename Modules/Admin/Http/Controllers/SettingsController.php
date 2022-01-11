@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Modules\Admin\Entities\Scraper;
 use Modules\Users\Entities\UsersSetting;
-use Modules\Post\Entities\{Post, PostsMeta};
+use Modules\Post\Entities\{Post, PostSetting, PostsMeta};
 
 class SettingsController extends Controller {
   public function index() {
@@ -478,6 +478,14 @@ class SettingsController extends Controller {
   public function compressThumbnails(){
       set_time_limit(-1);
 
+      $settings_width = 100;
+      $settings_height = 400;
+
+      if(!is_null($posts_settings = PostSetting::first())){
+          $settings_width = $posts_settings->medium_width;
+          $settings_height = $posts_settings->medium_height;
+      }
+
       $webp_compress_quality = Settings::where('key', 'webp_quality')->first()->value;
       $files = \Illuminate\Support\Facades\Storage::files('public/posts/thumbnail');
       foreach($files as $file){
@@ -499,6 +507,7 @@ class SettingsController extends Controller {
           $webp = new Imagick(storage_path().'/app/'.$file);
           $webp->setImageCompressionQuality($webp_compress_quality);
           $webp->setImageFormat("webp");
+          $webp->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
 
           $thumbnail_new_name = str_replace('.'.$file_extension, '.webp', $file);
           $webp->writeImage(storage_path().'/app/'.$thumbnail_new_name);

@@ -942,17 +942,14 @@ class PostController extends Controller
         }
 
         // More compression for masonry;
+        $webp_compress_quality = config('thumbnail.masonry_thumbnail_quality');
         foreach($posts as $post){
-            $thumbnail_filename = storage_path().'/app/public/posts/thumbnail/'.$post->thumbnail_medium;
+            $original_filename = storage_path().'/app/public/posts/original/'.$post->thumbnail;
 
-            if(!file_exists($thumbnail_filename)){
-                Log::info('Post thumbnail does not exist: '.$thumbnail_filename);
-                continue;
-            }
+            $file_extension = pathinfo($post->thumbnail_medium, PATHINFO_EXTENSION);
+            $thumbnail_filename = storage_path().'/app/public/posts/thumbnail_masonry/'.str_replace('.'.$file_extension, '.webp', $post->thumbnail_medium);
 
-            $masonry_filename = storage_path().'/app/public/posts/thumbnail_masonry/'.$post->thumbnail_medium;
-
-            if(file_exists($masonry_filename)){
+            if(file_exists($thumbnail_filename)){
                 continue;
             }
 
@@ -960,11 +957,12 @@ class PostController extends Controller
                 mkdir(storage_path().'/app/public/posts/thumbnail_masonry');
             }
 
-            $masonry_thumb = Image::make($thumbnail_filename);
-            $masonry_thumb->resize(300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $masonry_thumb->save($masonry_filename, 80);
+            // Encode thumbnail
+            $webp = new Imagick($original_filename);
+            $webp->setImageCompressionQuality($webp_compress_quality);
+            $webp->setImageFormat("webp");
+            $webp->resizeImage( config('thumbnail.masonry_thumbnail_width'), config('thumbnail.masonry_thumbnail_width'), Imagick::FILTER_BOX, 1, true );
+            $webp->writeImage($thumbnail_filename);
         }
 
         $posts_count = Post::where([

@@ -60,7 +60,9 @@ class Post extends Model
     	}
 
         if($type == 'masonry'){
-            return asset('storage/posts/thumbnail_masonry') . '/' . $this->thumbnail_medium;
+            $file_extension = pathinfo($this->thumbnail_medium, PATHINFO_EXTENSION);
+
+            return asset('storage/posts/thumbnail_masonry') . '/' . str_replace('.'.$file_extension, '.webp', $this->thumbnail_medium);
         }
 	}
 
@@ -573,25 +575,6 @@ class Post extends Model
         }
 
         return $title;
-    }
-
-    public static function createMasonryThumbnail($thumbnail_medium){
-        $thumbnail_filename = storage_path().'/app/public/posts/thumbnail/'.$thumbnail_medium;
-        $masonry_filename = storage_path().'/app/public/posts/thumbnail_masonry/'.$thumbnail_medium;
-
-        if(file_exists($masonry_filename)){
-            return;
-        }
-
-        if(!file_exists(storage_path().'/app/public/posts/thumbnail_masonry')){
-            mkdir(storage_path().'/app/public/posts/thumbnail_masonry');
-        }
-
-        $masonry_thumb = Image::make($thumbnail_filename);
-        $masonry_thumb->resize(300, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $masonry_thumb->save($masonry_filename, 80);
     }
 }
 
