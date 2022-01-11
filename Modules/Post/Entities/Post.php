@@ -543,8 +543,6 @@ class Post extends Model
                 }
                 if (count($rand_array) > 0) {
                     $title_array[] = implode(' ', $rand_array);
-                }   else{
-                    //unset($title_array[count($title_array)-1]);
                 }
             }   else{
                 $title_array[] = null;
@@ -557,11 +555,13 @@ class Post extends Model
                 unset($title_array[$key]);
                 if(isset($title_array[$key-1])){
                     unset($title_array[$key-1]);
+                    $str_block_count--;
                 }
             }
 
             if($item == ' '){
                 unset($title_array[$key]);
+                $str_block_count--;
             }
         }
 
