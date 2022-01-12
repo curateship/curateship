@@ -77,7 +77,7 @@
                       showSuccessMsg('alert-main', response.message)
                   }
 
-                  $this.html('Compress')
+                  $this.html('Compress thumbnails to webp')
               }
           });
       });
