@@ -491,17 +491,16 @@ class SettingsController extends Controller {
       foreach($files as $file){
           $file_extension = pathinfo($file, PATHINFO_EXTENSION);
           if($file_extension == 'webp'){
-              $file_extension = pathinfo($file, PATHINFO_EXTENSION);
-              $file_name = basename($file, '.'.$file_extension);
-
-              // Update thumbnail in post;
-              Post::where('thumbnail_medium', 'like', $file_name.'%')
-                  ->update([
-                      'thumbnail_medium' => $file_name.'.webp'
-                  ]);
-
               continue;
           }
+
+          $file_name = basename($file, '.'.$file_extension);
+
+          // Update thumbnail in post;
+          Post::where('thumbnail_medium', $file)
+              ->update([
+                  'thumbnail_medium' => $file_name.'.webp'
+              ]);
 
           // Encode thumbnail
           $webp = new Imagick(storage_path().'/app/'.$file);

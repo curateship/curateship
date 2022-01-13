@@ -20,7 +20,7 @@ use Modules\Post\Entities\{ PostSetting };
 class MediaUploadController extends Controller
 {
     public function uploadPostMedia(Request $request) {
-        $data = $this->uploadMedia($request, 'post');
+        $data = $this->uploadMedia($request);
 
         return response()->json($data);
     }
@@ -31,7 +31,7 @@ class MediaUploadController extends Controller
         return response()->json($data);
     }
 
-    public function uploadMedia(Request $request, $type = 'post') {
+    public function uploadMedia($request, $type = 'post') {
         try {
             Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
             Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
@@ -63,7 +63,7 @@ class MediaUploadController extends Controller
             ];
         }
 
-        $mime_type = request()->file('media')->getMimeType();
+        $mime_type = $request->file('media')->getMimeType();//getErrorMessage();
         $media_type = substr($mime_type, 0, 5) === 'image' ? 'image' : 'video';
 
         $media_path = storage_path() . "/app/public/{$subpath}";
@@ -128,13 +128,20 @@ class MediaUploadController extends Controller
                 ->first();                       // returns the first video stream
 
             $video_dimensions = $video_stream->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
-
             $width = $video_dimensions->getWidth();
             $height = $video_dimensions->getHeight();
 
-            // Resize video
-            $m_video_width = 480;
-            $m_video_height = ceil($height * (480/$width));
+            if($height < $width){
+                // For Landscape view;
+                $m_video_width = 480;
+                $m_video_height = ceil($height * (480/$width));
+                if($m_video_height % 2 == 1) $m_video_height++;
+            }   else{
+                // For Portrait view;
+                $m_video_height = 480;
+                $m_video_width = ceil($width * (480/$height));
+                if($m_video_width % 2 == 1) $m_video_width++;
+            }
 
             $ffmpeg = FFMpeg::create();
             $m_video = $ffmpeg->open($video_path . '/original/' . $media_name);
@@ -143,16 +150,22 @@ class MediaUploadController extends Controller
                 ->resize(new Dimension($m_video_width, $m_video_height))
                 ->synchronize();
 
-            if ($video_extension == 'ogg') {
-                $format = new Ogg();
-            } else if ($video_extension == 'webm') {
-                $format = new WebM();
-            } else if ($video_extension == 'wmv') {
-                $format = new WMV();
-            } else if ($video_extension == 'wmv3') {
-                $format = new WMV2();
-            } else {
-                $format = new X264();
+            switch($video_extension){
+                case 'ogg':
+                    $format = new Ogg();
+                    break;
+                case 'webm':
+                    $format = new WebM();
+                    break;
+                case 'wmv':
+                    $format = new WMV();
+                    break;
+                case 'wmv3':
+                    $format = new WMV3();
+                    break;
+                default:
+                    $format = new X264();
+
             }
 
             $format
