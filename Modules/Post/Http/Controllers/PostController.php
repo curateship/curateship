@@ -909,7 +909,7 @@ class PostController extends Controller
 
         $cache_enable = Settings::where('key', 'disable_cache')->first()->value != 'on';
 
-        if(Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->has($cache_key) && $cache_enable){
+        if($cache_enable && Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->has($cache_key)){
             return Cache::tags([env('CACHE_PREFIX'), 'posts_ajax_masonry'])->get($cache_key);
         }   else{
             // This return all post type, so no need to filter for 'post' only.
