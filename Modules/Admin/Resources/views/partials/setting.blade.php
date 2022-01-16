@@ -106,9 +106,12 @@
                                     <br>
                                     Example: [{"category_id":"3","limit":"2"},[" by "],{"category_id":"2","limit":"1"}] (Model TagCategories: category_id = 3 - origins, category_id = 2 - artists)
                                 </p>
-                                        <input class="form-control width-100% margin-bottom-md" type="text" name="title_template" id="titleTemplate" placeholder="Enter Parameter" value="{{$settings_data['title_template']}}" {{$settings_data['title_required'] === 'on' ? 'readonly' : ''}} required>
+                                        <input class="form-control width-100% margin-bottom-sm" type="text" name="title_template" id="titleTemplate" placeholder="Enter Parameter" value="{{$settings_data['title_template']}}" {{$settings_data['title_required'] === 'on' ? 'readonly' : ''}} required>
 
-
+                                        <div class="text-xs color-contrast-medium margin-bottom-sm">
+                                            WARNING! Do not forget save new template before mass auto title was running
+                                        </div>
+                                        <button type="button" id="massAutoTitle" class="btn btn--accent margin-bottom-md">Mass auto titles for drafts</button>
 
                                         <h4>Font Setting</h4>
                                         <div class="floating-label margin-bottom-md margin-top-md">

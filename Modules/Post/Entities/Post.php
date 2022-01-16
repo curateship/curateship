@@ -513,11 +513,7 @@ class Post extends Model
     	return $this->hasMany(\Modules\Comment\Entities\Comment::class);
     }
 
-    static public function autoTitle($request){
-        if($request->title != ''){
-            return strip_tags($request->title);
-        }
-
+    static public function autoTitle($tags_in_cats){
         // Get title template;
         $template = json_decode(Settings::where('key', 'title_template')->first()->value, true);
         // Render title from tags;
@@ -531,8 +527,9 @@ class Post extends Model
             }
 
             $cat_request_name = 'tag_category_' . $template_item['category_id'];
-            if ($request->has($cat_request_name)) {
-                $cat_in_request = $request->input($cat_request_name);
+
+            if (isset($tags_in_cats[$cat_request_name])) {
+                $cat_in_request = $tags_in_cats[$cat_request_name];
                 $rand_array = [];
                 $limit = min($template_item['limit'], count($cat_in_request));
                 for ($i = 0; $i < $limit ; $i++) {
@@ -567,9 +564,29 @@ class Post extends Model
             }
         }
 
-        $title = implode($title_array);
+        return [
+            'title_array' => $title_array,
+            'str_block_count' => $str_block_count
+        ];
+    }
 
-        if (count($title_array) == $str_block_count) {
+    static public function requestAutoTitle($request){
+        if($request->title != ''){
+            return strip_tags($request->title);
+        }
+
+        $tags_in_cats = [];
+        foreach($request->all() as $key => $value){
+            if(strpos($key, 'tag_category_') !== false){
+                $tags_in_cats[$key] = $value;
+            }
+        }
+
+        // Get auto title from data;
+        $title_result = static::autoTitle($tags_in_cats);
+
+        $title = implode($title_result['title_array']);
+        if (count($title_result['title_array']) == $title_result['str_block_count']) {
             // No tags? Get filename;
             $title = $request->original_filename;
         }

@@ -59,6 +59,29 @@
           });
       });
 
+      $(document).on('click', '#massAutoTitle', function(e){
+          const $this = $(this)
+          $this.html('Renaming...');
+
+          $.ajax({
+              url: "{{ route('settings.massAutoTitle') }}",
+              type: 'get',
+              contentType: false,
+              processData: false,
+              success: function(response){
+                  console.log(response);
+
+                  if (response.status == false) {
+                      showErrorMsg('alert-main', response.errors)
+                  } else {
+                      showSuccessMsg('alert-main', response.message)
+                  }
+
+                  $this.html('Mass auto titles for drafts')
+              }
+          });
+      });
+
       $(document).on('click', '#compressThumbnails', function(e){
           const $this = $(this)
           $this.html('Compressing...')
