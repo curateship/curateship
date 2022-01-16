@@ -77,8 +77,8 @@ return array(
     */
 
     'THUMBNAIL_X' => '<YOUR_THUMBNAIL_X>',
-    'masonry_thumbnail_quality' => 10,
-    'masonry_thumbnail_width' => 300
+    'masonry_thumbnail_quality' => 70,
+    'masonry_thumbnail_width' => 500
 
 );
 
