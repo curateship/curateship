@@ -12,6 +12,7 @@ use Modules\Admin\Entities\Settings;
 use Illuminate\Support\Facades\Validator;
 
 use Modules\Admin\Entities\Scraper;
+use Modules\Tag\Entities\Tag;
 use Modules\Users\Entities\UsersSetting;
 use Modules\Post\Entities\{Post, PostSetting, PostsMeta};
 
@@ -519,6 +520,41 @@ class SettingsController extends Controller {
       return response()->json([
           'status' => true,
           'message' => 'All thumbnails successfully compressed!',
+      ]);
+  }
+
+  public function massAutoTitle(){
+      $posts = Post::where('status', 'draft')
+          ->get();
+
+      foreach($posts as $post){
+          // Get post tags in cats;
+          $tags = Tag::leftJoin('posts_tags', 'posts_tags.tag_id', '=', 'tags.id')
+              ->leftJoin('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
+              ->where('post_id', $post->id)
+              ->selectRaw('CONCAT("tag_category_", tag_category_id) as cat_id, tags.id as tag_id')
+              ->get();
+
+          $tags_in_cats = [];
+          foreach($tags as $tag){
+              $tags_in_cats[$tag->cat_id][] = $tag->tag_id;
+          }
+
+          $title_result = Post::autoTitle($tags_in_cats);
+
+          $title = implode($title_result['title_array']);
+          if (count($title_result['title_array']) == $title_result['str_block_count']) {
+              // No tags? Nothing to do;
+              continue;
+          }
+
+          $post->title = $title;
+          $post->save();
+      }
+
+      return response()->json([
+          'status' => true,
+          'message' => 'All drafts was renamed!',
       ]);
   }
 }

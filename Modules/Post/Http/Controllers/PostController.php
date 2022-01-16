@@ -214,7 +214,7 @@ class PostController extends Controller
         }
 
         if(Settings::where('key', 'title_required')->first()->value == 'off' && $title == ''){
-            $title = Post::autoTitle($request);
+            $title = Post::requestAutoTitle($request);
         }
 
         // Generate slug
@@ -416,7 +416,7 @@ class PostController extends Controller
         $datetime_format = "%s/%s/%s %s:%s:%s";
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
-        $title = Post::autoTitle($request);
+        $title = Post::requestAutoTitle($request);
 
         $post->update([
             'title'            => $title,

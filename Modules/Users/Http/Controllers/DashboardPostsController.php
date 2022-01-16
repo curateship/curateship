@@ -268,7 +268,7 @@ class DashboardPostsController extends Controller
         }
 
         if(Settings::where('key', 'title_required')->first()->value == 'off' && $title == ''){
-            $title = Post::autoTitle($request);
+            $title = Post::requestAutoTitle($request);
         }
 
         // Generate slug

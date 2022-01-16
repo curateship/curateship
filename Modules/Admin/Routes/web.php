@@ -62,6 +62,10 @@ Route::middleware($middleware)->group(function(){
             'as' => 'settings.compressThumbnails',
             'uses' => 'SettingsController@compressThumbnails'
         ]);
+        Route::get('settings/massAutoTitle', [
+            'as' => 'settings.massAutoTitle',
+            'uses' => 'SettingsController@massAutoTitle'
+        ]);
         Route::get('settings/clear-media', [
           'as' => 'settings.clear_media',
           'uses' => 'SettingsController@clearUnusedMediaFiles'
