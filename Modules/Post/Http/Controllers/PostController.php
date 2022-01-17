@@ -418,6 +418,8 @@ class PostController extends Controller
 
         $title = Post::requestAutoTitle($request);
 
+        $post_type = $request->has('video') && !empty($request->input('video')) ? 'video' : 'post';
+
         $post->update([
             'title'            => $title,
             'slug'             => $slug,
@@ -426,8 +428,24 @@ class PostController extends Controller
             'thumbnail_medium' => ( request()->has('thumbnail_medium') && !empty(request('thumbnail_medium')) )  ? request('thumbnail_medium') : $post->thumbnail_medium,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at'       => $post_date,
-            'status'           => $status
+            'status'           => $status,
+            'post_type'        => $post_type,
         ]);
+
+        if($post_type == 'post'){
+            // Getting post meta with video file;
+            $meta = PostsMeta::where('post_id', $post->id)
+                ->where('meta_key', 'video')
+                ->first();
+
+            if($meta != null){
+                // Remove exist video file;
+                Storage::delete('/app/public/videos/original/'.$meta->meta_value);
+                Storage::delete('/app/public/videos/mobile/'.$meta->meta_value);
+            }
+
+            $meta->delete();
+        }
 
         if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
