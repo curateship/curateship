@@ -61,7 +61,7 @@
                     <h4 class="story-v2__meta text-sm">
                         by:
                         <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
-                            {{ $post->user->name }}
+                            {{ $post->user->username }}
                         </a>
                     </h4>
                 </div>

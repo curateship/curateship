@@ -1,10 +1,15 @@
 @extends('admin::layouts.master')
 @section('content')
-<div class="container max-width-lg">
-
-    </main>
-  </div><!-- /.grid -->
-</div><!-- /.container -->
+<!-- 👇 Content Body Wrapper-->
+<section class="margin-y-md">
+  <div class="container max-width-adaptive-lg">
+    <div class="grid gap-md">
+    @include('admin::partials.table')
+    @include('admin::partials.sidebar')
+    
+    </div>
+  </div>
+</section
 @endsection
 
 @push('module-scripts')

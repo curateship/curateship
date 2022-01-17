@@ -17,3 +17,4 @@ Homestead.json
 Homestead.yaml
 .vagrant/
 adminer.php
+/resources/sass/custom-style
