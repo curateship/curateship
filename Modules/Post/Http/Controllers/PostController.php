@@ -442,9 +442,10 @@ class PostController extends Controller
                 // Remove exist video file;
                 Storage::delete('/app/public/videos/original/'.$meta->meta_value);
                 Storage::delete('/app/public/videos/mobile/'.$meta->meta_value);
-            }
 
-            $meta->delete();
+                // Remove meta;
+                $meta->delete();
+            }
         }
 
         if ( request()->has('page_title') && !empty(request('page_title')) ) {
