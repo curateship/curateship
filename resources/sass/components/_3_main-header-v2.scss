@@ -60,7 +60,7 @@ Usage: codyhouse.co/license
   // 🍔 icon
   --anim-menu-btn-icon-size: 24px;
   --anim-menu-btn-icon-stroke: 1.5px;
-  color: var(--color-contrast-lower);
+  color: var(--color-contrast-high);
 }
 
 .header-v2__nav { // main navigation
@@ -94,7 +94,7 @@ Usage: codyhouse.co/license
 }
 
 .header-v2__nav-list--main:nth-child(2) { // horizontal divider between main navs
-  border-top: 1px solid var(--color-contrast-low);
+  border-top: 1px solid var(--color-contrast-high);
   margin-top: var(--space-md);
   padding-top: var(--space-md);
 }
@@ -331,7 +331,7 @@ Usage: codyhouse.co/license
 
   .header-v2__nav-item--main > .header-v2__nav-link {
     span {
-      color: var(--color-contrast-low);
+      color: var(--color-contrast-medium);
     }
   }
 
