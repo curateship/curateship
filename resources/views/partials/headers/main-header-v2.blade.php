@@ -22,14 +22,8 @@
             <div class="mobile-btn flex flex-right gap-xxs">
                 <!-- Access Button -->
                 @guest
-                    <a href="{{ url('/site2/login') }}" class="padding-top-xxxxs padding-left-xxxs header-v2__nav-control anim-menu-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <title>payee</title>
-                            <g class="login-icon" stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" fill="none" stroke-miterlimit="10">
-                                <path d="M10,13h0C7.239,13,5,9.761,5,7V6a5,5,0,0,1,5-5h0a5,5,0,0,1,5,5V7C15,9.761,12.761,13,10,13Z"></path><polyline points="19 16 16 19 19 22"></polyline><line x1="23" y1="19" x2="16" y2="19" stroke-linecap="butt"></line>
-                                <path d="M15,13.632A21.071,21.071,0,0,0,10,13a22.242,22.242,0,0,0-6.975,1.193A2.991,2.991,0,0,0,1,17.032V21H12"></path>
-                            </g>
-                        </svg>
+                    <a href="{{ url('/site2/login') }}" class="padding-top-xxxxs padding-left-xs header-v2__nav-control anim-menu-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>user</title><g fill="currentColor"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M18.6 16.48a2.47 2.47 0 0 0-1.63-2.33c-1.44-0.52-3.82-1.13-7.05-1.13s-5.61 0.61-7.05 1.13a2.47 2.47 0 0 0-1.63 2.33v2.74h17.36v-2.74z" stroke-linejoin="miter"></path><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9.92 10.54c-2.4 0-4.34-1.94-4.34-4.34v-1.24c0-2.4 1.94-4.34 4.34-4.34s4.34 1.94 4.34 4.34v1.24c0 2.4-1.94 4.34-4.34 4.34z" stroke-linejoin="miter"></path></g></svg>
                     </a>
 
                     <!--
